@@ -15,6 +15,30 @@ Un cop comenceu heu de canviar aquesta explicació amb la corresponent al vostre
  * URL de producció (quan la tingueu)
  * Estat: (explicació d'en quin punt està)
 
-# Holaa
-  *HHHHH
-  *kkkkkk
+   
+<details close>
+  <summary>Programació</summary>
+ *
+ *
+</details>
+<details close>
+  <summary>Llenguatge de Marques</summary>
+ *
+ *
+ </details>
+ <details close>
+  <summary>Sistemes</summary>
+ *
+ *
+ </details>
+
+  <details close>
+  <summary>Digi+Sos</summary>
+ *
+ *
+ </details>
+   <details close>
+  <summary>BBDD</summary>
+ *
+ *
+ </details>
