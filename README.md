@@ -17,28 +17,41 @@ Un cop comenceu heu de canviar aquesta explicació amb la corresponent al vostre
 
    
 <details close>
-  <summary>Programació</summary>
- *
- *
+  <summary><h2>Programació</h2></summary>
+  <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
 </details>
+
 <details close>
-  <summary>Llenguatge de Marques</summary>
- *
- *
+  <summary><h2>Llenguatge de Marques</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
  </details>
+ 
  <details close>
-  <summary>Sistemes</summary>
- *
- *
+  <summary><h2>Sistemes</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
  </details>
 
   <details close>
-  <summary>Digi+Sos</summary>
- *
- *
+  <summary><h2>Digi+Sos</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
  </details>
+ 
    <details close>
-  <summary>BBDD</summary>
- *
- *
+  <summary><h2>BBDD</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
  </details>
