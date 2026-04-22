@@ -17,3 +17,43 @@ Llistat d'alguns dels punts que han de quedar explicats en aquesta carpeta. Pode
  * Aplicació Android
  * Altres elements importants.
  * ...
+
+<details close>
+  <summary><h2>Programació</h2></summary>
+  <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
+</details>
+
+<details close>
+  <summary><h2>Llenguatge de Marques</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
+ </details>
+ 
+ <details close>
+  <summary><h2>Sistemes</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
+ </details>
+
+  <details close>
+  <summary><h2>Digi+Sos</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
+ </details>
+ 
+   <details close>
+  <summary><h2>BBDD</h2></summary>
+ <ul>
+    <li> </li>
+    <li> </li>
+ </ul>
+ </details>
