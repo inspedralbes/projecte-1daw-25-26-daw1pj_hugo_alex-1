@@ -1,0 +1,49 @@
+# Hay que revisar todo ya que solo es la base 23/04
+
+#Servidor web Apache amb PHP i suport MySQL
+services:
+  web:
+    build: ./web
+    container_name: projecteFinal-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+# Servidor de base de dades MySQL
+  db:
+    image: mysql:8.0
+    container_name: projecteFinal-bd
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: incidencies
+      MYSQL_USER: usuari
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+  # Adminer per gestionar la base de dades
+  adminer:
+    image: adminer
+    container_name: projecteFinal-adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
+    driver: bridge
+  
