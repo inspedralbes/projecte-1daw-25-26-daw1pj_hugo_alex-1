@@ -20,8 +20,9 @@ Llistat d'alguns dels punts que han de quedar explicats en aquesta carpeta. Pode
 
 ## Links
 
-#Bitacores: https://docs.google.com/spreadsheets/d/1SL9not5epc_ZAFcZTmjhofyzik6h5wyrPeDjpOKwPV4/edit?gid=0#gid=0
-#Taiga: https://tree.taiga.io/
+<b>Bitacores: </b> https://docs.google.com/spreadsheets/d/1SL9not5epc_ZAFcZTmjhofyzik6h5wyrPeDjpOKwPV4/edit?gid=0#gid=0
+<br>
+<b>Taiga: </b> https://tree.taiga.io/
 
 <details close>
   <summary><h2>Programació</h2></summary>
