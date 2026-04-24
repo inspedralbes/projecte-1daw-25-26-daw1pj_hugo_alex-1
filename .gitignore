@@ -1,3 +1,4 @@
 # ignore SQL
 /db_data
 /.env
+/produccio.html
