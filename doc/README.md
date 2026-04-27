@@ -57,4 +57,3 @@ Llistat d'alguns dels punts que han de quedar explicats en aquesta carpeta. Pode
     <li> </li>
  </ul>
  </details>
- <img src = "http://a25alebrados.dam.inspedralbes.cat/diagramaF.png"/>
