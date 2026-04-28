@@ -16,8 +16,8 @@ Llistat d'alguns dels punts que han de quedar explicats en aquesta carpeta. Pode
    * Exemples de JSON de resposta i els seus codis d'estat 200? 404?
  * Aplicació Android
  * Altres elements importants.
- * ...
-
+ * <a href="https://docs.google.com/spreadsheets/d/1SL9not5epc_ZAFcZTmjhofyzik6h5wyrPeDjpOKwPV4/edit?gid=0#gid=0"> Bitacores </a>
+ * <a href="https://tree.taiga.io/"> Taiga </a>
 <details close>
   <summary><h2>Programació</h2></summary>
   <ul>
@@ -57,4 +57,10 @@ Llistat d'alguns dels punts que han de quedar explicats en aquesta carpeta. Pode
     <li> </li>
  </ul>
  </details>
- <img src = "http://a25alebrados.dam.inspedralbes.cat/diagramaF.png"/>
+<details close>
+  <summary><h2>Disseny Web</h2></summary>
+ <ul>
+    <li> <a href="https://design.penpot.app/#/view?file-id=ceed1600-61c0-8087-8007-e98199991c63&page-id=ceed1600-61c0-8087-8007-e98199991c64&section=interactions&index=0&share-id=614162e1-9f0e-816a-8007-eead1924977b">Esquema de pantalles</a></li>
+    <li> </li>
+ </ul>
+ </details>
