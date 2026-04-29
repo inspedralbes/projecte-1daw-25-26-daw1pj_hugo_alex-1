@@ -34,6 +34,7 @@ $result = $conn->query($sql);
         <div class="alert alert-info">No hi ha incidències registrades.</div>
     <?php else: ?>
         <!-- Si hay incidencias las mostramos en una tabla -->
+        <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead class="table-primary">
                 <tr>
