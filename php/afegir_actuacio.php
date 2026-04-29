@@ -1,5 +1,5 @@
 <?php
-include_once "header.php"
+include_once "header.php";
 ?>
 
 
@@ -10,5 +10,5 @@ include_once "header.php"
 
 
 <?php
-include_once "fotter.php"
+include_once "fotter.php";
 ?>

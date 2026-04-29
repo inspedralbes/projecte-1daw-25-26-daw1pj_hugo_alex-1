@@ -9,7 +9,7 @@
 <body class="d-flex flex-column min-vh-100">
     <main class="flex-grow-1">
 <div class="row justify-content-center mt-5">
-    <div class="col-md-8 text-center">
+    <div class="col-10 col-md-8 col-lg-6 col-xl-5 text-center">
         <div class="p-5 mb-4 bg-light rounded-3 shadow-lg border-primary" style="border-top: 5px solid #0d6efd;">
             <div class="container-fluid py-5">
                 <i class="bi bi-controller display-1 text-primary mb-4"></i>
@@ -38,7 +38,7 @@
     </div>
 </main>
 <?php
-    include_once "fotter.php"
+    include_once "fotter.php";
 ?>
 </body>
 </html>
