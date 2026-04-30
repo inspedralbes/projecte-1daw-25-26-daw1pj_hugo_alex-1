@@ -1,8 +1,17 @@
 <?php
-$servername = "db"; 
-$username = getenv('VAR1'); 
-$password = getenv('VAR2'); 
-$dbname = "indidenciesP"; 
+if (getenv('VAR1')) {
+    // Estamos en Docker (local)
+    $servername = "db";
+    $username = getenv('VAR1');
+    $password = getenv('VAR2');
+    $dbname = "indidenciesP";
+} else {
+    // Estamos en Hestia (servidor real)
+    $servername = "localhost"; 
+    $username = "a25hugberbat_apiDAW";    
+    $password = "zktzSR&{UxZ#-{9(";        
+    $dbname = "a25hugberbat_apiDAW_indidenciesP";
+}
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
