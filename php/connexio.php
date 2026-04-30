@@ -8,9 +8,9 @@ if (getenv('VAR1')) {
 } else {
     // Estamos en Hestia (servidor real)
     $servername = "localhost"; 
-    $username = "a25hugberbat_apiDAW";    
-    $password = "zktzSR&{UxZ#-{9(";        
-    $dbname = "a25hugberbat_apiDAW_indidenciesP";
+    $username = "User";    
+    $password = "Plataforma_Incidencies1234";        
+    $dbname = "a25hugberbat_incidencies";
 }
 
 $conn = new mysqli($servername, $username, $password, $dbname);
