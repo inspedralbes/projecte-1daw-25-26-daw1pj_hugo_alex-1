@@ -8,7 +8,7 @@ if (getenv('VAR1')) {
 } else {
     // Estamos en Hestia (servidor real)
     $servername = "localhost"; 
-    $username = "User";    
+    $username = "a25hugberbat_incidencies";    
     $password = "Plataforma_Incidencies1234";        
     $dbname = "a25hugberbat_incidencies";
 }
