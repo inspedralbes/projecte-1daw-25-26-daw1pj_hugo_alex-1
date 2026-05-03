@@ -1,16 +1,12 @@
 <?php
 ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
-$mysqli = include_once "conexion.php";
+include_once "connexio.php";
 
-$nombre = $_POST["nombre"];
-$descripcion = $_POST["descripcion"];
-$genere = $_POST["genere"];
+$idTipus = $_POST["idTipus"];
+$idDepartaments = $_POST["idDepartament"];
 
-$sentencia = $mysqli->prepare("INSERT INTO videojuegos
-(nombre, descripcion, genere)
-VALUES
-(?, ?, ?)");
-
-$sentencia->bind_param("sss", $nombre, $descripcion, $genere);
+$sentencia = $conn->prepare("INSERT INTO INCIDENCIA (idTipo, idDepartamento, fechaInicio) VALUES(?, ?, NOW())");
+$sentencia->bind_param("ii", $idTipus, $idDepartaments);
 $sentencia->execute();
-header("Location: listar.php");
+header("Location: llistar_incidencies.php");
+?>

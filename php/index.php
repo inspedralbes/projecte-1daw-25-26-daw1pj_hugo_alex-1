@@ -17,7 +17,7 @@
                 </p>
                 <hr class="my-4">
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <a href="crear_incidencia.php" class="btn btn-primary btn-lg px-5 shadow">
+                    <a href="formulari-incidencia.php" class="btn btn-primary btn-lg px-5 shadow">
                         <i class="bi bi-collection-play"></i> Usuari
                     </a>
                     <a href="tecnic.php" class="btn btn-primary btn-lg px-5 shadow">
