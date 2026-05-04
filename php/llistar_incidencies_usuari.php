@@ -34,39 +34,25 @@ $result = $conn->query($sql);
                 <table class="table table-striped table-hover table-sm">
                     <thead class="table-primary">
                         <tr>
-                            <th>#</th>
-                            <th>Descripció</th>
-                            <th>Prioritat</th>
+                            <th>ID</th>
                             <th class="d-none d-md-table-cell">Tipus</th>
                             <th class="d-none d-md-table-cell">Departament</th>
                             <th>Tècnic</th>
                             <th>Data Inici</th>
                             <th class="d-none d-md-table-cell">Data Fi</th>
+                            <th>Descripció</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?= $inc['idIncidencia'] ?></td>
-                            <td><?= $inc['descripcion'] ?></td>
-                            <td>
-                                <?php
-                                $badge = match($inc['prioritat']) {
-                                    'Alta'  => 'danger',
-                                    'Mitja' => 'warning',
-                                    'Baixa' => 'success',
-                                    default => 'secondary'
-                                };
-                                ?>
-                                <span class="badge bg-<?= $badge ?>">
-                                    <?= $inc['prioritat'] ?>
-                                </span>
-                            </td>
                             <td class="d-none d-md-table-cell"><?= $inc['tipo'] ?? '-' ?></td>
                             <td class="d-none d-md-table-cell"><?= $inc['departamento'] ?? '-' ?></td>
                             <td><?= $inc['tecnico'] ?? 'Sense assignar' ?></td>
                             <td><?= $inc['fechaInicio'] ?></td>
                             <td class="d-none d-md-table-cell"><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
+                            <td><?= $inc['descripcion'] ?></td>
                         </tr>
                         <?php endwhile; ?>
                     </tbody>

@@ -9,7 +9,7 @@
                 <p class="fs-5 text-muted">Selecciona quin típus d'usuari ets</p>
                 <hr class="my-3">
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <a href="crear_incidencia.php" class="btn btn-primary btn-lg px-5 shadow">Usuari</a>
+                    <a href="formulari_incidencia.php" class="btn btn-primary btn-lg px-5 shadow">Usuari</a>
                     <a href="tecnic.php" class="btn btn-primary btn-lg px-5 shadow">Tècnic</a>
                     <a href="admin.php" class="btn btn-primary btn-lg px-5 shadow">Admin</a>
                 </div>
