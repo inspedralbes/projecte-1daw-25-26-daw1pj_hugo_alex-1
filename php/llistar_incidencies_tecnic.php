@@ -52,19 +52,18 @@ $result = $conn->query($sql);
                 <table class="table table-striped table-hover table-sm">
                     <thead class="table-primary">
                         <tr>
-                            <th>#</th>
-                            <th>Descripció</th>
+                            <th>id</th>
                             <th>Prioritat</th>
                             <th class="d-none d-md-table-cell">Tipus</th>
                             <th class="d-none d-md-table-cell">Departament</th>
                             <th>Data Inici</th>
+                            <th>Descripció</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?= $inc['idIncidencia'] ?></td>
-                            <td><?= $inc['descripcion'] ?></td>
                             <td>
                                 <?php
                                 $badge = match($inc['prioritat']) {
@@ -81,6 +80,7 @@ $result = $conn->query($sql);
                             <td class="d-none d-md-table-cell"><?= $inc['tipo'] ?? '-' ?></td>
                             <td class="d-none d-md-table-cell"><?= $inc['departamento'] ?? '-' ?></td>
                             <td><?= $inc['fechaInicio'] ?></td>
+                            <td><?= $inc['descripcion'] ?></td>
                         </tr>
                         <?php endwhile; ?>
                     </tbody>
