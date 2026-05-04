@@ -4,9 +4,10 @@ include_once "connexio.php";
 
 $idTipus = $_POST["idTipus"];
 $idDepartaments = $_POST["idDepartament"];
+$descripcio = $_POST["descripcio"];
 
-$sentencia = $conn->prepare("INSERT INTO INCIDENCIA (idTipo, idDepartamento, fechaInicio) VALUES(?, ?, NOW())");
-$sentencia->bind_param("ii", $idTipus, $idDepartaments);
+$sentencia = $conn->prepare("INSERT INTO INCIDENCIA (idTipo, idDepartamento, fechaInicio, descripcion) VALUES(?, ?, NOW() ,?)");
+$sentencia->bind_param("iis", $idTipus, $idDepartaments, $descripcio);
 $sentencia->execute();
-header("Location: llistar_incidencies.php");
+header("Location: llistar_incidencies_usuari.php");
 ?>

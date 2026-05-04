@@ -35,7 +35,7 @@ CREATE TABLE INCIDENCIA (
     fechaInicio TIMESTAMP NOT NULL,
     fechaFin DATE,
     descripcion VARCHAR (2000),
-    prioritat ENUM('Alta', 'Mitja', 'Baixa') NOT NULL,
+    prioritat ENUM('Alta', 'Mitja', 'Baixa') NOT NULL DEFAULT 'Baixa',
     FOREIGN KEY (idTecnico) REFERENCES TECNICO(idTecnico),
     FOREIGN KEY (idTipo) REFERENCES TIPO(idTipo),
     FOREIGN KEY (idDepartamento) REFERENCES DEPARTAMENTO (idDepartamento)

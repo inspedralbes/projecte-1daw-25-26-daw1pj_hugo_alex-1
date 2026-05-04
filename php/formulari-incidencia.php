@@ -29,7 +29,8 @@ $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
                     <option value="<?= $fila['idDepartamento'] ?>"><?= $fila['nombre'] ?></option>
                 <?php endwhile; ?>
             </select>
-
+            <label for = "descripcio"> Descripció:</label>
+            <textarea name="descripcio" id="descripcio" rows = "4" cols="50"></textarea>
             <input type="submit" value="Crear Incidència">
         </fieldset>
     </form>
