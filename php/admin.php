@@ -1,12 +1,21 @@
 <?php
 include_once "connexio.php";
 
+
 // Guardar cambio via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id    = (int) $_POST['id'];
-    $campo = $_POST['campo'];
-    $valor = $_POST['valor'];
+    $campo = $_POST['campo'] ?? '';
+    $valor = $_POST['valor'] ?? '';
 
+    // Eliminar
+    if (isset($_POST['eliminar'])) {
+        $conn->query("DELETE FROM INCIDENCIA WHERE idIncidencia = $id");
+        header('Location: admin.php');
+        exit;
+    }
+
+    // Guardar camp
     $camposPermesos = ['prioritat', 'idTipo', 'idTecnico', 'idDepartamento'];
     if (in_array($campo, $camposPermesos)) {
         if ($valor === '') $valor = 'NULL';
@@ -63,6 +72,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             <th class="d-none d-md-table-cell">Data Inici</th>
                             <th class="d-none d-md-table-cell">Data Fi</th>
                             <th>Descripció</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -132,6 +142,15 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 <td class="d-none d-md-table-cell"><?= $inc['fechaInicio'] ?></td>
                                 <td class="d-none d-md-table-cell"><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
                                 <td><?= $inc['descripcion'] ?></td>
+                                <td>
+                                    <form method="POST" onsubmit="return confirm('Segur que vols eliminar la incidència #<?= $inc['idIncidencia'] ?>?')">
+                                        <input type="hidden" name="eliminar" value="1">
+                                        <input type="hidden" name="id" value="<?= $inc['idIncidencia'] ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
