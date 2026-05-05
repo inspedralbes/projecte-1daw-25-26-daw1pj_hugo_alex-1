@@ -1,14 +1,30 @@
 <?php
 include_once "connexio.php";
 
-// Recogemos el técnico de la URL
-$tecnic = $_GET['tecnic'] ?? null;
+$columnesPermeses = [
+    'idIncidencia' => 'i.idIncidencia',
+    'prioritat'    => 'i.prioritat',
+    'tipo'         => 'tp.nombre',
+    'departamento' => 'd.nombre',
+    'tecnico'      => 't.nombre',
+    'fechaInicio'  => 'i.fechaInicio',
+    'descripcion'  => 'i.descripcion',
+];
 
-// Si no hay técnico, volvemos a la página de selección
+$tecnic = $_GET['tecnic'] ?? null;
 if (!$tecnic) {
     header("Location: tecnic.php");
     exit;
 }
+
+$orderBy  = $_GET['order'] ?? 'idIncidencia';
+$orderDir = $_GET['dir']   ?? 'ASC';
+
+if (!array_key_exists($orderBy, $columnesPermeses)) $orderBy = 'idIncidencia';
+if (!in_array($orderDir, ['ASC', 'DESC']))           $orderDir = 'ASC';
+
+$orderCol = $columnesPermeses[$orderBy];
+$nextDir  = $orderDir === 'ASC' ? 'DESC' : 'ASC';
 
 $sql = "
     SELECT 
@@ -25,15 +41,19 @@ $sql = "
     LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
     WHERE t.nombre = '" . $conn->real_escape_string($tecnic) . "'
     AND i.fechaFin IS NULL
-    ORDER BY 
-        CASE i.prioritat
-            WHEN 'Alta' THEN 1
-            WHEN 'Mitja' THEN 2
-            WHEN 'Baixa' THEN 3
-        END
+    ORDER BY $orderCol $orderDir
 ";
 
 $result = $conn->query($sql);
+
+$capçaleres = [
+    ['ID',          'idIncidencia', ''],
+    ['Prioritat',   'prioritat',    ''],
+    ['Tipus',       'tipo',         'd-none d-md-table-cell'],
+    ['Departament', 'departamento', 'd-none d-md-table-cell'],
+    ['Data Inici',  'fechaInicio',  ''],
+    ['Descripció',  null,           ''],
+];
 ?>
 
 <?php include_once "header.php"; ?>
@@ -52,36 +72,44 @@ $result = $conn->query($sql);
                 <table class="table table-striped table-hover table-sm">
                     <thead class="table-primary">
                         <tr>
-                            <th>id</th>
-                            <th>Prioritat</th>
-                            <th class="d-none d-md-table-cell">Tipus</th>
-                            <th class="d-none d-md-table-cell">Departament</th>
-                            <th>Data Inici</th>
-                            <th>Descripció</th>
+                            <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
+                                <th class="<?= $classes ?>">
+                                    <?php if ($col):
+                                        $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
+                                        $icon = ($orderBy === $col)
+                                            ? ($orderDir === 'ASC' ? 'fa-chevron-up' : 'fa-chevron-down')
+                                            : 'fa-chevron-up text-muted';
+                                    ?>
+                                        <a href="?order=<?= $col ?>&dir=<?= $dir ?>&tecnic=<?= urlencode($tecnic) ?>" class="text-decoration-none text-dark">
+                                            <?= $label ?> <i class="fa-solid <?= $icon ?>" style="font-size:0.75em;"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <?= $label ?>
+                                    <?php endif; ?>
+                                </th>
+                            <?php endforeach; ?>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while ($inc = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?= $inc['idIncidencia'] ?></td>
-                            <td>
-                                <?php
-                                $badge = match($inc['prioritat']) {
-                                    'Alta'  => 'danger',
-                                    'Mitja' => 'warning',
-                                    'Baixa' => 'success',
-                                    default => 'secondary'
-                                };
-                                ?>
-                                <span class="badge bg-<?= $badge ?>">
-                                    <?= $inc['prioritat'] ?>
-                                </span>
-                            </td>
-                            <td class="d-none d-md-table-cell"><?= $inc['tipo'] ?? '-' ?></td>
-                            <td class="d-none d-md-table-cell"><?= $inc['departamento'] ?? '-' ?></td>
-                            <td><?= $inc['fechaInicio'] ?></td>
-                            <td><?= $inc['descripcion'] ?></td>
-                        </tr>
+                            <tr>
+                                <td><?= $inc['idIncidencia'] ?></td>
+                                <td>
+                                    <?php
+                                    $badge = match ($inc['prioritat']) {
+                                        'Alta'  => 'danger',
+                                        'Mitja' => 'warning',
+                                        'Baixa' => 'success',
+                                        default => 'secondary'
+                                    };
+                                    ?>
+                                    <span class="badge bg-<?= $badge ?>"><?= $inc['prioritat'] ?></span>
+                                </td>
+                                <td class="d-none d-md-table-cell"><?= $inc['tipo'] ?? '-' ?></td>
+                                <td class="d-none d-md-table-cell"><?= $inc['departamento'] ?? '-' ?></td>
+                                <td><?= $inc['fechaInicio'] ?></td>
+                                <td><?= $inc['descripcion'] ?></td>
+                            </tr>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
