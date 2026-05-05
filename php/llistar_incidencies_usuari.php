@@ -25,13 +25,17 @@ $result = $conn->query($sql);
 
 <div class="container">
     <h2 class="mb-4">Llistat d'Incidències</h2>
-
+    <div class="container">
+        <a href="formulari_incidencia.php" class="btn btn-secondary mt-2">Nova incidencia</a>
+    </div>
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
     <?php else: ?>
+        
+        <br>
         <div class="table-responsive">
             <small>
-                <table class="table table-striped table-hover table-sm">
+                <table class="table table-striped table-hover table-lg">
                     <thead class="table-primary">
                         <tr>
                             <th>ID</th>
@@ -39,7 +43,7 @@ $result = $conn->query($sql);
                             <th class="d-none d-md-table-cell">Departament</th>
                             <th>Tècnic</th>
                             <th>Data Inici</th>
-                            <th class="d-none d-md-table-cell">Data Fi</th>
+                            <th class="d-none d-md-table-cell text-nowrap">Data Fi</th>
                             <th>Descripció</th>
                         </tr>
                     </thead>

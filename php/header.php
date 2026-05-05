@@ -10,9 +10,15 @@
 <body class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-light bg-light border-bottom sticky-top mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="resources/Logoinsti_amb_lletres.png" alt="Logo" height="40">
+        <a class="navbar-brand" href="index.php">
+            <img src="resources/Logoinsti_amb_lletres.png" alt="Logo" height="40" >
+    
         </a>
+        <form action="detall_incidencia.php" method="GET">
+                    <label for="idBusca">Trobar incidencia</label>
+                    <input type="text" id="idBusca" name="idBusca">
+                    <input type="submit" value="Cerca">
+                    </form>
         <a href="index.php" class="btn btn-primary btn-sm">
             <i class="fa-solid fa-house"></i>
         </a>

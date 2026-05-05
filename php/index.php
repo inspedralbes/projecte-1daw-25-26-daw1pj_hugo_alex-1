@@ -13,6 +13,8 @@
                     <a href="tecnic.php" class="btn btn-primary btn-lg px-5 shadow">Tècnic</a>
                     <a href="admin.php" class="btn btn-primary btn-lg px-5 shadow">Admin</a>
                 </div>
+                <br>
+                
             </div>
         </div>
     </div>
