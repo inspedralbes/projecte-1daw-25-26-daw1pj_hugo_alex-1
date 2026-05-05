@@ -1,6 +1,6 @@
 </main>
 <footer class="bg-light text-center border-top py-3 mt-auto">
-    <div class="container">
+    <div class="sticky-bottom">
         <p class="mb-1 small">© 2026 Institut Pedralbes</p>
         <div class="small">
             <span class="text-secondary me-3">Hugo Berea</span>

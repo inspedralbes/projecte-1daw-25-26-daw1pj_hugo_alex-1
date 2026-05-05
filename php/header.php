@@ -25,20 +25,22 @@
 </style>
 
 <body class="d-flex flex-column min-vh-100">
-<nav class="navbar navbar-light bg-light border-bottom sticky-top mb-4">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">
-            <img src="resources/Logoinsti_amb_lletres.png" alt="Logo" height="40" >
-    
-        </a>
-        <form action="detall_incidencia.php" method="GET">
-                    <label for="idBusca">Trobar incidencia</label>
-                    <input type="text" id="idBusca" name="idBusca">
-                    <input type="submit" value="Cerca">
-                    </form>
-        <a href="index.php" class="btn btn-primary btn-sm">
-            <i class="fa-solid fa-house"></i>
-        </a>
-    </div>
-</nav>
-<main class="flex-grow-1">
+    <nav class="navbar navbar-light bg-light border-bottom sticky-top mb-4">
+        <div class="container-fluid gap-3">
+            <a class="navbar-brand" href="index.php">
+                <img src="resources/Logoinsti_amb_lletres.png" alt="Logo" height="40">
+
+            </a>
+            <form action="detall_incidencia.php" method="GET" class="d-flex flex-grow-1 input-group" style="max-width: 400px;">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" name="idBusca" class="form-control" placeholder="Cercar incidència...">
+                <button class="btn btn-primary" type="submit">Cerca</button>
+            </form>
+            <a href="index.php" class="btn btn-outline-primary d-none d-md-block">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+    </nav>
+    <main class="flex-grow-1">
