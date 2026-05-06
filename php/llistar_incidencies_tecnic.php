@@ -53,6 +53,7 @@ $capçaleres = [
     ['Departament', 'departamento', 'd-none d-md-table-cell'],
     ['Data Inici',  'fechaInicio',  ''],
     ['Descripció',  null,           ''],
+    ['',             null,        ''],
 ];
 ?>
 
@@ -72,7 +73,7 @@ $capçaleres = [
                 <table class="table table-striped table-hover table-sm">
                     <thead class="table-primary">
                         <tr>
-                            <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
+                            <?php  foreach ($capçaleres as [$label, $col, $classes]): ?>
                                 <th class="<?= $classes ?>">
                                     <?php if ($col):
                                         $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
@@ -109,6 +110,12 @@ $capçaleres = [
                                 <td class="d-none d-md-table-cell"><?= $inc['departamento'] ?? '-' ?></td>
                                 <td><?= $inc['fechaInicio'] ?></td>
                                 <td><?= $inc['descripcion'] ?></td>
+                                <td>
+                                    <form action="tancar_incidencia.php" method="post">
+                                        <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
+                                        <button type="submit" class="btn btn-outline-success btn-sm">Tancar</button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
