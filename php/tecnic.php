@@ -1,21 +1,28 @@
 <?php
 include_once "header.php";
+include_once "connexio.php";
+
+$tecnics = $conn->query("SELECT * FROM TECNICO")->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 60vh;">
-    
-<i class="fas fa-regular fa-user fa-3x mb-3"></i>
-<h2 class="mb-4">Selecciona el teu usuari</h2>
-    <div class="d-grid gap-3 w-100" style= "max-width: 300px;">
-        <a href="llistar_incidencies_tecnic.php?tecnic=Tècnic+1" class="btn btn-primary btn-lg px-5 shadow">
-            Tècnic 1
-        </a>
-        <a href="llistar_incidencies_tecnic.php?tecnic=Tècnic+2" class="btn btn-primary btn-lg px-5 shadow">
-            Tècnic 2
-        </a>
-    </div>
+
+    <i class="fas fa-regular fa-user fa-5x mb-4"></i>
+    <h2 class="mb-4">Selecciona el teu usuari</h2>
+
+    <form action="llistar_incidencies_tecnic.php" method="GET" class="w-100" style="max-width: 300px;">
+        <select name="tecnic" class="form-select form-select-lg mb-3">
+            <option value="" disabled selected>--Selecciona tècnic--</option>
+            <?php foreach ($tecnics as $t): ?>
+                <option value="<?= htmlspecialchars($t['nombre']) ?>">
+                    <?= htmlspecialchars($t['nombre']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit" class="btn btn-primary btn-lg w-100 shadow">
+            Accedir
+        </button>
+    </form>
 </div>
 
-<?php
-include_once "fotter.php";
-?>
+<?php include_once "fotter.php"; ?>

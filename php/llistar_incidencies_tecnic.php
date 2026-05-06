@@ -49,10 +49,10 @@ $result = $conn->query($sql);
 $capçaleres = [
     ['ID',          'idIncidencia', ''],
     ['Prioritat',   'prioritat',    ''],
-    ['Tipus',       'tipo',         'd-none d-md-table-cell'],
-    ['Departament', 'departamento', 'd-none d-md-table-cell'],
+    ['Tipus',       'tipo',         ''],
+    ['Departament', 'departamento', ''],
     ['Data Inici',  'fechaInicio',  ''],
-    ['Descripció',  null,           ''],
+    ['Descripció',  null,           'd-none d-md-table-cell'],
 ];
 ?>
 
@@ -92,7 +92,7 @@ $capçaleres = [
                     </thead>
                     <tbody>
                         <?php while ($inc = $result->fetch_assoc()): ?>
-                            <tr>
+                            <tr onclick="window.location='detall_incidencia_tecnic.php?idBusca=<?= $inc['idIncidencia'] ?>&tecnic=<?= urlencode($_GET['tecnic']) ?>'" style="cursor:pointer;">
                                 <td><?= $inc['idIncidencia'] ?></td>
                                 <td>
                                     <?php
@@ -105,10 +105,12 @@ $capçaleres = [
                                     ?>
                                     <span class="badge bg-<?= $badge ?>"><?= $inc['prioritat'] ?></span>
                                 </td>
-                                <td class="d-none d-md-table-cell"><?= $inc['tipo'] ?? '-' ?></td>
-                                <td class="d-none d-md-table-cell"><?= $inc['departamento'] ?? '-' ?></td>
+                                <td><?= $inc['tipo'] ?? '-' ?></td>
+                                <td><?= $inc['departamento'] ?? '-' ?></td>
                                 <td><?= $inc['fechaInicio'] ?></td>
-                                <td><?= $inc['descripcion'] ?></td>
+                                <td class="d-none d-md-table-cell" title="<?= htmlspecialchars($inc['descripcion']) ?>">
+                                    <?= htmlspecialchars($inc['descripcion']) ?>
+                                </td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>

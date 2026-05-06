@@ -10,19 +10,26 @@
         html {
             font-size: clamp(12px, 2vw, 16px);
         }
+        td.editable:hover {
+            background-color: #d1d1d1;
+        }
+        td.editable::after {
+            font-size: 0.7em;
+            color: #aaa;
+        }
+        .descripcio-cell {
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+        .descripcio-cell.expanded {
+            white-space: normal;
+            overflow: visible;
+        }
     </style>
 </head>
-
-<style>
-    td.editable:hover {
-        background-color: #d1d1d1;
-    }
-
-    td.editable::after {
-        font-size: 0.7em;
-        color: #aaa;
-    }
-</style>
 
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-light bg-light border-bottom sticky-top mb-4">

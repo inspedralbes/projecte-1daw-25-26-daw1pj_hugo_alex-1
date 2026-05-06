@@ -39,69 +39,67 @@ $sql = "
 
 $result = $conn->query($sql);
 
-// Capçaleres: [label, columna, classes]
 $capçaleres = [
     ['ID',          'idIncidencia', ''],
-    ['Tipus',       'tipo',         'd-none d-md-table-cell'],
-    ['Departament', 'departamento', 'd-none d-md-table-cell'],
+    ['Tipus',       'tipo',         ''],
+    ['Departament', 'departamento', ''],
     ['Tècnic',      'tecnico',      ''],
     ['Data Inici',  'fechaInicio',  ''],
-    ['Data Fi',     'fechaFin',     'd-none d-md-table-cell text-nowrap'],
-    ['Descripció',  null,  ''],
+    ['Data Fi',     'fechaFin',     ''],
+    ['Descripció',  null,           'd-none d-md-table-cell'],
 ];
 ?>
 
 <?php include_once "header.php"; ?>
 
-<div class="container px-2">
+<div class="container-fluid px-3">
     <h2 class="mb-4">Llistat d'Incidències</h2>
-    <div class="container">
-        <a href="formulari_incidencia.php" class="btn btn-secondary mb-3">Nova incidencia</a>
-    </div>
+
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
     <?php else: ?>
-        <br>
         <div class="table-responsive">
-            <small>
-                <table class="table table-striped table-hover table-lg">
-                    <thead class="table-primary">
+            <table class="table table-striped table-hover table-sm align-bottom" style="font-size: 0.75em;">
+                <thead class="table-primary">
+                    <tr>
+                        <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
+                            <th class="<?= $classes ?>">
+                                <?php if ($col):
+                                    $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
+                                    $icon = ($orderBy === $col)
+                                        ? ($orderDir === 'ASC' ? 'fa-chevron-up' : 'fa-chevron-down')
+                                        : 'fa-chevron-up text-muted';
+                                ?>
+                                    <a href="?order=<?= $col ?>&dir=<?= $dir ?>" class="text-decoration-none text-dark">
+                                        <?= $label ?> <i class="fa-solid <?= $icon ?>" style="font-size:0.75em;"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <?= $label ?>
+                                <?php endif; ?>
+                            </th>
+                        <?php endforeach; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
-                            <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
-                                <th class="<?= $classes ?>">
-                                    <?php if ($col):
-                                        $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
-                                        $icon = ($orderBy === $col)
-                                            ? ($orderDir === 'ASC' ? 'fa-chevron-up' : 'fa-chevron-down')
-                                            : 'fa-chevron-up text-muted';
-                                    ?>
-                                        <a href="?order=<?= $col ?>&dir=<?= $dir ?>" class="text-decoration-none text-dark">
-                                            <?= $label ?> <i class="fa-solid <?= $icon ?>" style="font-size:0.75em;"></i>
-                                        </a>
-                                    <?php else: ?>
-                                        <?= $label ?>
-                                    <?php endif; ?>
-                                </th>
-                            <?php endforeach; ?>
+                            <td><?= $inc['idIncidencia'] ?></td>
+                            <td><?= $inc['tipo'] ?? '-' ?></td>
+                            <td><?= $inc['departamento'] ?? '-' ?></td>
+                            <td><?= $inc['tecnico'] ?? 'Sense assignar' ?></td>
+                            <td><?= $inc['fechaInicio'] ?></td>
+                            <td><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
+                            <td class="d-none d-md-table-cell"><?= $inc['descripcion'] ?>
+                                <?= htmlspecialchars($inc['descripcion']) ?>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($inc = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= $inc['idIncidencia'] ?></td>
-                                <td class="d-none d-md-table-cell"><?= $inc['tipo'] ?? '-' ?></td>
-                                <td class="d-none d-md-table-cell"><?= $inc['departamento'] ?? '-' ?></td>
-                                <td class="text-nowrap"><?= $inc['tecnico'] ?? 'Sense assignar' ?></td>
-                                <td><?= $inc['fechaInicio'] ?></td>
-                                <td class="d-none d-md-table-cell"><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
-                                <td><?= $inc['descripcion'] ?></td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </small>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
         </div>
     <?php endif; ?>
+
+    <a href="formulari_incidencia.php" class="btn btn-secondary mb-3 mt-3">Nova incidencia</a>
 </div>
 
 <?php include_once "fotter.php"; ?>
