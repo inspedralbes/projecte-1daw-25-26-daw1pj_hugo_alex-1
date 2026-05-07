@@ -2,6 +2,11 @@
 include_once "header.php";
 ?>
 
+<?php
+include_once "connexio.php";
+$idIncidencia = $_GET['idIncidencia'] ?? null;
+?>
+
 <div class="container">
     <h2 class="mb-4">Nova Actuació</h2>
     <div class="card shadow-sm">
@@ -9,11 +14,8 @@ include_once "header.php";
             <form method="POST" action="crear_actuacio.php">
                 <div class="mb-3">
                     <label for="idIncidencia" class="form-label">Tipus:</label>
-                    <select name="idIncidencia" id="idIncidencia" class="form-select">
-                        <?php while($fila = $idIncidencia->fetch_assoc()): ?>
-                            <option value="<?= $fila['idIncidencia'] ?>"></option>
-                        <?php endwhile; ?>
-                    </select>
+                    <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
+
                 </div>
                 <div class="mb-3">
                     <label for="idDepartament" class="form-label">Departament:</label>
