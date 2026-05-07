@@ -50,7 +50,7 @@ $inc = $result->fetch_assoc();
                         </div>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="index.php" class="btn btn-secondary">Tornar al llistat</a>
+                        <a href="llistar_incidencies_usuari.php" class="btn btn-secondary">Tornar al llistat d'inciencies</a>
                     </div>
                 </div>
             <?php else: ?>
