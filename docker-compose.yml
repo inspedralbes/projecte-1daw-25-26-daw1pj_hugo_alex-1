@@ -19,7 +19,7 @@ services:
     # Tota la informació d'aquesta imatge està https://dockerhub.com/_/mysql
     image: mysql:9.3
     environment:
-      MYSQL_ROOT_PASSWORD: passwordDeRootQueNoShaDeFerServirMai
+      MYSQL_ROOT_PASSWORD: root
       # És millor no crear la BBDD aquí, ja que no pots control·lar la codificació
       # de caràcters i aleshores donarà problemes amb accents i caràcters especials
       # La BBDD es crearà a l'inici del contenidor amb els script d'inicialització
@@ -47,3 +47,37 @@ services:
       - "8081:8080"
     depends_on:
       - db
+  mongo:
+    image: mongo:latest
+    volumes:
+      #Named volume, no cal posar res al .gitignore
+      #perque no es crea una carpeta al host sinó que es crea un volum a docker
+      # i es pot veure amb docker volume ls
+      # i es pot eliminar amb docker volume rm nom_del_volum      
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8082:8081"
+    environment:
+      #Per entrar a la web de mongo-express, les credencials són
+      #admin
+      #pass
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    depends_on:
+      - mongo
+
+# Volums
+#Les dades del mongodb les guardem en un named volume
+#perque així no es perden quan es recrea el contenidor
+#Però el podem esborrar des del terminal amb:
+#docker volume ls #per veure els volums creats
+#docker volume rm nom_del_volum #per eliminar un volum
+volumes:
+  mongodb_data:
