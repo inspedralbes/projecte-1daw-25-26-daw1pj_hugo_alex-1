@@ -82,7 +82,7 @@ $capçaleres = [
                 </thead>
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
-                        <tr>
+                        <tr onclick="window.location='detall_incidencia.php?idBusca=<?= $inc['idIncidencia'] ?>'" style="cursor:pointer;">
                             <td><?= $inc['idIncidencia'] ?></td>
                             <td><?= $inc['tipo'] ?? '-' ?></td>
                             <td><?= $inc['departamento'] ?? '-' ?></td>

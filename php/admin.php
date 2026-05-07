@@ -65,10 +65,9 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                     <tr>
                         <th>ID</th>
                         <th>Prioritat</th>
-                        <!-- Hemos añadido d-none d-md... aquí para que coincida con el TD de abajo -->
-                        <th class="d-none d-md-table-cell">Tipus</th>
+                        <th>Tipus</th>
                         <th>Tècnic</th>
-                        <th class="d-none d-md-table-cell">Departament</th>
+                        <th>Departament</th>
                         <th>Inici</th>
                         <th>Fi</th>
                         <th>Accions</th>
@@ -89,7 +88,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             </td>
 
                             <!-- Tipus -->
-                            <td class="d-none d-md-table-cell">
+                            <td style="min-width: 130px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idTipo', this.value)">
                                     <?php foreach ($tipus as $t): ?>
                                         <option value="<?= $t['idTipo'] ?>" <?= $inc['idTipo'] == $t['idTipo'] ? 'selected' : '' ?>>
@@ -112,7 +111,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             </td>
 
                             <!-- Departament -->
-                            <td class="d-none d-md-table-cell" style="min-width: 130px;">
+                            <td style="min-width: 130px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idDepartamento', this.value)">
                                     <option value="" <?= ($inc['idDepartamento'] ?? null) === null ? 'selected' : '' ?>> --- </option>
                                     <?php foreach ($departaments as $d): ?>
