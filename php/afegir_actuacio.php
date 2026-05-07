@@ -13,42 +13,27 @@ $idIncidencia = $_GET['idIncidencia'] ?? null;
         <div class="card-body">
             <form method="POST" action="crear_actuacio.php">
                 <div class="mb-3">
-                    <label for="idIncidencia" class="form-label">Tipus:</label>
-                    <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
-
+                    <input type="hidden" name="idIncidencia" value="<?= $idIncidencia ?>">
                 </div>
                 <div class="mb-3">
-                    <label for="idDepartament" class="form-label">Departament:</label>
-                    <select name="idDepartament" id="idDepartament" class="form-select">
-                        <?php while($fila = $departaments->fetch_assoc()): ?>
-                            <option value="<?= $fila['idDepartamento'] ?>"><?= $fila['nombre'] ?></option>
-                        <?php endwhile; ?>
-                    </select>
+                    <label for="temps" class="form-label">Temps(hh:mm):</label>
+                    <input type="time" name="temps" id="temps" class="form-control" min="0">
                 </div>
                 <div class="mb-3">
-                    <label for="temps" class="form-label">Temps:</label>
-                    <input type="text" name="temps" id="temps" class="form-control">
+                    <label for="comentario" class="form-label">Comentari:</label>
+                    <textarea name="comentario" id="comentario" class="form-control" rows="4"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="visible" class="form-label">Visible:</label>
-                    <input type="text" name="visible" id="visible" class="form-control">
+                    <div class="form-check">
+                        <input type="checkbox" name="visible" id="visible" class="form-check-input" value="1" checked>
+                        <label for="visible" class="form-check-label">Visible per l'usuari</label>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="comentari" class="form-label">Comentari:</label>
-                    <textarea name="comentari" id="comentari" class="form-control" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Crear Incidència</button>
+                <button type="submit" class="btn btn-primary">Registrar Actuació</button>
             </form>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
 <?php
 include_once "fotter.php";
 ?>

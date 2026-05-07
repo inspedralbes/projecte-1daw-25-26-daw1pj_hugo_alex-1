@@ -23,6 +23,12 @@ $sentencia->bind_param("i", $id);
 $sentencia->execute();
 $result = $sentencia->get_result();
 $inc = $result->fetch_assoc();
+
+$sqlActuacions = "SELECT comentario, tiempo, DATE_FORMAT(fechaAccion, '%d/%m/%Y %H:%i') AS fechaAccion FROM ACCION WHERE idIncidencia = ? AND visible = 1";
+$sentenciaActuacions = $conn->prepare($sqlActuacions);
+$sentenciaActuacions->bind_param("i", $id);
+$sentenciaActuacions->execute();
+$resultActuacions = $sentenciaActuacions->get_result();
 ?>
 
 <div class="container mt-5">
@@ -47,6 +53,19 @@ $inc = $result->fetch_assoc();
                         <div class="mt-4 p-3 border rounded bg-light">
                             <strong>Descripció:</strong>
                             <p class="mt-2"><?= $inc['descripcion'] ?></p>
+                        </div>
+                        <div class="mt-4">
+                            <h5>Actuacions:</h5>
+                                <?php if ($resultActuacions->num_rows === 0): ?>
+                                <p class="text-muted">No hi ha actuacions visibles.</p>
+                                <?php else: ?>
+                                <?php while ($act = $resultActuacions->fetch_assoc()): ?>
+                                    <div class="p-3 border rounded bg-light mb-2">
+                                        <small class="text-muted"><?= $act['fechaAccion'] ?> | Temps: <?= $act['tiempo'] ?></small>
+                                            <p class="mt-1 mb-0"><?= htmlspecialchars($act['comentario']) ?></p>
+                                        </div>
+                                    <?php endwhile; ?>
+                                <?php endif; ?>
                         </div>
                     </div>
                     <div class="card-footer text-center">

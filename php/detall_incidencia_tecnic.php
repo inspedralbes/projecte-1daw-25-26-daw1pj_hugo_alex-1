@@ -55,7 +55,7 @@ $inc = $result->fetch_assoc();
                         <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary mb-3">
                             <i class="fas fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
                         </a>
-                    </div>
+                <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-primary mt-3">Afegir Actuació</a>
                 </div>
             <?php else: ?>
                 <div class="alert alert-danger shadow-sm">
