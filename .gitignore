@@ -3,3 +3,5 @@
 /.env
 /produccio.html
 /readme.md
+/php/vendor/
+/php/composer.lock
