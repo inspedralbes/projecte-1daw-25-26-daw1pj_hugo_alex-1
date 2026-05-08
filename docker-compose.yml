@@ -4,7 +4,7 @@ services:
     #image: php:apache
     build:
       context: ./images
-      dockerfile: Dockerfile_php
+      dockerfile: Dockerfile_php_mongo
     ports:
       - "8080:80"
     volumes:

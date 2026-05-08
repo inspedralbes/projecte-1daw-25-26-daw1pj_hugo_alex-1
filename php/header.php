@@ -10,13 +10,16 @@
         html {
             font-size: clamp(12px, 2vw, 16px);
         }
+
         td.editable:hover {
             background-color: #d1d1d1;
         }
+
         td.editable::after {
             font-size: 0.7em;
             color: #aaa;
         }
+
         .descripcio-cell {
             max-width: 120px;
             white-space: nowrap;
@@ -24,6 +27,7 @@
             text-overflow: ellipsis;
             cursor: pointer;
         }
+
         .descripcio-cell.expanded {
             white-space: normal;
             overflow: visible;
@@ -33,21 +37,45 @@
 
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-light bg-light border-bottom sticky-top mb-4">
-        <div class="container-fluid gap-3">
-            <a class="navbar-brand" href="index.php">
-                <img src="resources/Logoinsti_amb_lletres.png" alt="Logo" height="40">
+    <div class="container-fluid gap-2 flex-wrap">
 
-            </a>
-            <form action="detall_incidencia.php" method="GET" class="d-flex flex-grow-1 input-group" style="max-width: 400px;">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.php">
+            <img src="resources/Logoinsti_amb_lletres.png" alt="Logo" height="40">
+        </a>
+
+        <!-- Mòbil: barra + estadístiques en segona línia -->
+        <div class="d-flex gap-2 flex-grow-1 w-100 d-md-none">
+            <form action="detall_incidencia.php" method="GET" class="input-group flex-grow-1">
                 <span class="input-group-text">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
                 <input type="text" name="idBusca" class="form-control" placeholder="Cercar incidència...">
                 <button class="btn btn-primary" type="submit">Cerca</button>
             </form>
-            <a href="index.php" class="btn btn-outline-primary d-none d-md-block">
+            <a href="admin_logs.php" class="btn btn-outline-primary flex-shrink-0">
+                <i class="fa-solid fa-chart-line"></i>
+            </a>
+        </div>
+
+        <!-- Escriptori: barra centrada + botons a la dreta -->
+        <form action="detall_incidencia.php" method="GET" class="input-group d-none d-md-flex position-absolute start-50 translate-middle-x" style="max-width: 400px;">
+            <span class="input-group-text">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" name="idBusca" class="form-control" placeholder="Cercar incidència...">
+            <button class="btn btn-primary" type="submit">Cerca</button>
+        </form>
+
+        <div class="d-none d-md-flex gap-1 ms-auto">
+            <a href="admin_logs.php" class="btn btn-outline-primary">
+                <i class="fa-solid fa-chart-line"></i>
+            </a>
+            <a href="index.php" class="btn btn-outline-primary">
                 <i class="fa-solid fa-house"></i>
             </a>
         </div>
-    </nav>
+
+    </div>
+</nav>
     <main class="flex-grow-1">
