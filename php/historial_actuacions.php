@@ -44,7 +44,7 @@ $capçaleres = [
 <?php include_once "header.php"; ?>
 
 <div class="container-fluid px-3">
-    <h2 class="mb-4">Llistat d'Incidències</h2>
+    <h2 class="mb-4">Historial d'Actuacions</h2>
 
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>

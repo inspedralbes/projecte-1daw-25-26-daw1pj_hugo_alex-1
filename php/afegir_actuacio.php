@@ -30,6 +30,8 @@ $idIncidencia = $_GET['idIncidencia'] ?? null;
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Registrar Actuació</button>
+                <a href="detall_incidencia_tecnic.php?idBusca=<?= $idIncidencia ?>&tecnic=<?= urlencode($_GET['tecnic'] ?? '') ?>" class="btn btn-secondary ms-2"> Tornar</a>
+                
             </form>
         </div>
     </div>
