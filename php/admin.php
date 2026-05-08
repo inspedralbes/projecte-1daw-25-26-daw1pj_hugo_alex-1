@@ -54,7 +54,8 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
     <p class="text-muted small mb-3">
         <i class="fa-solid fa-hand-pointer"></i> Fes clic a la descripció per veure-la completa
     </p>
-
+    <a href="vista_informe_tecnics.php" class="btn btn-outline-success btn-sm">informe de tècnics</a>
+    <br><br>
     <!-- Alert guardat -->
     <div id="alertGuardat" class="alert alert-success d-none" role="alert"
         style="position:sticky; top:70px; z-index:999;">

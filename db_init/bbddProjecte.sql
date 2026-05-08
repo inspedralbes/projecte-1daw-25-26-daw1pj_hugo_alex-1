@@ -50,3 +50,45 @@ CREATE TABLE ACCION (
     visible INT (1) NOT NULL,
     FOREIGN KEY (idIncidencia) REFERENCES INCIDENCIA (idIncidencia)
 );
+
+-- Script
+
+CREATE OR REPLACE VIEW vista_informe_tecnics AS
+SELECT
+    t.idTecnico,
+    t.nombre AS nomTecnic,
+    i.prioritat,
+    i.idIncidencia,
+    i.descripcion AS descripcioIncidencia,
+    i.fechaInicio AS dataInici,
+    IFNULL(SUM(TIME_TO_SEC(a.tiempo)), 0) AS tempsTotalDedicat
+FROM TECNICO t
+INNER JOIN INCIDENCIA i ON t.idTecnico = i.idTecnico
+LEFT JOIN ACCION a ON i.idIncidencia = a.idIncidencia
+WHERE i.fechaFin IS NULL
+GROUP BY
+    t.idTecnico,
+    t.nombre,
+    i.prioritat,
+    i.idIncidencia,
+    i.descripcion,
+    i.fechaInicio;
+
+CREATE OR REPLACE VIEW vista_consum_departaments AS
+SELECT
+    d.idDepartamento,
+    d.nombre AS nomDepartament,
+    COUNT(i.idIncidencia) AS nombreIncidencies,
+    IFNULL(SUM(temps_per_incidencia.tempsTotal), 0) AS tempsTotalDedicat
+FROM DEPARTAMENTO d
+LEFT JOIN INCIDENCIA i ON d.idDepartamento = i.idDepartamento
+LEFT JOIN (
+    SELECT
+        idIncidencia,
+        SUM(TIME_TO_SEC(tiempo)) AS tempsTotal
+    FROM ACCION
+    GROUP BY idIncidencia
+) AS temps_per_incidencia ON i.idIncidencia = temps_per_incidencia.idIncidencia
+GROUP BY
+    d.idDepartamento,
+    d.nombre;
