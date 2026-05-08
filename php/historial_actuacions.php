@@ -2,13 +2,11 @@
 include_once "connexio.php";
 
 $columnesPermeses = [
-    'idIncidencia' => 'i.idIncidencia',
-    'tipo'         => 'tp.nombre',
-    'departamento' => 'd.nombre',
-    'tecnico'      => 't.nombre',
-    'fechaInicio'  => 'i.fechaInicio',
-    'fechaFin'     => 'i.fechaFin',
-    'descripcion'  => 'i.descripcion',
+    'idAccion'     => 'a.idAccion',
+    'idIncidencia' => 'a.idIncidencia',
+    'tiempo'       => 'a.tiempo',
+    'fechaAccion'  => 'a.fechaAccion',
+    'comentario'   => 'a.comentario',
 ];
 
 $orderBy  = $_GET['order'] ?? 'idIncidencia';
@@ -22,31 +20,24 @@ $nextDir  = $orderDir === 'ASC' ? 'DESC' : 'ASC';
 
 $sql = "
     SELECT 
-        i.idIncidencia,
-        i.descripcion,
-        i.prioritat,
-        DATE_FORMAT(i.fechaInicio, '%d/%m/%Y') AS fechaInicio,
-        DATE_FORMAT(i.fechaFin, '%d/%m/%Y') AS fechaFin,
-        t.nombre AS tecnico,
-        d.nombre AS departamento,
-        tp.nombre AS tipo
-    FROM INCIDENCIA i
-    LEFT JOIN TECNICO t ON i.idTecnico = t.idTecnico
-    LEFT JOIN DEPARTAMENTO d ON i.idDepartamento = d.idDepartamento
-    LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
+        a.idAccion,
+        a.idIncidencia,
+        a.comentario,
+        a.tiempo,
+        DATE_FORMAT(a.fechaAccion, '%d/%m/%Y %H:%i') AS fechaAccion,
+        a.visible
+    FROM ACCION a
     ORDER BY $orderCol $orderDir
 ";
 
 $result = $conn->query($sql);
 
 $capçaleres = [
-    ['ID',          'idIncidencia', ''],
-    ['Tipus',       'tipo',         ''],
-    ['Departament', 'departamento', ''],
-    ['Tècnic',      'tecnico',      ''],
-    ['Data Inici',  'fechaInicio',  ''],
-    ['Data Fi',     'fechaFin',     ''],
-    ['Descripció',  null,           'd-none d-md-table-cell'],
+    ['IdActuacio',          'idAccion',             ''],
+    ['IdIncidencia',       'idIncidencia',         ''],
+    ['Temps',               'tiempo',               ''],
+    ['Data Accio',      'fechaAccion',               ''],
+    ['Comentari',  'comentario',  'd-none d-md-table-cell'],
 ];
 ?>
 
@@ -83,23 +74,17 @@ $capçaleres = [
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
+                            <td><?= $inc['idAccion'] ?></td>
                             <td><?= $inc['idIncidencia'] ?></td>
-                            <td><?= $inc['tipo'] ?? '-' ?></td>
-                            <td><?= $inc['departamento'] ?? '-' ?></td>
-                            <td><?= $inc['tecnico'] ?? 'Sense assignar' ?></td>
-                            <td><?= $inc['fechaInicio'] ?></td>
-                            <td><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
-                            <td class="d-none d-md-table-cell"><?= $inc['descripcion'] ?>
-                                <?= htmlspecialchars($inc['descripcion']) ?>
-                            </td>
+                            <td><?= $inc['tiempo'] ?></td>
+                            <td><?= $inc['fechaAccion'] ?></td>
+                            <td class="d-none d-md-table-cell"><?= htmlspecialchars($inc['comentario']) ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
         </div>
     <?php endif; ?>
-
-    <a href="formulari_incidencia.php" class="btn btn-secondary mb-3 mt-3">Nova incidencia</a>
 </div>
 
 <?php include_once "fotter.php"; ?>

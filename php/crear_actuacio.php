@@ -17,6 +17,6 @@ $sentencia->execute();
         <h4>Actuació registrada correctament!</h4>
         <p>Has afegit una nova actuació a la incidència #<?= htmlspecialchars($idIncidencia) ?>.</p>
     </div>
-    <a href="tecnic.php" class="btn btn-primary">Veure totes les actuacions</a>
+    <a href="historial_actuacions.php" class="btn btn-primary">Veure totes les actuacions</a>
 </div>
 <?php include_once "fotter.php"; ?>
