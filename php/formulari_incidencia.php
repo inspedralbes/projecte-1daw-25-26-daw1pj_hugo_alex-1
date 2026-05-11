@@ -32,6 +32,9 @@ $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
                 <button type="submit" class="btn btn-primary">Crear Incidència</button>
             </form>
             <a href="llistar_incidencies_usuari.php" class="btn btn-secondary mt-2">Llistar Incidències</a>
+            <br>
+            
+            <a href="index.php" class="btn btn-secondary mt-2">← Tornar</a>
         </div>
     </div>
 </div>
