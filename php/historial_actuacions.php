@@ -38,7 +38,7 @@ $capçaleres = [
 <div class="container px-4 mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Historial d'Actuacions</h2>
-        <a href="tecnic.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+        <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i>Tornar</a>
     </div>
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha actuacions registrades.</div>

@@ -62,7 +62,7 @@ $capçaleres = [
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Incidències de <?= htmlspecialchars($tecnic) ?></h2>
-        <a href="tecnic.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+        <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
 
     <?php if ($result->num_rows === 0): ?>
@@ -115,7 +115,7 @@ $capçaleres = [
                                 <td>
                                     <form action="tancar_incidencia.php" method="post">
                                         <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
-                                        <button type="submit" class="btn btn-outline-success btn-sm">Tancar</button>
+                                        <button type="submit" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-lock"></i> Tancar</button>
                                     </form>
                                 </td>
                             </tr>

@@ -33,7 +33,7 @@ $last = $collection->findOne([], ['sort' => ['timestamp' => -1]]);
 include_once "header.php";
 ?>
 
-<div class="container-fluid px-3 px-md-4 py-3">
+<div class="container">
     <h4 class="mb-4"><i class="fa-solid fa-chart-line me-2"></i>Panell d'accessos</h4>
 
     <!-- Stat cards -->

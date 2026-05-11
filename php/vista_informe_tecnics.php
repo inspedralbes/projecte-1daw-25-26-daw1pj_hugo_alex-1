@@ -56,9 +56,11 @@ $capçaleres = [
 
 <?php include_once "header.php"; ?>
 
-<div class="container-fluid px-3">
-    <h2 class="mb-4">Informe de Tècnics</h2>
-
+<div class="container px-4 mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Informe de Tècnics</h2>
+        <a href="admin.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+    </div>
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
     <?php else: ?>

@@ -49,8 +49,11 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
 
 <?php include_once "header.php"; ?>
 
-<div class="container-fluid px-3">
-    <h2 class="mb-3">Panell d'Administració</h2>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-3">Panell d'Administració</h2>
+        <a href="index.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
+    </div>
     <p class="text-muted small mb-3">
         <i class="fa-solid fa-hand-pointer"></i> Fes clic a la descripció per veure-la completa
     </p>

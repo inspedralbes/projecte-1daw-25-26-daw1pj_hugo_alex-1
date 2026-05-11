@@ -51,9 +51,11 @@ $capçaleres = [
 ?>
 
 <?php include_once "header.php"; ?>
-
-<div class="container-fluid px-3">
-    <h2 class="mb-4">Informe de Tècnics</h2>
+<div class="container px-4 mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Consum per Departaments</h2>
+        <a href="admin.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+    </div>
 
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
@@ -84,9 +86,9 @@ $capçaleres = [
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?= $inc['idDepartamento'] ?></td>
-<td><?= $inc['nomDepartament'] ?></td>
-<td><?= $inc['nombreIncidencies'] ?></td>
-<td><?= gmdate('H:i:s', $inc['tempsTotalDedicat']) ?></td>
+                            <td><?= $inc['nomDepartament'] ?></td>
+                            <td><?= $inc['nombreIncidencies'] ?></td>
+                            <td><?= gmdate('H:i:s', $inc['tempsTotalDedicat']) ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
