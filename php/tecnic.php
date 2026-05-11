@@ -29,7 +29,7 @@ $tecnics = $conn->query("SELECT * FROM TECNICO")->fetch_all(MYSQLI_ASSOC);
         
         <br>
         <br>
-        <a href="index.php" class="btn btn-primary btn-lg w-100 shadow">← Tornar a Portada</a>
+        <a href="index.php" class="btn btn-primary btn-lg w-100 shadow"> <i class="fa-solid fa-arrow-left"></i> Tornar a Portada</a>
     </form>
 </div>
 

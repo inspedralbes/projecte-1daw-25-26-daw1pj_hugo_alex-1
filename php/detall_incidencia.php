@@ -35,7 +35,7 @@ $resultActuacions = $sentenciaActuacions->get_result();
     <div class="row">
         <div class="col-8 mx-auto">
             <h2 class="mb-4 text-center">Detall de l'Incidència</h2>
-            <a href="index.php" class="btn btn-outline-primary btn-sm">← Tornar a Portada</a>
+            <a href="index.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i>Tornar a Portada</a>
             <br><br>
             <?php if ($inc): ?>
                 <div class="card border-primary shadow-sm">

@@ -7,7 +7,7 @@ $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Nova Incidència</h2>
-        <a href="index.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+        <a href="index.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
     <div class="card shadow-sm">
         <div class="card-body">
@@ -32,12 +32,10 @@ $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
                     <label for="descripcio" class="form-label">Descripció:</label>
                     <textarea name="descripcio" id="descripcio" class="form-control" rows="4"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Crear Incidència</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Crear Incidència</button>
             </form>
-            <a href="llistar_incidencies_usuari.php" class="btn btn-secondary mt-2">Llistar Incidències</a>
+            <a href="llistar_incidencies_usuari.php" class="btn btn-secondary mt-2"><i class="fa-solid fa-list"></i> Llistar Incidències</a>
             <br>
-            
-            <a href="index.php" class="btn btn-secondary mt-2">← Tornar</a>
         </div>
     </div>
 </div>

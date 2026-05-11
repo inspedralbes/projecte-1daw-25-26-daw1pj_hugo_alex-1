@@ -61,7 +61,7 @@ $inc = $result->fetch_assoc();
                         </div>
                         <div class="text-center">
                             <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary mb-3">
-                                <i class="fas fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
+                                <i class="fa-solid fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
                             </a>
                         </div>
 
