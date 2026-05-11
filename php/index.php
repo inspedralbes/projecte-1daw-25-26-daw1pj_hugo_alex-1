@@ -1,6 +1,6 @@
 <?php include_once "header.php";?>
 
-<div class="d-flex align-items-center justify-content-center flex-grow-1">
+<div class="d-flex align-items-center justify-content-center" style="min-height: calc(80vh - 70px);">>
     <div class="col-11 col-md-8 col-lg-6 col-xl-5 text-center">
         <div class="p-3 p-md-5 mb-4 bg-light rounded-3 shadow-lg" style="border-top: 5px solid #0d6efd;">
             <div class="container-fluid py-3 py-md-5">
