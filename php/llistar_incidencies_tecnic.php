@@ -113,7 +113,7 @@ $capçaleres = [
                                     <form action="tancar_incidencia.php" method="post">
                                         <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
                                         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
-                                        <button type="submit" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-lock"></i> Tancar</button>
+                                        <button type="submit" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-lock-open" title="Tancar"></i></button>
                                     </form>
                                 </td>
                             </tr>

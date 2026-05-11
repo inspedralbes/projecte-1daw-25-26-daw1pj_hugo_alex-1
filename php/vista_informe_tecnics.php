@@ -1,56 +1,39 @@
 <?php
 include_once "connexio.php";
 
-$columnesPermeses = [
-    'nomTecnic'     => 'nombre',
-    'idIncidencia' => 'idIncidencia',
-    'prioritat'       => 'prioritat',
-    'dataInici'  => 'fechaAccion',
-    'tempsTotalDedicat'   => 'tempsTotalDedicat',
-    'descripcioIncidencia'   => 'descripcion',
-];
-
-$orderBy  = $_GET['order'] ?? 'idIncidencia';
-$orderDir = $_GET['dir']   ?? 'ASC';
-
-if (!array_key_exists($orderBy, $columnesPermeses)) $orderBy = 'idIncidencia';
-if (!in_array($orderDir, ['ASC', 'DESC']))           $orderDir = 'ASC';
-
-$orderCol = $columnesPermeses[$orderBy];
-$nextDir  = $orderDir === 'ASC' ? 'DESC' : 'ASC';
-
+// SQL optimizado para mostrar solo incidencias abiertas (fechaFin IS NULL)
 $sql = "
     SELECT
-    t.idTecnico,
-    t.nombre AS nomTecnic,
-    i.prioritat,
-    i.idIncidencia,
-    i.descripcion AS descripcioIncidencia,
-    i.fechaInicio AS dataInici,
-    IFNULL(SUM(TIME_TO_SEC(a.tiempo)), 0) AS tempsTotalDedicat
-FROM TECNICO t
-INNER JOIN INCIDENCIA i ON t.idTecnico = i.idTecnico
-LEFT JOIN ACCION a ON i.idIncidencia = a.idIncidencia
-WHERE i.fechaFin IS NULL
-GROUP BY
-    t.idTecnico,
-    t.nombre,
-    i.prioritat,
-    i.idIncidencia,
-    i.descripcion,
-    i.fechaInicio;
-
+        t.idTecnico,
+        t.nombre AS nomTecnic,
+        i.prioritat,
+        i.idIncidencia,
+        i.descripcion AS descripcioIncidencia,
+        DATE_FORMAT(i.fechaInicio, '%d/%m/%Y') AS dataInici,
+        IFNULL(SUM(TIME_TO_SEC(a.tiempo)), 0) AS tempsTotalDedicat
+    FROM TECNICO t
+    INNER JOIN INCIDENCIA i ON t.idTecnico = i.idTecnico
+    LEFT JOIN ACCION a ON i.idIncidencia = a.idIncidencia
+    WHERE i.fechaFin IS NULL
+    GROUP BY
+        t.idTecnico,
+        t.nombre,
+        i.prioritat,
+        i.idIncidencia,
+        i.descripcion,
+        i.fechaInicio
+    ORDER BY t.nombre ASC, i.idIncidencia DESC;
 ";
 
 $result = $conn->query($sql);
 
 $capçaleres = [
-    ['Nombre Técnic',          'nombre',             ''],
-    ['IdIncidencia',       'idIncidencia',         ''],
-    ['Prioritat',               'prioritat',               ''],
-    ['Data Inici',      'fechaInicio',               ''],
-    ['Temps Total Dedicat',  'tempsTotalDedicat',  'd-none d-md-table-cell'],
-    ['Descripcio Incidencia',  'descripcioIncidencia',  'd-none d-md-table-cell'],
+    ['Tècnic',               ''],
+    ['ID',                   ''],
+    ['Prioritat',           ''],
+    ['Data Inici',          ''],
+    ['Temps Dedicat',       'd-none d-md-table-cell'],
+    ['Descripció',          'd-none d-md-table-cell'],
 ];
 ?>
 
@@ -59,29 +42,21 @@ $capçaleres = [
 <div class="container px-4 mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Informe de Tècnics</h2>
-        <a href="admin.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+        <a href="admin.php" class="btn btn-outline-primary btn-sm">
+            <i class="fa-solid fa-arrow-left"></i> Tornar
+        </a>
     </div>
+
     <?php if ($result->num_rows === 0): ?>
-        <div class="alert alert-info">No hi ha incidències registrades.</div>
+        <div class="alert alert-info">No hi ha incidències obertes assignades a cap tècnic.</div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-sm align-bottom" style="font-size: 0.75em;">
-                <thead class="table-primary">
+            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.75em;">
+                <thead>
                     <tr>
-                        <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
-                            <th class="<?= $classes ?>">
-                                <?php if ($col):
-                                    $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
-                                    $icon = ($orderBy === $col)
-                                        ? ($orderDir === 'ASC' ? 'fa-chevron-up' : 'fa-chevron-down')
-                                        : 'fa-chevron-up text-muted';
-                                ?>
-                                    <a href="?order=<?= $col ?>&dir=<?= $dir ?>" class="text-decoration-none text-dark">
-                                        <?= $label ?> <i class="fa-solid <?= $icon ?>" style="font-size:0.75em;"></i>
-                                    </a>
-                                <?php else: ?>
-                                    <?= $label ?>
-                                <?php endif; ?>
+                        <?php foreach ($capçaleres as [$label, $classes]): ?>
+                            <th class="<?= $classes ?> bg-primary text-white p-2 border-primary">
+                                <?= $label ?>
                             </th>
                         <?php endforeach; ?>
                     </tr>
@@ -89,12 +64,30 @@ $capçaleres = [
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?= $inc['nomTecnic'] ?></td>
-                            <td><?= $inc['idIncidencia'] ?></td>
-                            <td><?= $inc['prioritat'] ?></td>
+                            <td class="fw-bold text-primary"><?= htmlspecialchars($inc['nomTecnic']) ?></td>
+                            <td>#<?= $inc['idIncidencia'] ?></td>
+                            <td>
+                                <?php
+                                // Lógica de colores solicitada
+                                $color = match($inc['prioritat']) {
+                                    'Alta'  => 'danger',
+                                    'Mitja' => 'warning',
+                                    'Baixa' => 'success',
+                                    default => 'secondary'
+                                };
+                                ?>
+                                <span class="badge bg-<?= $color ?> <?= $color === 'warning' ? 'text-dark' : '' ?>">
+                                    <?= $inc['prioritat'] ?>
+                                </span>
+                            </td>
                             <td><?= $inc['dataInici'] ?></td>
-                            <td><?= gmdate('H:i:s', $inc['tempsTotalDedicat']) ?></td>
-                            <td class="d-none d-md-table-cell"><?= htmlspecialchars($inc['descripcioIncidencia']) ?></td>
+                            <td class="d-none d-md-table-cell">
+                                <i class="fa-regular fa-clock me-1 text-primary"></i>
+                                <?= gmdate('H:i:s', $inc['tempsTotalDedicat']) ?>
+                            </td>
+                            <td class="d-none d-md-table-cell text-truncate" style="max-width: 250px;">
+                                <?= htmlspecialchars($inc['descripcioIncidencia']) ?>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

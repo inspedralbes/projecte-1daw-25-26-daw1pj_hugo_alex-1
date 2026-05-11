@@ -6,10 +6,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $campo = $_POST['campo'] ?? '';
     $valor = $_POST['valor'] ?? '';
 
+    // Lógica para eliminar
     if (isset($_POST['eliminar'])) {
         $conn->query("DELETE FROM INCIDENCIA WHERE idIncidencia = $id");
         header('Location: admin.php');
         exit;
+    }
+
+    // Lógica para cerrar incidencia (Nueva)
+    if (isset($_POST['tancar'])) {
+        $conn->query("UPDATE INCIDENCIA SET fechaFin = NOW() WHERE idIncidencia = $id");
+        exit; // El JS se encarga de recargar
     }
 
     $camposPermesos = ['prioritat', 'idTipo', 'idTecnico', 'idDepartamento'];
@@ -38,7 +45,7 @@ $sql = "
     LEFT JOIN TECNICO t ON i.idTecnico = t.idTecnico
     LEFT JOIN DEPARTAMENTO d ON i.idDepartamento = d.idDepartamento
     LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
-    ORDER BY FIELD(i.prioritat, 'Alta', 'Mitja', 'Baixa')
+    ORDER BY (i.fechaFin IS NOT NULL), FIELD(i.prioritat, 'Alta', 'Mitja', 'Baixa')
 ";
 
 $result       = $conn->query($sql);
@@ -65,7 +72,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
     </p>
 
     <div id="alertGuardat" class="alert alert-success d-none shadow-sm" role="alert" style="position:fixed; top:20px; right:20px; z-index:1050;">
-        <i class="fa-solid fa-check-circle me-2"></i> Canvi guardat correctament!
+        <i class="fa-solid fa-check-circle me-2"></i> Operació realitzada correctament!
     </div>
 
     <div id="alertDescripcio" class="alert alert-secondary alert-dismissible d-none shadow" role="alert" style="position:sticky; top:70px; z-index:999; overflow-wrap: break-word;">
@@ -78,7 +85,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
         <div class="alert alert-info border-info">No hi ha incidències registrades.</div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.75em;">
+            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.72em; min-width: 1000px;">
                 <thead>
                     <tr>
                         <th class="bg-primary text-white p-2 border-primary">ID</th>
@@ -86,10 +93,10 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                         <th class="bg-primary text-white p-2 border-primary">Tipus</th>
                         <th class="bg-primary text-white p-2 border-primary">Tècnic</th>
                         <th class="bg-primary text-white p-2 border-primary">Departament</th>
-                        <th class="bg-primary text-white p-2 border-primary">Inici</th>
-                        <th class="bg-primary text-white p-2 border-primary">Fi</th>
+                        <th class="bg-primary text-white p-2 border-primary" style="width: 85px;">Inici</th>
+                        <th class="bg-primary text-white p-2 border-primary" style="width: 85px;">Fi</th>
                         <th class="bg-primary text-white p-2 border-primary">Descripció</th>
-                        <th class="bg-primary text-white p-2 border-primary">Acció</th>
+                        <th class="bg-primary text-white p-2 border-primary text-center">Accions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,16 +104,16 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                         <tr>
                             <td class="fw-bold">#<?= $inc['idIncidencia'] ?></td>
 
-                            <td style="min-width: 100px;">
-                                <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'prioritat', this.value)">
+                            <td style="width: 90px;">
+                                <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'prioritat', this.value)">
                                     <option value="Alta" <?= $inc['prioritat'] === 'Alta'  ? 'selected' : '' ?>>Alta</option>
                                     <option value="Mitja" <?= $inc['prioritat'] === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
                                     <option value="Baixa" <?= $inc['prioritat'] === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
                                 </select>
                             </td>
 
-                            <td style="min-width: 110px;">
-                                <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idTipo', this.value)">
+                            <td style="width: 100px;">
+                                <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idTipo', this.value)">
                                     <?php foreach ($tipus as $t): ?>
                                         <option value="<?= $t['idTipo'] ?>" <?= $inc['idTipo'] == $t['idTipo'] ? 'selected' : '' ?>>
                                             <?= $t['nombre'] ?>
@@ -115,9 +122,9 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 </select>
                             </td>
 
-                            <td style="min-width: 120px;">
-                                <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idTecnico', this.value)">
-                                    <option value="" <?= $inc['idTecnico'] === null ? 'selected' : '' ?>> --- </option>
+                            <td style="width: 110px;">
+                                <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idTecnico', this.value)">
+                                    <option value="" <?= $inc['idTecnico'] === null ? 'selected' : '' ?>>---</option>
                                     <?php foreach ($tecnics as $t): ?>
                                         <option value="<?= $t['idTecnico'] ?>" <?= $inc['idTecnico'] == $t['idTecnico'] ? 'selected' : '' ?>>
                                             <?= $t['nombre'] ?>
@@ -126,9 +133,9 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 </select>
                             </td>
 
-                            <td style="min-width: 120px;">
-                                <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idDepartamento', this.value)">
-                                    <option value="" <?= ($inc['idDepartamento'] ?? null) === null ? 'selected' : '' ?>> --- </option>
+                            <td style="width: 110px;">
+                                <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idDepartamento', this.value)">
+                                    <option value="" <?= ($inc['idDepartamento'] ?? null) === null ? 'selected' : '' ?>>---</option>
                                     <?php foreach ($departaments as $d): ?>
                                         <option value="<?= $d['idDepartamento'] ?>" <?= $inc['idDepartamento'] == $d['idDepartamento'] ? 'selected' : '' ?>>
                                             <?= $d['nombre'] ?>
@@ -142,20 +149,34 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 <?= $inc['fechaFin'] ?? 'Oberta' ?>
                             </td>
 
-                            <td class="text-truncate" style="max-width: 150px; cursor: pointer;" 
+                            <td class="text-truncate" style="max-width: 120px; cursor: pointer;"
                                 onclick="document.getElementById('alertText').innerText=this.dataset.desc; document.getElementById('alertDescripcio').classList.remove('d-none')"
                                 data-desc="<?= htmlspecialchars($inc['descripcion']) ?>">
                                 <?= htmlspecialchars($inc['descripcion']) ?>
                             </td>
 
-                            <td>
-                                <form method="POST" onsubmit="return confirm('Segur que vols eliminar la incidència #<?= $inc['idIncidencia'] ?>?')">
-                                    <input type="hidden" name="eliminar" value="1">
-                                    <input type="hidden" name="id" value="<?= $inc['idIncidencia'] ?>">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">
-                                        <i class="fas fa-trash-can"></i>
-                                    </button>
-                                </form>
+                            <td class="text-nowrap">
+                                <div class="d-flex justify-content-center align-items-center" style="gap: 4px;">
+                                    <div style="width: 30px; display: flex; justify-content: center;">
+                                        <?php if (!$inc['fechaFin']): ?>
+                                            <button onclick="tancarIncidencia(<?= $inc['idIncidencia'] ?>)" class="btn btn-outline-success btn-sm" title="Tancar">
+                                                <i class="fa-solid fa-lock-open"></i>
+                                            </button>
+                                        <?php else: ?>
+                                            <button class="btn btn-secondary btn-sm" disabled>
+                                                <i class="fa-solid fa-lock"></i>
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <form method="POST" class="m-0 " title="Esborrar" onsubmit="return confirm('Eliminar?')">
+                                        <input type="hidden" name="eliminar" value="1">
+                                        <input type="hidden" name="id" value="<?= $inc['idIncidencia'] ?>">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -166,14 +187,24 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
 </div>
 
 <script>
-    function guardarIRecarregar(id, campo, valor) {
+    function guardarCanvi(id, campo, valor) {
+        enviarPeticio(`id=${id}&campo=${campo}&valor=${encodeURIComponent(valor)}`);
+    }
+
+    function tancarIncidencia(id) {
+        if (confirm(`Vols tancar la incidència #${id}?`)) {
+            enviarPeticio(`id=${id}&tancar=1`);
+        }
+    }
+
+    function enviarPeticio(bodyContent) {
         const alertBox = document.getElementById('alertGuardat');
         fetch('admin.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: `id=${id}&campo=${campo}&valor=${encodeURIComponent(valor)}`
+            body: bodyContent
         }).then(() => {
             alertBox.classList.remove('d-none');
             setTimeout(() => {

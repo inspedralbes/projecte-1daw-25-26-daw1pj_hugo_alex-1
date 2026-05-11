@@ -104,11 +104,11 @@
             </form>
 
             <div class="d-none d-md-flex gap-1 ms-auto">
-                <a href="admin_logs.php" class="btn btn-outline-primary">
+                <a href="admin_logs.php" class="btn btn-outline-primary" title="Estadistiques de Logs">
                     <i class="fa-solid fa-chart-line"></i>
                 </a>
                 <a href="index.php" class="btn btn-outline-primary">
-                    <i class="fa-solid fa-house"></i>
+                    <i class="fa-solid fa-house" title="Inici"></i>
                 </a>
             </div>
 
