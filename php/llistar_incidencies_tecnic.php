@@ -24,6 +24,20 @@ if (!array_key_exists($orderBy, $columnesPermeses)) $orderBy = 'idIncidencia';
 if (!in_array($orderDir, ['ASC', 'DESC']))           $orderDir = 'ASC';
 
 $orderCol = $columnesPermeses[$orderBy];
+$filtreWhere = "WHERE t.nombre = '" . $conn->real_escape_string($tecnic) . "'";
+if (!empty($_GET['prioritat'])) {
+    $prioritat = $conn->real_escape_string($_GET['prioritat']);
+    $filtreWhere .= " AND i.prioritat = '$prioritat'";
+}
+if(!empty($_GET['estado'])){
+    if ($_GET['estado'] === 'Oberta'){
+        $filtreWhere .= " AND i.fechaFin IS NULL";
+    } else {
+        $filtreWhere .= " AND i.fechaFin IS NOT NULL";
+    }
+}else {
+    $filtreWhere .= " AND i.fechaFin IS NULL";
+}
 $nextDir  = $orderDir === 'ASC' ? 'DESC' : 'ASC';
 
 $sql = "
@@ -39,8 +53,7 @@ $sql = "
     LEFT JOIN TECNICO t ON i.idTecnico = t.idTecnico
     LEFT JOIN DEPARTAMENTO d ON i.idDepartamento = d.idDepartamento
     LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
-    WHERE t.nombre = '" . $conn->real_escape_string($tecnic) . "'
-    AND i.fechaFin IS NULL
+    $filtreWhere
     ORDER BY $orderCol $orderDir
 ";
 
@@ -64,7 +77,21 @@ $capçaleres = [
         <h2>Incidències de <?= htmlspecialchars($tecnic) ?></h2>
         <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
-
+        <form method="GET" class="d-flex gap-2 mb-3">
+            <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
+        <select name="prioritat" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Totes les Prioritats</option>
+            <option value="Baixa" <?= isset($_GET['prioritat']) && $_GET['prioritat'] === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
+            <option value="Mitja" <?= isset($_GET['prioritat']) && $_GET['prioritat'] === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
+            <option value="Alta"  <?= isset($_GET['prioritat']) && $_GET['prioritat'] === 'Alta'  ? 'selected' : '' ?>>Alta</option>
+        </select>
+        <select name="estado" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Tots els Estats</option>
+            <option value="Oberta" <?= isset($_GET['estado']) && $_GET['estado'] === 'Oberta' ? 'selected' : '' ?>>Oberta</option>
+            <option value="Tancada" <?= isset($_GET['estado']) && $_GET['estado'] === 'Tancada' ? 'selected' : '' ?>>Tancada</option>
+        </select>
+        <button type="submit" class="btn btn-sm btn-outline-secondary">Filtrar</button>
+    </form> 
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-success">No hi ha incidències pendents.</div>
     <?php else: ?>
