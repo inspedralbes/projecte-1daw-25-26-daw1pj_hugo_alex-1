@@ -52,11 +52,11 @@ $capçaleres = [
 
 <?php include_once "header.php"; ?>
 
-<div class="container-fluid px-3">
-    <h2 class="mb-4">Llistat d'Incidències</h2>
-
-    <a href="formulari_incidencia.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
-    <br><br>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Llistat d'Incidències</h2>
+        <a href="formulari_incidencia.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
+    </div>
 
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
@@ -102,7 +102,7 @@ $capçaleres = [
         </div>
     <?php endif; ?>
 
-    <a href="formulari_incidencia.php" class="btn btn-secondary mb-3 mt-3">Nova incidencia</a>
+    <a href="formulari_incidencia.php" class="btn btn-secondary mb-3 mt-3"><i class="fa-solid fa-plus"></i> Nova incidencia</a>
 </div>
 
 <?php include_once "fotter.php"; ?>
