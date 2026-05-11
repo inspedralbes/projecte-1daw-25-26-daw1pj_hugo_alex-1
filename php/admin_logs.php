@@ -120,7 +120,6 @@ include_once "header.php";
                             <th class="bg-primary text-white p-2 border-primary">Mètode</th>
                             <th class="bg-primary text-white p-2 border-primary">URL</th>
                             <th class="bg-primary text-white p-2 border-primary d-none d-md-table-cell">IP</th>
-                            <th class="bg-primary text-white p-2 border-primary d-none d-md-table-cell">Usuari</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -134,7 +133,6 @@ include_once "header.php";
                             </td>
                             <td class="text-truncate" style="max-width:200px"><?= htmlspecialchars($doc['url'] ?? '-') ?></td>
                             <td class="d-none d-md-table-cell"><?= htmlspecialchars($doc['ip'] ?? '-') ?></td>
-                            <td class="d-none d-md-table-cell"><?= htmlspecialchars($doc['usuari'] ?? 'anònim') ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
