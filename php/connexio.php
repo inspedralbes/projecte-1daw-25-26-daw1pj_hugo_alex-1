@@ -1,5 +1,5 @@
 <?php
-if (getenv('VAR1')) {
+if ($servername = "db") {
     // Estamos en Docker (local)
     $servername = "db";
     $username = getenv('VAR1');
