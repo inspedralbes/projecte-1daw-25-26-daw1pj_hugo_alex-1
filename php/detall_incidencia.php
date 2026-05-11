@@ -35,8 +35,6 @@ $resultActuacions = $sentenciaActuacions->get_result();
     <div class="row">
         <div class="col-8 mx-auto">
             <h2 class="mb-4 text-center">Detall de l'Incidència</h2>
-            <a href="index.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i>Tornar a Portada</a>
-            <br><br>
             <?php if ($inc): ?>
                 <div class="card border-primary shadow-sm">
                     <div class="card-header bg-primary text-white">
@@ -70,7 +68,7 @@ $resultActuacions = $sentenciaActuacions->get_result();
                         </div>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="llistar_incidencies_usuari.php" class="btn btn-secondary">Tornar al llistat d'inciencies</a>
+                        <a href="llistar_incidencies_usuari.php" class="btn btn-secondary"> <i class="fa-solid fa-arrow-left"></i> Tornar al llistat d'inciencies</a>
                     </div>
                 </div>
             <?php else: ?>
@@ -78,7 +76,7 @@ $resultActuacions = $sentenciaActuacions->get_result();
                     <strong>Error:</strong> No s'ha trobat cap incidència con el número <strong><?= htmlspecialchars($id) ?></strong>.
                 </div>
                 <div class="text-center">
-                    <a href="index.php" class="btn btn-primary">Tornar enrere</a>
+                    <a href="index.php" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Tornar enrere</a>
                 </div>
             <?php endif; ?>
 
