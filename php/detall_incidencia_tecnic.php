@@ -48,10 +48,10 @@ $inc = $result->fetch_assoc();
 
                         <div class="card-footer d-flex flex-column gap-2">
                             <div class="d-flex gap-2">
-                                <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary flex-fill text-center">
+                                <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-outline-primary flex-fill text-center">
                                     <i class="fas fa-arrow-left"></i> Tornar a la llista
                                 </a>
-                                <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-secondary flex-fill text-center"><i class="fa-solid fa-plus"></i> Afegir Actuació</a>
+                                <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-outline-primary flex-fill text-center"><i class="fa-solid fa-plus"></i> Afegir Actuació</a>
                             </div>
                             <a href="historial_actuacions.php" class="btn btn-primary btn-lg w-100 shadow"><i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions</a>
                         </div>
@@ -60,7 +60,7 @@ $inc = $result->fetch_assoc();
                             <strong>Error:</strong> No s'ha trobat cap incidència con el número <strong><?= htmlspecialchars($id) ?></strong>.
                         </div>
                         <div class="text-center">
-                            <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary mb-3">
+                            <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-outline-primary mb-3">
                                 <i class="fa-solid fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
                             </a>
                         </div>

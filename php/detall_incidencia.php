@@ -68,7 +68,7 @@ $resultActuacions = $sentenciaActuacions->get_result();
                         </div>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="llistar_incidencies_usuari.php" class="btn btn-secondary"> <i class="fa-solid fa-arrow-left"></i> Tornar al llistat d'inciencies</a>
+                        <a href="llistar_incidencies_usuari.php" class="btn btn-outline-primary"> <i class="fa-solid fa-arrow-left"></i> Tornar al llistat d'inciencies</a>
                     </div>
                 </div>
             <?php else: ?>
