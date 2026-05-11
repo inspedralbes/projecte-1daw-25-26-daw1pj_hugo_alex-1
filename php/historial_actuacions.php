@@ -45,6 +45,9 @@ $capçaleres = [
 
 <div class="container-fluid px-3">
     <h2 class="mb-4">Historial d'Actuacions</h2>
+    <div class="d-flex justify-content-end align-items-center mb-4">
+        <a href="tecnic.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+    </div>
 
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
