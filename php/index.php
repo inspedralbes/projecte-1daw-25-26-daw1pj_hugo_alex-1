@@ -1,4 +1,4 @@
-<?php include_once "header.php"; ?>
+<?php include_once "header.php";?>
 
 <div class="d-flex align-items-center justify-content-center flex-grow-1">
     <div class="col-11 col-md-8 col-lg-6 col-xl-5 text-center">
