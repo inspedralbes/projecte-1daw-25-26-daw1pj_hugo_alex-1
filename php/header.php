@@ -42,8 +42,27 @@
             }
         }
 
+        /* Tamaño por defecto para escritorio */
+        .navbar-brand img {
+            height: 40px;
+            transition: height 0.3s ease;
+            /* Opcional: para que el cambio sea suave */
+        }
+
+        /* Ajuste para móviles */
+        @media (max-width: 575px) {
+            .navbar-brand img {
+                height: 35px;
+                /* Reducimos la altura para ganar espacio */
+            }
+
+            .navbar-brand {
+                margin-right: 5px;
+                /* Reducimos el margen lateral */
+            }
+        }
     </style>
-    
+
 </head>
 
 
