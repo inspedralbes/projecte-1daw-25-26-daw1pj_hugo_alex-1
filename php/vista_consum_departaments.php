@@ -20,7 +20,7 @@ $sql = "
     GROUP BY
         d.idDepartamento,
         d.nombre
-    ORDER BY d.nombre ASC
+    ORDER BY d.nombre DESC
 ";
 
 $result = $conn->query($sql);
@@ -29,7 +29,7 @@ $capçaleres = [
     ['Id Departament',      ''],
     ['Nom Departament',     ''],
     ['Nº Incidències',      ''],
-    ['Temps Total Dedicat', 'd-none d-md-table-cell'],
+    ['Temps Total Dedicat', ''],
 ];
 ?>
 
@@ -60,14 +60,21 @@ $capçaleres = [
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
-                            <td class="fw-bold">#<?= $inc['idDepartamento'] ?></td>
-                            <td><?= htmlspecialchars($inc['nomDepartament']) ?></td>
-                            <td>
-                                <span class="badge bg-secondary">
-                                    <?= $inc['nombreIncidencies'] ?>
+                            <td style="width: 1%; white-space: nowrap;" class="px-3">
+                                <span class="badge rounded-pill border border-primary text-primary fw-bold" style="border-width: 2px !important;">
+                                    <?= $inc['idDepartamento'] ?>
                                 </span>
                             </td>
-                            <td class="d-none d-md-table-cell">
+
+                            <td class="fw-bold"><?= htmlspecialchars($inc['nomDepartament']) ?></td>
+
+                            <td>
+                                <span class="fw-bold">
+                                    #<?= $inc['nombreIncidencies'] ?>
+                                </span>
+                            </td>
+
+                            <td>
                                 <i class="fa-regular fa-clock me-1 text-primary"></i>
                                 <?= gmdate('H:i:s', $inc['tempsTotalDedicat']) ?>
                             </td>

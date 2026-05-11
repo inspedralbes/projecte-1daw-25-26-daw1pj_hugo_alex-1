@@ -33,13 +33,13 @@ $last = $collection->findOne([], ['sort' => ['timestamp' => -1]]);
 include_once "header.php";
 ?>
 
-<div class="container">
+<div class="container px-3 mt-4">
     <h4 class="mb-4"><i class="fa-solid fa-chart-line me-2"></i>Panell d'accessos</h4>
 
     <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
-                <div class="card-body">
+                <div class="card-body p-2 p-md-3">
                     <div class="text-muted small mb-1">Total accessos</div>
                     <div class="fs-2 fw-bold text-primary"><?= $total ?></div>
                 </div>
@@ -47,7 +47,7 @@ include_once "header.php";
         </div>
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
-                <div class="card-body">
+                <div class="card-body p-2 p-md-3">
                     <div class="text-muted small mb-1">Pàgines úniques</div>
                     <div class="fs-2 fw-bold text-primary"><?= count($pagines) ?></div>
                 </div>
@@ -55,7 +55,7 @@ include_once "header.php";
         </div>
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
-                <div class="card-body">
+                <div class="card-body p-2 p-md-3">
                     <div class="text-muted small mb-1">Dies amb dades</div>
                     <div class="fs-2 fw-bold text-primary"><?= count($perDia) ?></div>
                 </div>
@@ -63,7 +63,7 @@ include_once "header.php";
         </div>
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
-                <div class="card-body">
+                <div class="card-body p-2 p-md-3">
                     <div class="text-muted small mb-1">Última visita</div>
                     <div class="fs-5 fw-bold text-primary">
                         <?= $last ? $last['timestamp']->toDateTime()->format('H:i:s') : '-' ?>
@@ -78,7 +78,9 @@ include_once "header.php";
             <div class="card h-100">
                 <div class="card-body">
                     <h6 class="card-title text-muted">Accessos per dia</h6>
-                    <canvas id="graficDies"></canvas>
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="graficDies"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,7 +96,7 @@ include_once "header.php";
                     ?>
                     <div class="mb-2">
                         <div class="d-flex justify-content-between small mb-1">
-                            <span class="text-truncate me-2" style="max-width:200px" title="<?= htmlspecialchars($p['_id'] ?? '-') ?>">
+                            <span class="text-truncate me-2" style="max-width:180px" title="<?= htmlspecialchars($p['_id'] ?? '-') ?>">
                                 <?= htmlspecialchars($p['_id'] ?? '-') ?>
                             </span>
                             <span class="fw-bold"><?= $p['total'] ?></span>
@@ -113,26 +115,26 @@ include_once "header.php";
         <div class="card-body">
             <h6 class="card-title text-muted">Últims accessos</h6>
             <div class="table-responsive">
-                <table class="table table-striped table-hover table-sm align-middle mb-0">
-                    <thead>
+                <table class="table table-striped table-hover table-sm align-middle mb-0" style="font-size: 0.85em;">
+                    <thead class="table-light">
                         <tr>
-                            <th class="bg-primary text-white p-2 border-primary">Hora</th>
-                            <th class="bg-primary text-white p-2 border-primary">Mètode</th>
-                            <th class="bg-primary text-white p-2 border-primary">URL</th>
-                            <th class="bg-primary text-white p-2 border-primary d-none d-md-table-cell">IP</th>
+                            <th class="p-2">Hora</th>
+                            <th class="p-2">Mètode</th>
+                            <th class="p-2">URL</th>
+                            <th class="p-2">IP</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($ultims as $doc): ?>
                         <tr>
-                            <td class="text-nowrap"><?= $doc['timestamp']->toDateTime()->format('Y-m-d H:i:s') ?></td>
-                            <td>
+                            <td class="text-nowrap p-2"><?= $doc['timestamp']->toDateTime()->format('Y-m-d H:i:s') ?></td>
+                            <td class="p-2">
                                 <span class="badge <?= ($doc['method'] ?? 'GET') === 'POST' ? 'bg-primary' : 'bg-success' ?>">
                                     <?= htmlspecialchars($doc['method'] ?? '-') ?>
                                 </span>
                             </td>
-                            <td class="text-truncate" style="max-width:200px"><?= htmlspecialchars($doc['url'] ?? '-') ?></td>
-                            <td class="d-none d-md-table-cell"><?= htmlspecialchars($doc['ip'] ?? '-') ?></td>
+                            <td class="text-truncate p-2" style="max-width:150px"><?= htmlspecialchars($doc['url'] ?? '-') ?></td>
+                            <td class="p-2 font-monospace small"><?= htmlspecialchars($doc['ip'] ?? '-') ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -144,6 +146,12 @@ include_once "header.php";
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+// Eliminar cualquier instancia previa para evitar errores de renderizado
+let chartStatus = Chart.getChart("graficDies");
+if (chartStatus != undefined) {
+    chartStatus.destroy();
+}
+
 new Chart(document.getElementById('graficDies'), {
     type: 'line',
     data: {
@@ -161,10 +169,21 @@ new Chart(document.getElementById('graficDies'), {
     },
     options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        maintainAspectRatio: false, // Fundamental para que no crezca sola
+        resizeDelay: 200,            // Evita el bucle de redimensionamiento
+        plugins: { 
+            legend: { display: false } 
+        },
         scales: {
-            x: { grid: { color: '#f0f0f0' } },
-            y: { grid: { color: '#f0f0f0' }, beginAtZero: true }
+            x: { 
+                grid: { color: '#f0f0f0' },
+                ticks: { font: { size: 10 } }
+            },
+            y: { 
+                grid: { color: '#f0f0f0' }, 
+                beginAtZero: true,
+                ticks: { font: { size: 10 } }
+            }
         }
     }
 });

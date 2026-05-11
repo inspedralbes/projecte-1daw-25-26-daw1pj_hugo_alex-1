@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Lógica para cerrar incidencia (Nueva)
+    // Lógica para cerrar incidencia
     if (isset($_POST['tancar'])) {
         $conn->query("UPDATE INCIDENCIA SET fechaFin = NOW() WHERE idIncidencia = $id");
-        exit; // El JS se encarga de recargar
+        exit;
     }
 
     $camposPermesos = ['prioritat', 'idTipo', 'idTecnico', 'idDepartamento'];
@@ -67,18 +67,14 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
         <a href="vista_consum_departaments.php" class="btn btn-outline-primary btn-sm">Consum per Departaments</a>
     </div>
 
-    <p class="text-muted small mb-3">
-        <i class="fa-solid fa-hand-pointer text-primary"></i> Fes clic a la descripció per veure-la completa. Els canvis es guarden automàticament.
-    </p>
+    <div id="alertDescripcio" class="alert alert-primary d-none alert-dismissible fade show mt-2 shadow" role="alert">
+        <strong>Detall de la descripció:</strong>
+        <div id="alertText" class="mt-1"></div>
+        <button type="button" class="btn-close" onclick="this.parentElement.classList.add('d-none')"></button>
+    </div>
 
     <div id="alertGuardat" class="alert alert-success d-none shadow-sm" role="alert" style="position:fixed; top:20px; right:20px; z-index:1050;">
         <i class="fa-solid fa-check-circle me-2"></i> Operació realitzada correctament!
-    </div>
-
-    <div id="alertDescripcio" class="alert alert-secondary alert-dismissible d-none shadow" role="alert" style="position:sticky; top:70px; z-index:999; overflow-wrap: break-word;">
-        <strong>Descripció completa:</strong><br>
-        <span id="alertText"></span>
-        <button type="button" class="btn-close" onclick="document.getElementById('alertDescripcio').classList.add('d-none')"></button>
     </div>
 
     <?php if ($result->num_rows === 0): ?>
@@ -103,7 +99,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
                             <td class="fw-bold">#<?= $inc['idIncidencia'] ?></td>
-
                             <td style="width: 90px;">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'prioritat', this.value)">
                                     <option value="Alta" <?= $inc['prioritat'] === 'Alta'  ? 'selected' : '' ?>>Alta</option>
@@ -111,7 +106,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                     <option value="Baixa" <?= $inc['prioritat'] === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
                                 </select>
                             </td>
-
                             <td style="width: 100px;">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idTipo', this.value)">
                                     <?php foreach ($tipus as $t): ?>
@@ -121,7 +115,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-
                             <td style="width: 110px;">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idTecnico', this.value)">
                                     <option value="" <?= $inc['idTecnico'] === null ? 'selected' : '' ?>>---</option>
@@ -132,7 +125,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-
                             <td style="width: 110px;">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idDepartamento', this.value)">
                                     <option value="" <?= ($inc['idDepartamento'] ?? null) === null ? 'selected' : '' ?>>---</option>
@@ -143,38 +135,32 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-
                             <td><?= $inc['fechaInicio'] ?></td>
                             <td class="<?= $inc['fechaFin'] ? 'text-muted' : 'text-success fw-bold' ?>">
                                 <?= $inc['fechaFin'] ?? 'Oberta' ?>
                             </td>
 
-                            <td class="text-truncate" style="max-width: 120px; cursor: pointer;"
+                            <td class="text-truncate" style="max-width: 150px; cursor: pointer;"
                                 onclick="document.getElementById('alertText').innerText=this.dataset.desc; document.getElementById('alertDescripcio').classList.remove('d-none')"
                                 data-desc="<?= htmlspecialchars($inc['descripcion']) ?>">
                                 <?= htmlspecialchars($inc['descripcion']) ?>
                             </td>
 
-                            <td class="text-nowrap">
+                            <td class="text-nowrap text-center">
                                 <div class="d-flex justify-content-center align-items-center" style="gap: 4px;">
-                                    <div style="width: 30px; display: flex; justify-content: center;">
+                                    <div style="width: 30px;">
                                         <?php if (!$inc['fechaFin']): ?>
                                             <button onclick="tancarIncidencia(<?= $inc['idIncidencia'] ?>)" class="btn btn-outline-success btn-sm" title="Tancar">
                                                 <i class="fa-solid fa-lock-open"></i>
                                             </button>
                                         <?php else: ?>
-                                            <button class="btn btn-secondary btn-sm" disabled>
-                                                <i class="fa-solid fa-lock"></i>
-                                            </button>
+                                            <button class="btn btn-secondary btn-sm" disabled><i class="fa-solid fa-lock"></i></button>
                                         <?php endif; ?>
                                     </div>
-
-                                    <form method="POST" class="m-0 " title="Esborrar" onsubmit="return confirm('Eliminar?')">
+                                    <form method="POST" class="m-0" onsubmit="return confirm('Eliminar?')">
                                         <input type="hidden" name="eliminar" value="1">
                                         <input type="hidden" name="id" value="<?= $inc['idIncidencia'] ?>">
-                                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                                            <i class="fas fa-trash-can"></i>
-                                        </button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-can"></i></button>
                                     </form>
                                 </div>
                             </td>

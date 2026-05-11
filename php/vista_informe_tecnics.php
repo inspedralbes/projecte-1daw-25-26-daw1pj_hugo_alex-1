@@ -28,12 +28,12 @@ $sql = "
 $result = $conn->query($sql);
 
 $capçaleres = [
-    ['Tècnic',               ''],
+    ['Tècnic',           ''],
     ['ID',                   ''],
     ['Prioritat',           ''],
     ['Data Inici',          ''],
-    ['Temps Dedicat',       'd-none d-md-table-cell'],
-    ['Descripció',          'd-none d-md-table-cell'],
+    ['Temps Dedicat',       ''],
+    ['Descripció',          ''],
 ];
 ?>
 
@@ -47,11 +47,17 @@ $capçaleres = [
         </a>
     </div>
 
+    <div id="alertDescripcio" class="alert alert-primary d-none alert-dismissible fade show mt-2" role="alert">
+        <strong>Detall de la descripció:</strong>
+        <div id="alertText" class="mt-1"></div>
+        <button type="button" class="btn-close" onclick="this.parentElement.classList.add('d-none')"></button>
+    </div>
+
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències obertes assignades a cap tècnic.</div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.75em;">
+            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.72em; min-width: 1000px;">
                 <thead>
                     <tr>
                         <?php foreach ($capçaleres as [$label, $classes]): ?>
@@ -65,10 +71,9 @@ $capçaleres = [
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
                             <td class="fw-bold text-primary"><?= htmlspecialchars($inc['nomTecnic']) ?></td>
-                            <td>#<?= $inc['idIncidencia'] ?></td>
+                            <td class="fw-bold">#<?= $inc['idIncidencia'] ?></td>
                             <td>
                                 <?php
-                                // Lógica de colores solicitada
                                 $color = match($inc['prioritat']) {
                                     'Alta'  => 'danger',
                                     'Mitja' => 'warning',
@@ -81,11 +86,13 @@ $capçaleres = [
                                 </span>
                             </td>
                             <td><?= $inc['dataInici'] ?></td>
-                            <td class="d-none d-md-table-cell">
+                            <td>
                                 <i class="fa-regular fa-clock me-1 text-primary"></i>
                                 <?= gmdate('H:i:s', $inc['tempsTotalDedicat']) ?>
                             </td>
-                            <td class="d-none d-md-table-cell text-truncate" style="max-width: 250px;">
+                            <td class="text-truncate" style="max-width: 250px; cursor: pointer;" 
+                                onclick="document.getElementById('alertText').innerText=this.dataset.desc; document.getElementById('alertDescripcio').classList.remove('d-none')" 
+                                data-desc="<?= htmlspecialchars($inc['descripcioIncidencia']) ?>">
                                 <?= htmlspecialchars($inc['descripcioIncidencia']) ?>
                             </td>
                         </tr>

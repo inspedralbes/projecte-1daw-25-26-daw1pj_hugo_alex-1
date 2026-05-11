@@ -95,7 +95,7 @@
             </div>
 
             <!-- Escriptori: barra centrada + botons a la dreta -->
-            <form action="detall_incidencia.php" method="GET" class="input-group d-none d-md-flex position-absolute start-50 translate-middle-x" style="max-width: 260px;">
+            <form action="detall_incidencia.php" method="GET" class="input-group d-none d-md-flex position-absolute start-50 translate-middle-x" style="max-width: 360px;">
                 <span class="input-group-text">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
