@@ -11,7 +11,7 @@ $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
     </div>
     <div class="card shadow-sm">
         <div class="card-body">
-            <form method="POST" action="crear_incidencia.php">
+            <form method="POST" action="crear_incidencia.php" id="formulariIncidencia">
                 <div class="mb-3">
                     <label for="idTipus" class="form-label">Tipus:</label>
                     <select name="idTipus" id="idTipus" class="form-select">
@@ -39,4 +39,17 @@ $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector('#formulariIncidencia').addEventListener('submit', function(e) {
+    const descripcio = document.getElementById('descripcio').value.trim();
+    if(!descripcio){
+        e.preventDefault();
+        alert('Has d\'escriure una descripció per a la incidència!');
+    } else if(descripcio.length < 20){
+        e.preventDefault();
+        alert('La descripció ha de tenir com a mínim 20 caràcters!');
+    }
+});
+</script>
 <?php include_once "fotter.php"; ?>
