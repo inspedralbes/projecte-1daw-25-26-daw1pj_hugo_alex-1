@@ -1,23 +1,6 @@
 <?php
 include_once "connexio.php";
 
-$columnesPermeses = [
-    'idIncidencia' => 'i.idIncidencia',
-    'tipo'         => 'tp.nombre',
-    'departamento' => 'd.nombre',
-    'tecnico'      => 't.nombre',
-    'fechaInicio'  => 'i.fechaInicio',
-    'fechaFin'     => 'i.fechaFin',
-    'descripcion'  => 'i.descripcion',
-];
-
-$orderBy  = $_GET['order'] ?? 'idIncidencia';
-$orderDir = $_GET['dir']   ?? 'ASC';
-
-if (!array_key_exists($orderBy, $columnesPermeses)) $orderBy = 'idIncidencia';
-if (!in_array($orderDir, ['ASC', 'DESC']))           $orderDir = 'ASC';
-
-$orderCol = $columnesPermeses[$orderBy];
 $filtreWhere = "WHERE 1=1";
 if (!empty($_GET['tipus'])) {
     $tipus = $conn->real_escape_string($_GET['tipus']);
@@ -30,7 +13,6 @@ if (!empty($_GET['estat'])) {
         $filtreWhere .= " AND i.fechaFin IS NOT NULL";
     }
 }
-$nextDir  = $orderDir === 'ASC' ? 'DESC' : 'ASC';
 
 $sql = "
     SELECT 
@@ -47,19 +29,19 @@ $sql = "
     LEFT JOIN DEPARTAMENTO d ON i.idDepartamento = d.idDepartamento
     LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
     $filtreWhere
-    ORDER BY $orderCol $orderDir
+    ORDER BY i.idIncidencia ASC
 ";
 
 $result = $conn->query($sql);
 
 $capçaleres = [
-    ['ID',          'idIncidencia', ''],
-    ['Tipus',       'tipo',         ''],
-    ['Departament', 'departamento', ''],
-    ['Tècnic',      'tecnico',      ''],
-    ['Data Inici',  'fechaInicio',  ''],
-    ['Data Fi',     'fechaFin',     ''],
-    ['Descripció',  null,           'd-none d-md-table-cell'],
+    ['ID',          ''],
+    ['Tipus',       ''],
+    ['Departament', ''],
+    ['Tècnic',      ''],
+    ['Data Inici',  ''],
+    ['Data Fi',     ''],
+    ['Descripció',  'd-none d-md-table-cell'],
 ];
 ?>
 
@@ -70,32 +52,26 @@ $capçaleres = [
         <h2 class="mb-0">Llistat d'Incidències</h2>
         <a href="formulari_incidencia.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
-
-<div class="container-fluid px-3">
-    <h2 class="mb-4">Llistat d'Incidències</h2>
-
-    <a href="formulari_incidencia.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
-    <br><br>
     <form method="GET" class="d-flex gap-2 mb-3">
-    <select name="tipus" class="form-select form-select-sm" style="width:auto;">
-        <option value="">Tots els Tipus</option>
-        <?php
-        $tiposFilter = $conn->query("SELECT idTipo, nombre FROM TIPO");
-        while($t = $tiposFilter->fetch_assoc()):
-        ?>
-            <option value="<?= $t['idTipo'] ?>" <?= ($_GET['tipus'] ?? '') == $t['idTipo'] ? 'selected' : '' ?>>
-                <?= $t['nombre'] ?>
-            </option>
-        <?php endwhile; ?>
-    </select>
-    <select name="estat" class="form-select form-select-sm" style="width:auto;">
-        <option value="">Tots els Estats</option>
-        <option value="oberta" <?= ($_GET['estat'] ?? '') === 'oberta' ? 'selected' : '' ?>>Oberta</option>
-        <option value="tancada" <?= ($_GET['estat'] ?? '') === 'tancada' ? 'selected' : '' ?>>Tancada</option>
-    </select>
-    <button type="submit" class="btn btn-sm btn-outline-secondary">Filtrar</button>
-</form>
-   
+        <select name="tipus" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Tots els Tipus</option>
+            <?php
+            $tiposFilter = $conn->query("SELECT idTipo, nombre FROM TIPO");
+            while($t = $tiposFilter->fetch_assoc()):
+            ?>
+                <option value="<?= $t['idTipo'] ?>" <?= ($_GET['tipus'] ?? '') == $t['idTipo'] ? 'selected' : '' ?>>
+                    <?= $t['nombre'] ?>
+                </option>
+            <?php endwhile; ?>
+        </select>
+        <select name="estat" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Tots els Estats</option>
+            <option value="oberta" <?= ($_GET['estat'] ?? '') === 'oberta' ? 'selected' : '' ?>>Oberta</option>
+            <option value="tancada" <?= ($_GET['estat'] ?? '') === 'tancada' ? 'selected' : '' ?>>Tancada</option>
+        </select>
+        <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
+    </form>
+
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
     <?php else: ?>
@@ -103,21 +79,8 @@ $capçaleres = [
             <table class="table table-striped table-hover table-sm align-bottom" style="font-size: 0.75em;">
                 <thead class="table-primary">
                     <tr>
-                        <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
-                            <th class="<?= $classes ?>">
-                                <?php if ($col):
-                                    $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
-                                    $icon = ($orderBy === $col)
-                                        ? ($orderDir === 'ASC' ? 'fa-chevron-up' : 'fa-chevron-down')
-                                        : 'fa-chevron-up text-muted';
-                                ?>
-                                    <a href="?order=<?= $col ?>&dir=<?= $dir ?>" class="text-decoration-none text-dark">
-                                        <?= $label ?> <i class="fa-solid <?= $icon ?>" style="font-size:0.75em;"></i>
-                                    </a>
-                                <?php else: ?>
-                                    <?= $label ?>
-                                <?php endif; ?>
-                            </th>
+                        <?php foreach ($capçaleres as [$label, $classes]): ?>
+                            <th class="<?= $classes ?>"><?= $label ?></th>
                         <?php endforeach; ?>
                     </tr>
                 </thead>
@@ -130,9 +93,7 @@ $capçaleres = [
                             <td><?= $inc['tecnico'] ?? 'Sense assignar' ?></td>
                             <td><?= $inc['fechaInicio'] ?></td>
                             <td><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
-                            <td class="d-none d-md-table-cell"><?= $inc['descripcion'] ?>
-                                <?= htmlspecialchars($inc['descripcion']) ?>
-                            </td>
+                            <td class="d-none d-md-table-cell"><?= htmlspecialchars($inc['descripcion']) ?></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

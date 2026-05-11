@@ -1,44 +1,26 @@
 <?php
 include_once "connexio.php";
 
-$columnesPermeses = [
-    'idIncidencia' => 'i.idIncidencia',
-    'prioritat'    => 'i.prioritat',
-    'tipo'         => 'tp.nombre',
-    'departamento' => 'd.nombre',
-    'tecnico'      => 't.nombre',
-    'fechaInicio'  => 'i.fechaInicio',
-    'descripcion'  => 'i.descripcion',
-];
-
 $tecnic = $_GET['tecnic'] ?? null;
 if (!$tecnic) {
     header("Location: tecnic.php");
     exit;
 }
 
-$orderBy  = $_GET['order'] ?? 'idIncidencia';
-$orderDir = $_GET['dir']   ?? 'ASC';
-
-if (!array_key_exists($orderBy, $columnesPermeses)) $orderBy = 'idIncidencia';
-if (!in_array($orderDir, ['ASC', 'DESC']))           $orderDir = 'ASC';
-
-$orderCol = $columnesPermeses[$orderBy];
 $filtreWhere = "WHERE t.nombre = '" . $conn->real_escape_string($tecnic) . "'";
 if (!empty($_GET['prioritat'])) {
     $prioritat = $conn->real_escape_string($_GET['prioritat']);
     $filtreWhere .= " AND i.prioritat = '$prioritat'";
 }
-if(!empty($_GET['estado'])){
-    if ($_GET['estado'] === 'Oberta'){
+if (!empty($_GET['estado'])) {
+    if ($_GET['estado'] === 'Oberta') {
         $filtreWhere .= " AND i.fechaFin IS NULL";
     } else {
         $filtreWhere .= " AND i.fechaFin IS NOT NULL";
     }
-}else {
+} else {
     $filtreWhere .= " AND i.fechaFin IS NULL";
 }
-$nextDir  = $orderDir === 'ASC' ? 'DESC' : 'ASC';
 
 $sql = "
     SELECT 
@@ -54,19 +36,19 @@ $sql = "
     LEFT JOIN DEPARTAMENTO d ON i.idDepartamento = d.idDepartamento
     LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
     $filtreWhere
-    ORDER BY $orderCol $orderDir
+    ORDER BY i.idIncidencia ASC
 ";
 
 $result = $conn->query($sql);
 
 $capçaleres = [
-    ['ID',          'idIncidencia', ''],
-    ['Prioritat',   'prioritat',    ''],
-    ['Tipus',       'tipo',         ''],
-    ['Departament', 'departamento', ''],
-    ['Data Inici',  'fechaInicio',  ''],
-    ['Descripció',  null,           'd-none d-md-table-cell'],
-    ['',             null,        ''],
+    ['ID',          ''],
+    ['Prioritat',   ''],
+    ['Tipus',       ''],
+    ['Departament', ''],
+    ['Data Inici',  ''],
+    ['Descripció',  'd-none d-md-table-cell'],
+    ['',            ''],
 ];
 ?>
 
@@ -77,21 +59,22 @@ $capçaleres = [
         <h2>Incidències de <?= htmlspecialchars($tecnic) ?></h2>
         <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
-        <form method="GET" class="d-flex gap-2 mb-3">
-            <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
+    <form method="GET" class="d-flex gap-2 mb-3">
+        <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
         <select name="prioritat" class="form-select form-select-sm" style="width:auto;">
             <option value="">Totes les Prioritats</option>
-            <option value="Baixa" <?= isset($_GET['prioritat']) && $_GET['prioritat'] === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
-            <option value="Mitja" <?= isset($_GET['prioritat']) && $_GET['prioritat'] === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
-            <option value="Alta"  <?= isset($_GET['prioritat']) && $_GET['prioritat'] === 'Alta'  ? 'selected' : '' ?>>Alta</option>
+            <option value="Baixa" <?= ($_GET['prioritat'] ?? '') === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
+            <option value="Mitja" <?= ($_GET['prioritat'] ?? '') === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
+            <option value="Alta"  <?= ($_GET['prioritat'] ?? '') === 'Alta'  ? 'selected' : '' ?>>Alta</option>
         </select>
         <select name="estado" class="form-select form-select-sm" style="width:auto;">
             <option value="">Tots els Estats</option>
-            <option value="Oberta" <?= isset($_GET['estado']) && $_GET['estado'] === 'Oberta' ? 'selected' : '' ?>>Oberta</option>
-            <option value="Tancada" <?= isset($_GET['estado']) && $_GET['estado'] === 'Tancada' ? 'selected' : '' ?>>Tancada</option>
+            <option value="Oberta"  <?= ($_GET['estado'] ?? '') === 'Oberta'  ? 'selected' : '' ?>>Oberta</option>
+            <option value="Tancada" <?= ($_GET['estado'] ?? '') === 'Tancada' ? 'selected' : '' ?>>Tancada</option>
         </select>
-        <button type="submit" class="btn btn-sm btn-outline-secondary">Filtrar</button>
-    </form> 
+        <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
+    </form>
+
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-success">No hi ha incidències pendents.</div>
     <?php else: ?>
@@ -100,21 +83,8 @@ $capçaleres = [
                 <table class="table table-striped table-hover table-sm">
                     <thead class="table-primary">
                         <tr>
-                            <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
-                                <th class="<?= $classes ?>">
-                                    <?php if ($col):
-                                        $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
-                                        $icon = ($orderBy === $col)
-                                            ? ($orderDir === 'ASC' ? 'fa-chevron-up' : 'fa-chevron-down')
-                                            : 'fa-chevron-up text-muted';
-                                    ?>
-                                        <a href="?order=<?= $col ?>&dir=<?= $dir ?>&tecnic=<?= urlencode($tecnic) ?>" class="text-decoration-none text-dark">
-                                            <?= $label ?> <i class="fa-solid <?= $icon ?>" style="font-size:0.75em;"></i>
-                                        </a>
-                                    <?php else: ?>
-                                        <?= $label ?>
-                                    <?php endif; ?>
-                                </th>
+                            <?php foreach ($capçaleres as [$label, $classes]): ?>
+                                <th class="<?= $classes ?>"><?= $label ?></th>
                             <?php endforeach; ?>
                         </tr>
                     </thead>
