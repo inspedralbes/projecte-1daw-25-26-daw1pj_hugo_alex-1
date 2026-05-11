@@ -94,17 +94,17 @@ include_once "header.php";
                     foreach ($pagines as $p):
                         $pct = round(($p['total'] / $maxVisites) * 100);
                     ?>
-                    <div class="mb-2">
-                        <div class="d-flex justify-content-between small mb-1">
-                            <span class="text-truncate me-2" style="max-width:180px" title="<?= htmlspecialchars($p['_id'] ?? '-') ?>">
-                                <?= htmlspecialchars($p['_id'] ?? '-') ?>
-                            </span>
-                            <span class="fw-bold"><?= $p['total'] ?></span>
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span class="text-truncate me-2" style="max-width:180px" title="<?= htmlspecialchars($p['_id'] ?? '-') ?>">
+                                    <?= htmlspecialchars($p['_id'] ?? '-') ?>
+                                </span>
+                                <span class="fw-bold"><?= $p['total'] ?></span>
+                            </div>
+                            <div class="progress" style="height:6px">
+                                <div class="progress-bar" style="width:<?= $pct ?>%"></div>
+                            </div>
                         </div>
-                        <div class="progress" style="height:6px">
-                            <div class="progress-bar" style="width:<?= $pct ?>%"></div>
-                        </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -116,77 +116,90 @@ include_once "header.php";
             <h6 class="card-title text-muted">Últims accessos</h6>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm align-middle mb-0" style="font-size: 0.85em;">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
-                            <th class="p-2">Hora</th>
-                            <th class="p-2">Mètode</th>
-                            <th class="p-2">URL</th>
-                            <th class="p-2">IP</th>
+                            <th class="bg-primary text-white p-2 border-primary">Hora</th>
+                            <th class="bg-primary text-white p-2 border-primary">Mètode</th>
+                            <th class="bg-primary text-white p-2 border-primary">URL</th>
+                            <th class="bg-primary text-white p-2 border-primary">IP</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($ultims as $doc): ?>
-                        <tr>
-                            <td class="text-nowrap p-2"><?= $doc['timestamp']->toDateTime()->format('Y-m-d H:i:s') ?></td>
-                            <td class="p-2">
-                                <span class="badge <?= ($doc['method'] ?? 'GET') === 'POST' ? 'bg-primary' : 'bg-success' ?>">
-                                    <?= htmlspecialchars($doc['method'] ?? '-') ?>
-                                </span>
-                            </td>
-                            <td class="text-truncate p-2" style="max-width:150px"><?= htmlspecialchars($doc['url'] ?? '-') ?></td>
-                            <td class="p-2 font-monospace small"><?= htmlspecialchars($doc['ip'] ?? '-') ?></td>
-                        </tr>
-                    <?php endforeach; ?>
+                        <?php foreach ($ultims as $doc): ?>
+                            <tr>
+                                <td class="text-nowrap p-2"><?= $doc['timestamp']->toDateTime()->format('Y-m-d H:i:s') ?></td>
+                                <td class="p-2">
+                                    <span class="badge <?= ($doc['method'] ?? 'GET') === 'POST' ? 'bg-primary' : 'bg-success' ?>">
+                                        <?= htmlspecialchars($doc['method'] ?? '-') ?>
+                                    </span>
+                                </td>
+                                <td class="text-truncate p-2" style="max-width:150px"><?= htmlspecialchars($doc['url'] ?? '-') ?></td>
+                                <td class="p-2 font-monospace small"><?= htmlspecialchars($doc['ip'] ?? '-') ?></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-// Eliminar cualquier instancia previa para evitar errores de renderizado
-let chartStatus = Chart.getChart("graficDies");
-if (chartStatus != undefined) {
-    chartStatus.destroy();
-}
-
-new Chart(document.getElementById('graficDies'), {
-    type: 'line',
-    data: {
-        labels: <?= json_encode($diesLabels) ?>,
-        datasets: [{
-            label: 'Accessos',
-            data: <?= json_encode($diesDades) ?>,
-            borderColor: '#0d6efd',
-            backgroundColor: 'rgba(13,110,253,0.08)',
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#0d6efd',
-            pointRadius: 4,
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false, // Fundamental para que no crezca sola
-        resizeDelay: 200,            // Evita el bucle de redimensionamiento
-        plugins: { 
-            legend: { display: false } 
-        },
-        scales: {
-            x: { 
-                grid: { color: '#f0f0f0' },
-                ticks: { font: { size: 10 } }
-            },
-            y: { 
-                grid: { color: '#f0f0f0' }, 
-                beginAtZero: true,
-                ticks: { font: { size: 10 } }
-            }
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Eliminar cualquier instancia previa para evitar errores de renderizado
+        let chartStatus = Chart.getChart("graficDies");
+        if (chartStatus != undefined) {
+            chartStatus.destroy();
         }
-    }
-});
-</script>
 
-<?php include_once "fotter.php"; ?>
+        new Chart(document.getElementById('graficDies'), {
+            type: 'line',
+            data: {
+                labels: <?= json_encode($diesLabels) ?>,
+                datasets: [{
+                    label: 'Accessos',
+                    data: <?= json_encode($diesDades) ?>,
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13,110,253,0.08)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#0d6efd',
+                    pointRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Fundamental para que no crezca sola
+                resizeDelay: 200, // Evita el bucle de redimensionamiento
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#f0f0f0'
+                        },
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <?php include_once "fotter.php"; ?>
