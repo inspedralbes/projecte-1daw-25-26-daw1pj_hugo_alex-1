@@ -5,7 +5,10 @@ $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
 ?>
 <?php include_once "header.php"; ?>
 <div class="container">
-    <h2 class="mb-4">Nova Incidència</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Nova Incidència</h2>
+        <a href="index.php" class="btn btn-outline-primary btn-sm">← Tornar</a>
+    </div>
     <div class="card shadow-sm">
         <div class="card-body">
             <form method="POST" action="crear_incidencia.php">

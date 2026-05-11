@@ -20,12 +20,12 @@ $tecnics = $conn->query("SELECT * FROM TECNICO")->fetch_all(MYSQLI_ASSOC);
             <?php endforeach; ?>
         </select>
         <button type="submit" class="btn btn-primary btn-lg w-100 shadow">
-            Accedir
+            <i class="fa-solid fa-door-closed"></i> Accedir
         </button>
         <br>
         <br>
         
-        <a href="historial_actuacions.php" class="btn btn-primary btn-lg w-100 shadow">Historial d'actuacions</a>
+        <a href="historial_actuacions.php" class="btn btn-primary btn-lg w-100 shadow"><i class="fa-solid fa-clock"></i> Historial d'actuacions</a>
         
     </form>
 </div>
