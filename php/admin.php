@@ -1,21 +1,17 @@
 <?php
 include_once "connexio.php";
 
-
-// Guardar cambio via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id    = (int) $_POST['id'];
     $campo = $_POST['campo'] ?? '';
     $valor = $_POST['valor'] ?? '';
 
-    // Eliminar
     if (isset($_POST['eliminar'])) {
         $conn->query("DELETE FROM INCIDENCIA WHERE idIncidencia = $id");
         header('Location: admin.php');
         exit;
     }
 
-    // Guardar camp
     $camposPermesos = ['prioritat', 'idTipo', 'idTecnico', 'idDepartamento'];
     if (in_array($campo, $camposPermesos)) {
         if ($valor === '') $valor = 'NULL';
@@ -45,16 +41,32 @@ $sql = "
     ORDER BY FIELD(i.prioritat, 'Alta', 'Mitja', 'Baixa')
 ";
 
-$result  = $conn->query($sql);
-$tecnics = $conn->query("SELECT * FROM TECNICO")->fetch_all(MYSQLI_ASSOC);
-$tipus   = $conn->query("SELECT * FROM TIPO")->fetch_all(MYSQLI_ASSOC);
+$result       = $conn->query($sql);
+$tecnics      = $conn->query("SELECT * FROM TECNICO")->fetch_all(MYSQLI_ASSOC);
+$tipus        = $conn->query("SELECT * FROM TIPO")->fetch_all(MYSQLI_ASSOC);
 $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <?php include_once "header.php"; ?>
 
 <div class="container-fluid px-3">
-    <h2 class="mb-4">Panell d'Administració</h2>
+    <h2 class="mb-3">Panell d'Administració</h2>
+    <p class="text-muted small mb-3">
+        <i class="fa-solid fa-hand-pointer"></i> Fes clic a la descripció per veure-la completa
+    </p>
+
+    <!-- Alert guardat -->
+    <div id="alertGuardat" class="alert alert-success d-none" role="alert"
+        style="position:sticky; top:70px; z-index:999;">
+        Canvi guardat correctament!
+    </div>
+
+    <!-- Alert descripció -->
+    <div id="alertDescripcio" class="alert alert-secondary alert-dismissible d-none" role="alert"
+        style="position:sticky; top:70px; z-index:999; overflow-wrap: break-word;">
+        <span id="alertText"></span>
+        <button type="button" class="btn-close" onclick="document.getElementById('alertDescripcio').classList.add('d-none')"></button>
+    </div>
 
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha incidències registrades.</div>
@@ -70,7 +82,8 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                         <th>Departament</th>
                         <th>Inici</th>
                         <th>Fi</th>
-                        <th>Accions</th>
+                        <th>Descripció</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,7 +101,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             </td>
 
                             <!-- Tipus -->
-                            <td style="min-width: 130px;">
+                            <td style="min-width: 110px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idTipo', this.value)">
                                     <?php foreach ($tipus as $t): ?>
                                         <option value="<?= $t['idTipo'] ?>" <?= $inc['idTipo'] == $t['idTipo'] ? 'selected' : '' ?>>
@@ -99,7 +112,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             </td>
 
                             <!-- Tècnic -->
-                            <td style="min-width: 130px;">
+                            <td style="min-width: 120px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idTecnico', this.value)">
                                     <option value="" <?= $inc['idTecnico'] === null ? 'selected' : '' ?>> --- </option>
                                     <?php foreach ($tecnics as $t): ?>
@@ -111,7 +124,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             </td>
 
                             <!-- Departament -->
-                            <td style="min-width: 130px;">
+                            <td style="min-width: 120px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idDepartamento', this.value)">
                                     <option value="" <?= ($inc['idDepartamento'] ?? null) === null ? 'selected' : '' ?>> --- </option>
                                     <?php foreach ($departaments as $d): ?>
@@ -125,8 +138,14 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             <td><?= $inc['fechaInicio'] ?></td>
                             <td><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
 
-                            <!-- AQUÍ HEMOS ELIMINADO LA CELDA DE DESCRIPCIÓN -->
+                            <!-- Descripció -->
+                            <td class="descripcio-cell"
+                                onclick="document.getElementById('alertText').innerText=this.dataset.desc; document.getElementById('alertDescripcio').classList.remove('d-none')"
+                                data-desc="<?= htmlspecialchars($inc['descripcion']) ?>">
+                                <?= htmlspecialchars($inc['descripcion']) ?>
+                            </td>
 
+                            <!-- Eliminar -->
                             <td>
                                 <form method="POST" onsubmit="return confirm('Segur que vols eliminar la incidència #<?= $inc['idIncidencia'] ?>?')">
                                     <input type="hidden" name="eliminar" value="1">
@@ -140,7 +159,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                     <?php endwhile; ?>
                 </tbody>
             </table>
-            </small>
         </div>
     <?php endif; ?>
 </div>
@@ -153,7 +171,10 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: `id=${id}&campo=${campo}&valor=${encodeURIComponent(valor)}`
-        }).then(() => location.reload());
+        }).then(() => {
+            document.getElementById('alertGuardat').classList.remove('d-none');
+            setTimeout(() => location.reload(), 1000);
+        });
     }
 </script>
 

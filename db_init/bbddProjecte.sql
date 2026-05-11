@@ -45,7 +45,7 @@ CREATE TABLE ACCION (
     idAccion INT (11) AUTO_INCREMENT PRIMARY KEY,
     idIncidencia INT (11),
     comentario VARCHAR (2000),
-    tiempo INT (3) NOT NULL,
+    tiempo TIME NOT NULL,
     fechaAccion TIMESTAMP NOT NULL,
     visible INT (1) NOT NULL,
     FOREIGN KEY (idIncidencia) REFERENCES INCIDENCIA (idIncidencia)

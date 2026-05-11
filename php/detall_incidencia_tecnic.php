@@ -46,32 +46,31 @@ $inc = $result->fetch_assoc();
                             <li class="list-group-item"><strong>Data de Fi:</strong> <?= $inc['fechaFin'] ?? 'Encara oberta' ?></li>
                         </ul>
 
-                        <div class="mt-4 p-3 border rounded bg-light">
-                            <strong>Descripció:</strong>
-                            <p class="mt-2"><?= $inc['descripcion'] ?></p>
+                        <div class="card-footer d-flex flex-column gap-2">
+                            <div class="d-flex gap-2">
+                                <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary flex-fill text-center">
+                                    <i class="fas fa-arrow-left"></i> Tornar a la llista
+                                </a>
+                                <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-secondary flex-fill text-center">Afegir Actuació</a>
+                            </div>
+                            <a href="historial_actuacions.php" class="btn btn-primary btn-lg w-100 shadow">Veure l'historial de les actuacions</a>
                         </div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary mb-3">
-                            <i class="fas fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
-                        </a>
-                    </div>
-                </div>
-            <?php else: ?>
-                <div class="alert alert-danger shadow-sm">
-                    <strong>Error:</strong> No s'ha trobat cap incidència con el número <strong><?= htmlspecialchars($id) ?></strong>.
-                </div>
-                <div class="text-center">
-                    <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary mb-3">
-                        <i class="fas fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
-                    </a>
-                </div>
-            <?php endif; ?>
+                    <?php else: ?>
+                        <div class="alert alert-danger shadow-sm">
+                            <strong>Error:</strong> No s'ha trobat cap incidència con el número <strong><?= htmlspecialchars($id) ?></strong>.
+                        </div>
+                        <div class="text-center">
+                            <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-secondary mb-3">
+                                <i class="fas fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
+                            </a>
+                        </div>
 
+                    <?php endif; ?>
+
+                    </div>
+                </div>
         </div>
-    </div>
-</div>
 
-<?php
-include_once "fotter.php";
-?>
+        <?php
+        include_once "fotter.php";
+        ?>
