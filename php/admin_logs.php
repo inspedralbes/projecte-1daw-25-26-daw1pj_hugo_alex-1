@@ -36,7 +36,6 @@ include_once "header.php";
 <div class="container">
     <h4 class="mb-4"><i class="fa-solid fa-chart-line me-2"></i>Panell d'accessos</h4>
 
-    <!-- Stat cards -->
     <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
@@ -75,7 +74,6 @@ include_once "header.php";
     </div>
 
     <div class="row g-3 mb-4">
-        <!-- Gràfic per dia -->
         <div class="col-12 col-lg-8">
             <div class="card h-100">
                 <div class="card-body">
@@ -85,7 +83,6 @@ include_once "header.php";
             </div>
         </div>
 
-        <!-- Pàgines més visitades -->
         <div class="col-12 col-lg-4">
             <div class="card h-100">
                 <div class="card-body">
@@ -112,19 +109,18 @@ include_once "header.php";
         </div>
     </div>
 
-    <!-- Últims accessos -->
     <div class="card mb-4">
         <div class="card-body">
             <h6 class="card-title text-muted">Últims accessos</h6>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm align-middle mb-0">
-                    <thead class="table-light">
+                    <thead>
                         <tr>
-                            <th>Hora</th>
-                            <th>Mètode</th>
-                            <th>URL</th>
-                            <th class="d-none d-md-table-cell">IP</th>
-                            <th class="d-none d-md-table-cell">Usuari</th>
+                            <th class="bg-primary text-white p-2 border-primary">Hora</th>
+                            <th class="bg-primary text-white p-2 border-primary">Mètode</th>
+                            <th class="bg-primary text-white p-2 border-primary">URL</th>
+                            <th class="bg-primary text-white p-2 border-primary d-none d-md-table-cell">IP</th>
+                            <th class="bg-primary text-white p-2 border-primary d-none d-md-table-cell">Usuari</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -49,55 +49,55 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
 
 <?php include_once "header.php"; ?>
 
-<div class="container">
+<div class="container px-4 mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-3">Panell d'Administració</h2>
+        <h2>Panell d'Administració</h2>
         <a href="index.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
-    <p class="text-muted small mb-3">
-        <i class="fa-solid fa-hand-pointer"></i> Fes clic a la descripció per veure-la completa
-    </p>
-    <a href="vista_informe_tecnics.php" class="btn btn-outline-success btn-sm">informe de tècnics</a>
-    <a href="vista_consum_departaments.php" class="btn btn-outline-success btn-sm">Consum per Departmanets</a>
-    <br><br>
-    <!-- Alert guardat -->
-    <div id="alertGuardat" class="alert alert-success d-none" role="alert"
-        style="position:sticky; top:70px; z-index:999;">
-        Canvi guardat correctament!
+
+    <div class="mb-3">
+        <a href="vista_informe_tecnics.php" class="btn btn-outline-primary btn-sm me-2">Informe de Tècnics</a>
+        <a href="vista_consum_departaments.php" class="btn btn-outline-primary btn-sm">Consum per Departaments</a>
     </div>
 
-    <!-- Alert descripció -->
-    <div id="alertDescripcio" class="alert alert-secondary alert-dismissible d-none" role="alert"
-        style="position:sticky; top:70px; z-index:999; overflow-wrap: break-word;">
+    <p class="text-muted small mb-3">
+        <i class="fa-solid fa-hand-pointer text-primary"></i> Fes clic a la descripció per veure-la completa. Els canvis es guarden automàticament.
+    </p>
+
+    <div id="alertGuardat" class="alert alert-success d-none shadow-sm" role="alert" style="position:fixed; top:20px; right:20px; z-index:1050;">
+        <i class="fa-solid fa-check-circle me-2"></i> Canvi guardat correctament!
+    </div>
+
+    <div id="alertDescripcio" class="alert alert-secondary alert-dismissible d-none shadow" role="alert" style="position:sticky; top:70px; z-index:999; overflow-wrap: break-word;">
+        <strong>Descripció completa:</strong><br>
         <span id="alertText"></span>
         <button type="button" class="btn-close" onclick="document.getElementById('alertDescripcio').classList.add('d-none')"></button>
     </div>
 
     <?php if ($result->num_rows === 0): ?>
-        <div class="alert alert-info">No hi ha incidències registrades.</div>
+        <div class="alert alert-info border-info">No hi ha incidències registrades.</div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.7em;">
-                <thead class="table-primary">
+            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.75em;">
+                <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Prioritat</th>
-                        <th>Tipus</th>
-                        <th>Tècnic</th>
-                        <th>Departament</th>
-                        <th>Inici</th>
-                        <th>Fi</th>
-                        <th>Descripció</th>
-                        <th></th>
+                        <th class="bg-primary text-white p-2 border-primary">ID</th>
+                        <th class="bg-primary text-white p-2 border-primary">Prioritat</th>
+                        <th class="bg-primary text-white p-2 border-primary">Tipus</th>
+                        <th class="bg-primary text-white p-2 border-primary">Tècnic</th>
+                        <th class="bg-primary text-white p-2 border-primary">Departament</th>
+                        <th class="bg-primary text-white p-2 border-primary">Inici</th>
+                        <th class="bg-primary text-white p-2 border-primary">Fi</th>
+                        <th class="bg-primary text-white p-2 border-primary">Descripció</th>
+                        <th class="bg-primary text-white p-2 border-primary">Acció</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?= $inc['idIncidencia'] ?></td>
+                            <td class="fw-bold">#<?= $inc['idIncidencia'] ?></td>
 
-                            <!-- Prioritat -->
-                            <td style="min-width: 90px;">
+                            <td style="min-width: 100px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'prioritat', this.value)">
                                     <option value="Alta" <?= $inc['prioritat'] === 'Alta'  ? 'selected' : '' ?>>Alta</option>
                                     <option value="Mitja" <?= $inc['prioritat'] === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
@@ -105,7 +105,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 </select>
                             </td>
 
-                            <!-- Tipus -->
                             <td style="min-width: 110px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idTipo', this.value)">
                                     <?php foreach ($tipus as $t): ?>
@@ -116,7 +115,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 </select>
                             </td>
 
-                            <!-- Tècnic -->
                             <td style="min-width: 120px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idTecnico', this.value)">
                                     <option value="" <?= $inc['idTecnico'] === null ? 'selected' : '' ?>> --- </option>
@@ -128,7 +126,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 </select>
                             </td>
 
-                            <!-- Departament -->
                             <td style="min-width: 120px;">
                                 <select class="form-select form-select-sm" onchange="guardarIRecarregar(<?= $inc['idIncidencia'] ?>, 'idDepartamento', this.value)">
                                     <option value="" <?= ($inc['idDepartamento'] ?? null) === null ? 'selected' : '' ?>> --- </option>
@@ -141,22 +138,22 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             </td>
 
                             <td><?= $inc['fechaInicio'] ?></td>
-                            <td><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
+                            <td class="<?= $inc['fechaFin'] ? 'text-muted' : 'text-success fw-bold' ?>">
+                                <?= $inc['fechaFin'] ?? 'Oberta' ?>
+                            </td>
 
-                            <!-- Descripció -->
-                            <td class="descripcio-cell"
+                            <td class="text-truncate" style="max-width: 150px; cursor: pointer;" 
                                 onclick="document.getElementById('alertText').innerText=this.dataset.desc; document.getElementById('alertDescripcio').classList.remove('d-none')"
                                 data-desc="<?= htmlspecialchars($inc['descripcion']) ?>">
                                 <?= htmlspecialchars($inc['descripcion']) ?>
                             </td>
 
-                            <!-- Eliminar -->
                             <td>
                                 <form method="POST" onsubmit="return confirm('Segur que vols eliminar la incidència #<?= $inc['idIncidencia'] ?>?')">
                                     <input type="hidden" name="eliminar" value="1">
                                     <input type="hidden" name="id" value="<?= $inc['idIncidencia'] ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-can"></i>
                                     </button>
                                 </form>
                             </td>
@@ -170,6 +167,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
 
 <script>
     function guardarIRecarregar(id, campo, valor) {
+        const alertBox = document.getElementById('alertGuardat');
         fetch('admin.php', {
             method: 'POST',
             headers: {
@@ -177,8 +175,10 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
             },
             body: `id=${id}&campo=${campo}&valor=${encodeURIComponent(valor)}`
         }).then(() => {
-            document.getElementById('alertGuardat').classList.remove('d-none');
-            setTimeout(() => location.reload(), 1000);
+            alertBox.classList.remove('d-none');
+            setTimeout(() => {
+                location.reload();
+            }, 800);
         });
     }
 </script>

@@ -7,7 +7,7 @@ if (!empty($_GET['tipus'])) {
     $filtreWhere .= " AND i.idTipo = '$tipus'";
 }
 if (!empty($_GET['estat'])) {
-    if ($_GET['estat'] === 'oberta'){
+    if ($_GET['estat'] === 'oberta') {
         $filtreWhere .= " AND i.fechaFin IS NULL";
     } else {
         $filtreWhere .= " AND i.fechaFin IS NOT NULL";
@@ -57,7 +57,7 @@ $capçaleres = [
             <option value="">Tots els Tipus</option>
             <?php
             $tiposFilter = $conn->query("SELECT idTipo, nombre FROM TIPO");
-            while($t = $tiposFilter->fetch_assoc()):
+            while ($t = $tiposFilter->fetch_assoc()):
             ?>
                 <option value="<?= $t['idTipo'] ?>" <?= ($_GET['tipus'] ?? '') == $t['idTipo'] ? 'selected' : '' ?>>
                     <?= $t['nombre'] ?>
@@ -80,7 +80,9 @@ $capçaleres = [
                 <thead class="table-primary">
                     <tr>
                         <?php foreach ($capçaleres as [$label, $classes]): ?>
-                            <th class="<?= $classes ?>"><?= $label ?></th>
+                            <th class="<?= $classes ?> bg-primary text-white p-2 border-primary">
+                                <?= $label ?>
+                            </th>
                         <?php endforeach; ?>
                     </tr>
                 </thead>

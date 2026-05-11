@@ -1,19 +1,10 @@
 <?php
 include_once "connexio.php";
 
-$columnesPermeses = [
-    'idAccion'     => 'a.idAccion',
-    'idIncidencia' => 'a.idIncidencia',
-    'tiempo'       => 'a.tiempo',
-    'fechaAccion'  => 'a.fechaAccion',
-    'comentario'   => 'a.comentario',
-];
-$orderBy  = $_GET['order'] ?? 'idIncidencia';
-$orderDir = $_GET['dir']   ?? 'ASC';
-if (!array_key_exists($orderBy, $columnesPermeses)) $orderBy = 'idIncidencia';
-if (!in_array($orderDir, ['ASC', 'DESC']))           $orderDir = 'ASC';
-$orderCol = $columnesPermeses[$orderBy];
-$nextDir  = $orderDir === 'ASC' ? 'DESC' : 'ASC';
+// 1. Intentamos capturar el ID de la incidencia de la URL para el botón "Tornar"
+// Si no viene por URL, usaremos el que salga en los resultados de la tabla
+$idRetorn = $_GET['idIncidencia'] ?? null;
+
 $sql = "
     SELECT 
         a.idAccion,
@@ -23,51 +14,51 @@ $sql = "
         DATE_FORMAT(a.fechaAccion, '%d/%m/%Y %H:%i') AS fechaAccion,
         a.visible
     FROM ACCION a
-    ORDER BY $orderCol $orderDir
+    ORDER BY a.fechaAccion DESC
 ";
 $result = $conn->query($sql);
+
 $capçaleres = [
-    ['IdActuacio',  'idAccion',     ''],
-    ['IdIncidencia','idIncidencia', ''],
-    ['Temps',       'tiempo',       ''],
-    ['Data Accio',  'fechaAccion',  ''],
-    ['Comentari',   'comentario',   'd-none d-md-table-cell'],
+    ['Id Actuació',   ''],
+    ['Id Incidència', ''],
+    ['Temps',         ''],
+    ['Data Acció',    ''],
+    ['Comentari',     'd-none d-md-table-cell'],
 ];
 ?>
 <?php include_once "header.php"; ?>
+
 <div class="container px-4 mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Historial d'Actuacions</h2>
-        <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i>Tornar</a>
+        
+        <?php 
+            // Si sabemos de qué incidencia venimos, volvemos al detalle de esa. 
+            // Si no, volvemos al panel general del técnico.
+            $urlRetorn = $idRetorn ? "detall_incidencia_tecnic.php?idBusca=$idRetorn" : "tecnic.php";
+        ?>
+        <a href="<?= $urlRetorn ?>" class="btn btn-outline-primary btn-sm">
+            <i class="fa-solid fa-arrow-left"></i> Tornar
+        </a>
     </div>
+
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info">No hi ha actuacions registrades.</div>
     <?php else: ?>
         <div class="table-responsive">
             <table class="table table-striped table-hover table-sm align-bottom" style="font-size: 0.75em;">
-                <thead class="table-primary">
+                <thead>
                     <tr>
-                        <?php foreach ($capçaleres as [$label, $col, $classes]): ?>
-                        <th class="<?= $classes ?>">
-                            <?php if ($col):
-                                $dir  = ($orderBy === $col) ? $nextDir : 'ASC';
-                                $icon = ($orderBy === $col)
-                                    ? ($orderDir === 'ASC' ? 'fa-chevron-up' : 'fa-chevron-down')
-                                    : 'fa-chevron-up text-muted';
-                            ?>
-                            <a href="?order=<?= $col ?>&dir=<?= $dir ?>" class="text-decoration-none text-dark">
-                                <?= $label ?> <i class="fa-solid <?= $icon ?>" style="font-size:0.75em;"></i>
-                            </a>
-                            <?php else: ?>
+                        <?php foreach ($capçaleres as [$label, $classes]): ?>
+                            <th class="<?= $classes ?> bg-primary text-white p-2 border-primary">
                                 <?= $label ?>
-                            <?php endif; ?>
-                        </th>
+                            </th>
                         <?php endforeach; ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
-                    <tr>
+                    <tr onclick="window.location='detall_incidencia_tecnic.php?idBusca=<?= $inc['idIncidencia'] ?>'" style="cursor:pointer;">
                         <td><?= $inc['idAccion'] ?></td>
                         <td><?= $inc['idIncidencia'] ?></td>
                         <td><?= $inc['tiempo'] ?></td>
@@ -80,4 +71,5 @@ $capçaleres = [
         </div>
     <?php endif; ?>
 </div>
+
 <?php include_once "fotter.php"; ?>

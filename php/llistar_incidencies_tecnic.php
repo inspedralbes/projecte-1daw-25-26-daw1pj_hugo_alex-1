@@ -84,7 +84,7 @@ $capçaleres = [
                     <thead class="table-primary">
                         <tr>
                             <?php foreach ($capçaleres as [$label, $classes]): ?>
-                                <th class="<?= $classes ?>"><?= $label ?></th>
+                                <th class="<?= $classes ?> bg-primary text-white p-2 border-primary"><?= $label ?></th>
                             <?php endforeach; ?>
                         </tr>
                     </thead>

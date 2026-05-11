@@ -46,7 +46,7 @@ $inc = $result->fetch_assoc();
                             <li class="list-group-item"><strong>Data de Fi:</strong> <?= $inc['fechaFin'] ?? 'Encara oberta' ?></li>
                         </ul>
 
-                        <div class="card-footer d-flex flex-column gap-2 p-3">
+                        <div class="card-footer d-flex flex-column gap-2 py-3">
                             <div class="d-flex gap-2">
                                 <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-outline-primary flex-fill text-center">
                                     <i class="fas fa-arrow-left"></i> Tornar a la llista
