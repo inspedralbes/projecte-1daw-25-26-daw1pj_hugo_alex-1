@@ -13,9 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Lógica para cerrar incidencia
+    // Lógica para cerrar/abrir incidencia
     if (isset($_POST['tancar'])) {
-        $conn->query("UPDATE INCIDENCIA SET fechaFin = NOW() WHERE idIncidencia = $id");
+        if ($_POST['tancar'] == '1') {
+            $conn->query("UPDATE INCIDENCIA SET fechaFin = NOW() WHERE idIncidencia = $id");
+        } else {
+            $conn->query("UPDATE INCIDENCIA SET fechaFin = NULL WHERE idIncidencia = $id");
+        }
         exit;
     }
 
@@ -154,7 +158,9 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                                 <i class="fa-solid fa-lock-open"></i>
                                             </button>
                                         <?php else: ?>
-                                            <button class="btn btn-secondary btn-sm" disabled><i class="fa-solid fa-lock"></i></button>
+                                            <button onclick="obrirIncidencia(<?= $inc['idIncidencia'] ?>)" class="btn btn-secondary btn-sm" title="Obrir">
+                                                <i class="fa-solid fa-lock"></i>
+                                            </button>
                                         <?php endif; ?>
                                     </div>
                                     <form method="POST" class="m-0" onsubmit="return confirm('Eliminar?')">
@@ -180,6 +186,12 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
     function tancarIncidencia(id) {
         if (confirm(`Vols tancar la incidència #${id}?`)) {
             enviarPeticio(`id=${id}&tancar=1`);
+        }
+    }
+
+    function obrirIncidencia(id) {
+        if (confirm(`Vols obrir la incidència #${id}?`)) {
+            enviarPeticio(`id=${id}&tancar=0`);
         }
     }
 
