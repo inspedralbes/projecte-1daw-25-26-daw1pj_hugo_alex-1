@@ -27,6 +27,7 @@ $sql = "
         i.idIncidencia,
         i.descripcion,
         i.prioritat,
+        i.fechaFin,
         DATE_FORMAT(i.fechaInicio, '%d/%m/%Y') AS fechaInicio,
         t.nombre AS tecnico,
         d.nombre AS departamento,
@@ -65,11 +66,11 @@ $capçaleres = [
             <option value="">Totes les Prioritats</option>
             <option value="Baixa" <?= ($_GET['prioritat'] ?? '') === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
             <option value="Mitja" <?= ($_GET['prioritat'] ?? '') === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
-            <option value="Alta"  <?= ($_GET['prioritat'] ?? '') === 'Alta'  ? 'selected' : '' ?>>Alta</option>
+            <option value="Alta" <?= ($_GET['prioritat'] ?? '') === 'Alta'  ? 'selected' : '' ?>>Alta</option>
         </select>
         <select name="estado" class="form-select form-select-sm" style="width:auto;">
             <option value="">Tots els Estats</option>
-            <option value="Oberta"  <?= ($_GET['estado'] ?? '') === 'Oberta'  ? 'selected' : '' ?>>Oberta</option>
+            <option value="Oberta" <?= ($_GET['estado'] ?? '') === 'Oberta'  ? 'selected' : '' ?>>Oberta</option>
             <option value="Tancada" <?= ($_GET['estado'] ?? '') === 'Tancada' ? 'selected' : '' ?>>Tancada</option>
         </select>
         <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
@@ -109,11 +110,16 @@ $capçaleres = [
                                 <td class="d-none d-md-table-cell" title="<?= htmlspecialchars($inc['descripcion']) ?>">
                                     <?= htmlspecialchars($inc['descripcion']) ?>
                                 </td>
-                                <td>
+                                <td onclick="event.stopPropagation()">
                                     <form action="tancar_incidencia.php" method="post">
                                         <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
                                         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
-                                        <button type="submit" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-lock-open" title="Tancar"></i></button>
+                                        <?php if (!$inc['fechaFin']): ?>
+                                            <input type="hidden" name="accio" value="tancar">
+                                            <button type="submit" class="btn btn-outline-success btn-sm" title="Tancar">
+                                                <i class="fa-solid fa-lock-open"></i>
+                                            </button>
+                                        <?php endif; ?>
                                     </form>
                                 </td>
                             </tr>
