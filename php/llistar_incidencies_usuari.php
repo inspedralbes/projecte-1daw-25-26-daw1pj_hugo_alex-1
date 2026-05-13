@@ -53,23 +53,20 @@ $capçaleres = [
         <a href="formulari_incidencia.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
     <form method="GET" class="d-flex gap-2 mb-3">
-        <select name="tipus" class="form-select form-select-sm" style="width:auto;">
-            <option value="">Tots els Tipus</option>
-            <?php
-            $tiposFilter = $conn->query("SELECT idTipo, nombre FROM TIPO");
-            while ($t = $tiposFilter->fetch_assoc()):
-            ?>
-                <option value="<?= $t['idTipo'] ?>" <?= ($_GET['tipus'] ?? '') == $t['idTipo'] ? 'selected' : '' ?>>
-                    <?= $t['nombre'] ?>
-                </option>
-            <?php endwhile; ?>
-        </select>
-        <select name="estat" class="form-select form-select-sm" style="width:auto;">
-            <option value="">Tots els Estats</option>
-            <option value="oberta" <?= ($_GET['estat'] ?? '') === 'oberta' ? 'selected' : '' ?>>Oberta</option>
-            <option value="tancada" <?= ($_GET['estat'] ?? '') === 'tancada' ? 'selected' : '' ?>>Tancada</option>
-        </select>
-        <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
+        <select id="filtreTipus" class="form-select form-select-sm" style="width:auto;">
+        <option value="">Tots els Tipus</option>
+        <?php
+        $tiposFilter = $conn->query("SELECT idTipo, nombre FROM TIPO");
+        while ($t = $tiposFilter->fetch_assoc()):
+        ?>
+            <option value="<?= $t['nombre'] ?>"><?= $t['nombre'] ?></option>
+        <?php endwhile; ?>
+    </select>
+    <select id="filtreEstat" class="form-select form-select-sm" style="width:auto;">
+        <option value="">Tots els Estats</option>
+        <option value="oberta">Oberta</option>
+        <option value="tancada">Tancada</option>
+    </select>
     </form>
 
     <?php if ($result->num_rows === 0): ?>
@@ -88,8 +85,8 @@ $capçaleres = [
                 </thead>
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
-                        <tr onclick="window.location='detall_incidencia.php?idBusca=<?= $inc['idIncidencia'] ?>'" style="cursor:pointer;">
-                            <td class="text-primary fw-bold">#<?= $inc['idIncidencia'] ?></td>
+                        <tr onclick="window.location='detall_incidencia.php?idBusca=<?= $inc['idIncidencia'] ?>'" style="cursor:pointer;" data-estat="<?= $inc['fechaFin'] ? 'tancada' : 'oberta' ?>">
+                            <td><?= $inc['idIncidencia'] ?></td>
                             <td><?= $inc['tipo'] ?? '-' ?></td>
                             <td><?= $inc['departamento'] ?? '-' ?></td>
                             <td><?= $inc['tecnico'] ?? 'Sense assignar' ?></td>
@@ -105,5 +102,20 @@ $capçaleres = [
 
     <a href="formulari_incidencia.php" class="btn btn-secondary mb-3 mt-3"><i class="fa-solid fa-plus"></i> Nova incidencia</a>
 </div>
+<script>
+    document.getElementById('filtreTipus').addEventListener('change', filtrar);
+    document.getElementById('filtreEstat').addEventListener('change', filtrar);
+            
+    function filtrar() {
+        const tipus = document.getElementById('filtreTipus').value.toLowerCase();
+        const estat = document.getElementById('filtreEstat').value.toLowerCase();
 
+        document.querySelectorAll('tbody tr').forEach(function(fila){
+            const textFila = fila.textContent.toLowerCase();
+            const mostrarTipus = tipus === '' || textFila.includes(tipus);
+            const mostrarEstat = estat === '' || fila.dataset.estat === estat;
+            fila.style.display = (mostrarTipus && mostrarEstat) ? '' : 'none';
+        });
+    }
+</script>
 <?php include_once "fotter.php"; ?>

@@ -21,7 +21,7 @@ if (!empty($_GET['estado'])) {
 } else {
     $filtreWhere .= " AND i.fechaFin IS NULL";
 }
-
+$departamentsFilter = $conn->query("SELECT idDepartamento, nombre from DEPARTAMENTO");
 $sql = "
     SELECT 
         i.idIncidencia,
@@ -61,6 +61,20 @@ $capçaleres = [
         <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
     <form method="GET" class="d-flex gap-2 mb-3">
+    <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
+    <select id="filtrePrioritat" class="form-select form-select-sm" style="width:auto;">
+        <option value="">Totes les Prioritats</option>
+        <option value="Alta">Alta</option>
+        <option value="Mitja">Mitja</option>
+        <option value="Baixa">Baixa</option>
+    </select>
+    <select id="filtreDepartament" class="form-select form-select-sm" style="width:auto;">
+        <option value="">Tots els Departaments</option>
+        <?php while($d = $departamentsFilter->fetch_assoc()): ?>
+                <option value="<?= $d['nombre'] ?>"><?= $d['nombre'] ?></option>
+                <?php endwhile; ?>
+    </select>
+</form>
         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
         <select name="prioritat" class="form-select form-select-sm" style="width:auto;">
             <option value="">Totes les Prioritats</option>
@@ -114,6 +128,7 @@ $capçaleres = [
                                     <form action="tancar_incidencia.php" method="post">
                                         <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
                                         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
+                                        <button type="submit" class="btn btn-outline-success btn-sm" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')"><i class="fa-solid fa-lock-open" title="Tancar"></i></button>
                                         <?php if (!$inc['fechaFin']): ?>
                                             <input type="hidden" name="accio" value="tancar">
                                             <button type="submit" class="btn btn-outline-success btn-sm" title="Tancar">
@@ -130,5 +145,21 @@ $capçaleres = [
         </div>
     <?php endif; ?>
 </div>
+<script>
+    document.getElementById('filtrePrioritat').addEventListener('change', filtrar);
+    document.getElementById('filtreDepartament').addEventListener('change', filtrar);
+
+    function filtrar() {
+        const prioritat = document.getElementById('filtrePrioritat').value.toLowerCase();
+        const departament = document.getElementById('filtreDepartament').value.toLowerCase();
+
+        document.querySelectorAll('tbody tr').forEach(function(fila) {
+            const textFila = fila.textContent.toLowerCase();
+            const mostrarPrioritat = prioritat === '' || textFila.includes(prioritat);
+            const mostrarDepartament = departament === '' || textFila.includes(departament);
+            fila.style.display = (mostrarPrioritat && mostrarDepartament) ? '' : 'none';
+        });
+    }
+</script>
 
 <?php include_once "fotter.php"; ?>
