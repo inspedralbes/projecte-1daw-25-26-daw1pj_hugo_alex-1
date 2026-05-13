@@ -3,6 +3,7 @@ require_once 'connexio.php';
 $tipus = $conn->query("select idTipo, nombre from TIPO");
 $departaments = $conn->query("select idDepartamento, nombre from DEPARTAMENTO");
 ?>
+
 <?php include_once "header.php"; ?>
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
