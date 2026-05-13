@@ -27,7 +27,6 @@ $sql = "
         i.idIncidencia,
         i.descripcion,
         i.prioritat,
-        i.fechaFin,
         DATE_FORMAT(i.fechaInicio, '%d/%m/%Y') AS fechaInicio,
         t.nombre AS tecnico,
         d.nombre AS departamento,
@@ -49,7 +48,7 @@ $capçaleres = [
     ['Departament', ''],
     ['Data Inici',  ''],
     ['Descripció',  'd-none d-md-table-cell'],
-    ['Accions',     ''],
+    ['Accions',     'text-center'],
 ];
 ?>
 
@@ -61,33 +60,19 @@ $capçaleres = [
         <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
     <form method="GET" class="d-flex gap-2 mb-3">
-    <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
-    <select id="filtrePrioritat" class="form-select form-select-sm" style="width:auto;">
-        <option value="">Totes les Prioritats</option>
-        <option value="Alta">Alta</option>
-        <option value="Mitja">Mitja</option>
-        <option value="Baixa">Baixa</option>
-    </select>
-    <select id="filtreDepartament" class="form-select form-select-sm" style="width:auto;">
-        <option value="">Tots els Departaments</option>
-        <?php while($d = $departamentsFilter->fetch_assoc()): ?>
-                <option value="<?= $d['nombre'] ?>"><?= $d['nombre'] ?></option>
-                <?php endwhile; ?>
-    </select>
-</form>
         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
-        <select name="prioritat" class="form-select form-select-sm" style="width:auto;">
+        <select id="filtrePrioritat" class="form-select form-select-sm" style="width:auto;">
             <option value="">Totes les Prioritats</option>
-            <option value="Baixa" <?= ($_GET['prioritat'] ?? '') === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
-            <option value="Mitja" <?= ($_GET['prioritat'] ?? '') === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
-            <option value="Alta" <?= ($_GET['prioritat'] ?? '') === 'Alta'  ? 'selected' : '' ?>>Alta</option>
+            <option value="Alta">Alta</option>
+            <option value="Mitja">Mitja</option>
+            <option value="Baixa">Baixa</option>
         </select>
-        <select name="estado" class="form-select form-select-sm" style="width:auto;">
-            <option value="">Tots els Estats</option>
-            <option value="Oberta" <?= ($_GET['estado'] ?? '') === 'Oberta'  ? 'selected' : '' ?>>Oberta</option>
-            <option value="Tancada" <?= ($_GET['estado'] ?? '') === 'Tancada' ? 'selected' : '' ?>>Tancada</option>
+        <select id="filtreDepartament" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Tots els Departaments</option>
+            <?php while ($d = $departamentsFilter->fetch_assoc()): ?>
+                <option value="<?= $d['nombre'] ?>"><?= $d['nombre'] ?></option>
+            <?php endwhile; ?>
         </select>
-        <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
     </form>
 
     <?php if ($result->num_rows === 0): ?>
@@ -118,7 +103,7 @@ $capçaleres = [
                                     ?>
                                     <span class="badge bg-<?= $badge ?>"><?= $inc['prioritat'] ?></span>
                                 </td>
-                                <td ><?= $inc['tipo'] ?? '-' ?></td>
+                                <td><?= $inc['tipo'] ?? '-' ?></td>
                                 <td><?= $inc['departamento'] ?? '-' ?></td>
                                 <td><?= $inc['fechaInicio'] ?></td>
                                 <td class="d-none d-md-table-cell" title="<?= htmlspecialchars($inc['descripcion']) ?>">
@@ -128,13 +113,9 @@ $capçaleres = [
                                     <form action="tancar_incidencia.php" method="post">
                                         <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
                                         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
-                                        <button type="submit" class="btn btn-outline-success btn-sm" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')"><i class="fa-solid fa-lock-open" title="Tancar"></i></button>
-                                        <?php if (!$inc['fechaFin']): ?>
-                                            <input type="hidden" name="accio" value="tancar">
-                                            <button type="submit" class="btn btn-outline-success btn-sm" title="Tancar">
-                                                <i class="fa-solid fa-lock-open"></i>
-                                            </button>
-                                        <?php endif; ?>
+                                        <button type="submit" class="btn btn-outline-success btn-sm" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')">
+                                            <i class="fa-solid fa-lock-open" title="Tancar"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
