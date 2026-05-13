@@ -1,19 +1,31 @@
 </main>
 <footer class="bg-light border-top mt-auto py-3" role="contentinfo">
     <div class="container text-center">
-        <p class="mb-1 small fw-semibold" style="color: #4a4a4a;">© 2026 Institut Pedralbes</p>
-        <div class="small d-flex justify-content-center align-items-center gap-3 flex-wrap">
-            <span style="color: #4a4a4a;">Hugo Berea</span>
-            <span style="color: #4a4a4a;">Alexandre Brandao</span>
-            <a href="resources/Accessibilitat_Pc.html" style="color: #0d6efd;" class="text-decoration-none">
-                <i class="fa-solid fa-universal-access me-1" aria-hidden="true"></i>Accessibilitat PC 
-            </a>
-             <a href="resources/Accessibilitat_Telef.html" style="color: #0d6efd;" class="text-decoration-none">
-                <i class="fa-solid fa-mobile-screen me-1" aria-hidden="true"></i>Accessibilitat Mòbil
-            </a>
+        <p class="mb-2 small fw-semibold" style="color: #4a4a4a;">© 2026 Institut Pedralbes</p>
+
+        <!-- Contenedor principal en columna -->
+        <div class="d-flex flex-column align-items-center gap-2">
+
+            <!-- Bloque de Nombres -->
+            <div class="small d-flex justify-content-center gap-3 flex-wrap" style="color: #4a4a4a;">
+                <span>Hugo Berea</span>
+                <span>Alexandre Brandao</span>
+            </div>
+
+            <!-- Bloque de Enlaces (Debajo) -->
+            <div class="small d-flex justify-content-center gap-3 flex-wrap">
+                <a href="resources/Accessibilitat_Pc.html" style="color: #0d6efd;" class="text-decoration-none">
+                    <i class="fa-solid fa-universal-access me-1" aria-hidden="true"></i>Accessibilitat PC
+                </a>
+                <a href="resources/Accessibilitat_Telef.html" style="color: #0d6efd;" class="text-decoration-none">
+                    <i class="fa-solid fa-mobile-screen me-1" aria-hidden="true"></i>Accessibilitat Mòbil
+                </a>
+            </div>
+
         </div>
     </div>
 </footer>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const container = document.querySelector('main .container, main .container-fluid');
