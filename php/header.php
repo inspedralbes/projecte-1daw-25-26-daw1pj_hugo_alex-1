@@ -42,73 +42,76 @@
             }
         }
 
-        /* Tamaño por defecto para escritorio */
         .navbar-brand img {
             height: 40px;
             transition: height 0.3s ease;
-            /* Opcional: para que el cambio sea suave */
         }
 
-        /* Ajuste para móviles */
         @media (max-width: 575px) {
             .navbar-brand img {
                 height: 35px;
-                /* Reducimos la altura para ganar espacio */
             }
 
             .navbar-brand {
                 margin-right: 5px;
-                /* Reducimos el margen lateral */
             }
         }
     </style>
-
 </head>
 
-
 <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-light bg-light border-bottom sticky-top mb-4">
+    <nav class="navbar navbar-light bg-light border-bottom sticky-top mb-4" aria-label="Navegació principal">
         <div class="container-fluid gap-2">
 
             <!-- Logo -->
-            <a class="navbar-brand flex-shrink-0" href="index.php">
+            <a class="navbar-brand flex-shrink-0" href="index.php" aria-label="Inici - Gestor d'incidències">
                 <img src="resources/Logoinsti_amb_lletres.png" alt="Logo Institut Pedralbes" height="40">
             </a>
 
-            <!-- Mòbil: barra + botons a la mateixa línia que el logo -->
+            <!-- Mòbil -->
             <div class="d-flex gap-2 d-md-none ms-auto align-items-center">
-                <form action="detall_incidencia.php" method="GET" class="input-group" style="max-width: 160px;">
-                    <span class="input-group-text">
+                <form action="detall_incidencia.php" method="GET" class="input-group" style="max-width: 160px;" role="search">
+                    <span class="input-group-text" aria-hidden="true">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
-                    <input type="number" name="idBusca" class="form-control" placeholder="Id...">
+                    <input type="number" name="idBusca" class="form-control"
+                        placeholder="Id..."
+                        aria-label="Cerca per ID d'incidència"
+                        min="1">
                     <button class="btn btn-primary" type="submit" aria-label="Cercar incidència">
                         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     </button>
                 </form>
-                <a href="admin_logs.php" class="btn btn-outline-primary">
-                    <i class="fa-solid fa-chart-line"></i>
+                <a href="admin_logs.php" class="btn btn-outline-primary" aria-label="Estadístiques de logs">
+                    <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
                 </a>
-                <a href="index.php" class="btn btn-outline-primary">
-                    <i class="fa-solid fa-house"></i>
+                <a href="index.php" class="btn btn-outline-primary" aria-label="Inici">
+                    <i class="fa-solid fa-house" aria-hidden="true"></i>
                 </a>
             </div>
 
-            <!-- Escriptori: barra centrada + botons a la dreta -->
-            <form action="detall_incidencia.php" method="GET" class="input-group d-none d-md-flex position-absolute start-50 translate-middle-x" style="max-width: 360px;">
-                <span class="input-group-text">
+            <!-- Escriptori -->
+            <form action="detall_incidencia.php" method="GET" class="input-group d-none d-md-flex position-absolute start-50 translate-middle-x" style="max-width: 360px;" role="search">
+                <span class="input-group-text" aria-hidden="true">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
-                <input type="number" name="idBusca" class="form-control" placeholder="Id incidencia...">
-                <button class="btn btn-primary" type="submit">Cerca</button>
+                <input type="number" name="idBusca" class="form-control"
+                    placeholder="Id incidencia..."
+                    aria-label="Cerca per ID d'incidència"
+                    min="1">
+                <button class="btn btn-primary" type="submit" aria-label="Cercar incidència">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                </button>
             </form>
 
             <div class="d-none d-md-flex gap-1 ms-auto">
-                <a href="admin_logs.php" class="btn btn-outline-primary" aria-label="Estadistiques de Logs" title="Estadistiques de Logs">
-                    <i class="fa-solid fa-chart-line"></i>
+                <a href="admin_logs.php" class="btn btn-outline-primary" title="Estadístiques de logs">
+                    <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                    <span class="visually-hidden">Estadístiques de logs</span>
                 </a>
-                <a href="index.php" class="btn btn-outline-primary" aria-label="Inici" title="Inici">
+                <a href="index.php" class="btn btn-outline-primary" title="Inici">
                     <i class="fa-solid fa-house" aria-hidden="true"></i>
+                    <span class="visually-hidden">Inici</span>
                 </a>
             </div>
 

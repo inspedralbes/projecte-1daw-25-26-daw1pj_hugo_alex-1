@@ -1,19 +1,19 @@
 </main>
 <footer class="bg-light text-center border-top py-3 mt-auto">
     <div class="sticky-bottom">
-        <p class="mb-1 small">© 2026 Institut Pedralbes</p>
+        <p class="mb-1 small" style="color: #4a4a4a;">© 2026 Institut Pedralbes</p>
         <div class="small">
-            <span class="text-secondary me-3">Hugo Berea</span>
-            <span class="text-secondary">Alexandre Brandao</span>
+            <span style="color: #4a4a4a;" class="me-3">Hugo Berea</span>
+            <span style="color: #4a4a4a;">Alexandre Brandao</span>
         </div>
     </div>
 </footer>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const container = document.querySelector('main .container, main .container-fluid');    
+    document.addEventListener('DOMContentLoaded', function () {
+        const container = document.querySelector('main .container, main .container-fluid');
         if (container) {
             container.style.opacity = 0;
-            setTimeout(function() {
+            setTimeout(function () {
                 container.style.transition = 'opacity 0.5s linear';
                 container.style.opacity = 1;
             }, 100);
