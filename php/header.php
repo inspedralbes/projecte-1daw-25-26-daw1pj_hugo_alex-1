@@ -72,7 +72,7 @@
 
             <!-- Logo -->
             <a class="navbar-brand flex-shrink-0" href="index.php">
-                <img src="resources/Logoinsti_amb_lletres.png" alt="Logo" height="40">
+                <img src="resources/Logoinsti_amb_lletres.png" alt="Logo Institut Pedralbes" height="40">
             </a>
 
             <!-- Mòbil: barra + botons a la mateixa línia que el logo -->
@@ -82,8 +82,8 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                     <input type="number" name="idBusca" class="form-control" placeholder="Id...">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                    <button class="btn btn-primary" type="submit" aria-label="Cercar incidència">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     </button>
                 </form>
                 <a href="admin_logs.php" class="btn btn-outline-primary">
@@ -104,11 +104,11 @@
             </form>
 
             <div class="d-none d-md-flex gap-1 ms-auto">
-                <a href="admin_logs.php" class="btn btn-outline-primary" title="Estadistiques de Logs">
+                <a href="admin_logs.php" class="btn btn-outline-primary" aria-label="Estadistiques de Logs" title="Estadistiques de Logs">
                     <i class="fa-solid fa-chart-line"></i>
                 </a>
-                <a href="index.php" class="btn btn-outline-primary">
-                    <i class="fa-solid fa-house" title="Inici"></i>
+                <a href="index.php" class="btn btn-outline-primary" aria-label="Inici" title="Inici">
+                    <i class="fa-solid fa-house" aria-hidden="true"></i>
                 </a>
             </div>
 
