@@ -14,9 +14,13 @@ $sql = "
         DATE_FORMAT(a.fechaAccion, '%d/%m/%Y %H:%i') AS fechaAccion,
         a.visible
     FROM ACCION a
+    WHERE a.idIncidencia = ?
     ORDER BY a.fechaAccion DESC
 ";
-$result = $conn->query($sql);
+$sentencia = $conn->prepare($sql);
+$sentencia->bind_param("i", $idRetorn);
+$sentencia->execute();
+$result = $sentencia->get_result();
 
 $capçaleres = [
     ['Id Actuació',   ''],

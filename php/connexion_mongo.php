@@ -8,7 +8,7 @@ $password = getenv('MONGO_PASSWORD') ?: 'example';
 $database = getenv('MONGO_DB')       ?: 'demo';
 
 $uri = "mongodb+srv://a25hugberbat_db_user:S6nxleFAzEmk0hNB@cluster0.vzpcyjk.mongodb.net/?appName=Cluster0";
-
+#$uri = "mongodb://root:example@mongo:27017";
 $client = new MongoDB\Client($uri);
 $db = $client->$database;
 

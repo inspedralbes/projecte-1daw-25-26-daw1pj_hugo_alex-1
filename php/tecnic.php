@@ -24,11 +24,6 @@ $tecnics = $conn->query("SELECT * FROM TECNICO")->fetch_all(MYSQLI_ASSOC);
         </button>
         <br>
         <br>
-        
-        <a href="historial_actuacions.php" class="btn btn-primary btn-lg w-100 shadow"><i class="fa-solid fa-clock"></i> Historial d'actuacions</a>
-        
-        <br>
-        <br>
         <a href="index.php" class="btn btn-primary btn-lg w-100 shadow"> <i class="fa-solid fa-arrow-left"></i> Tornar a Portada</a>
     </form>
 </div>

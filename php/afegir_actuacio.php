@@ -14,6 +14,7 @@ $idIncidencia = $_GET['idIncidencia'] ?? null;
             <form method="POST" action="crear_actuacio.php">
                 <div class="mb-3">
                     <input type="hidden" name="idIncidencia" value="<?= $idIncidencia ?>">
+                    <input type="hidden" name="tecnic" value="<?= htmlspecialchars($_GET['tecnic'] ?? '') ?>">
                 </div>
                 <div class="mb-3">
                     <label for="temps" class="form-label">Temps(hh:mm):</label>

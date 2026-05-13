@@ -48,6 +48,7 @@ $inc = $result->fetch_assoc();
                             <li class="list-group-item"><strong>Tècnic:</strong> <?= $inc['tecnico'] ?? 'No assignat' ?></li>
                             <li class="list-group-item"><strong>Data d'Inici:</strong> <?= $inc['fechaInicio'] ?></li>
                             <li class="list-group-item"><strong>Data de Fi:</strong> <?= $inc['fechaFin'] ?? 'Encara oberta' ?></li>
+                            <li class="list-group-item"><strong>Descripció:</strong> <?= htmlspecialchars($inc['descripcion']) ?></li>
                         </ul>
                     </div>
                     <div class="card-footer d-flex flex-column gap-2 py-3">
@@ -55,13 +56,15 @@ $inc = $result->fetch_assoc();
                             <a href="<?= $backUrl ?>" class="btn btn-outline-primary flex-fill text-center">
                                 <i class="fas fa-arrow-left"></i> <?= $backLabel ?>
                             </a>
-                            <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-outline-primary flex-fill text-center">
+                            <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>&tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-outline-primary flex-fill text-center">
                                 <i class="fa-solid fa-plus"></i> Afegir Actuació
                             </a>
                         </div>
                         <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-primary btn-lg w-100 shadow">
                             <i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions
                         </a>
+                        <button type="submit" class="btn btn-outline-success btn-lg" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')">Tancar incidència
+                        </button>
                     </div>
                 </div>
             <?php else: ?>
