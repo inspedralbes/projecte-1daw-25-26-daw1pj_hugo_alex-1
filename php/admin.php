@@ -154,11 +154,11 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 <div class="d-flex justify-content-center align-items-center" style="gap: 4px;">
                                     <div style="width: 30px;">
                                         <?php if (!$inc['fechaFin']): ?>
-                                            <button onclick="tancarIncidencia(<?= $inc['idIncidencia'] ?>)" class="btn btn-outline-success btn-sm" title="Tancar">
+                                            <button onclick="tancarIncidencia(<?= $inc['idIncidencia'] ?>)" class="btn btn-outline-success btn-sm" title="Tancar" style="width: 30px;">
                                                 <i class="fa-solid fa-lock-open"></i>
                                             </button>
                                         <?php else: ?>
-                                            <button onclick="obrirIncidencia(<?= $inc['idIncidencia'] ?>)" class="btn btn-secondary btn-sm" title="Obrir">
+                                            <button onclick="obrirIncidencia(<?= $inc['idIncidencia'] ?>)" class="btn btn-secondary btn-sm" title="Obrir" style="width: 30px;">
                                                 <i class="fa-solid fa-lock"></i>
                                             </button>
                                         <?php endif; ?>
@@ -166,7 +166,9 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                     <form method="POST" class="m-0" onsubmit="return confirm('Eliminar?')">
                                         <input type="hidden" name="eliminar" value="1">
                                         <input type="hidden" name="id" value="<?= $inc['idIncidencia'] ?>">
-                                        <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-can"></i></button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Eliminar" style="width: 30px;">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
                                     </form>
                                 </div>
                             </td>
