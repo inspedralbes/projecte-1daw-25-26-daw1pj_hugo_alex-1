@@ -40,7 +40,7 @@ include_once "header.php";
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
                 <div class="card-body p-2 p-md-3">
-                    <div class="text-muted small mb-1">Total accessos</div>
+                    <div class="small mb-1" style="color: #555;">Total accessos</div>
                     <div class="fs-2 fw-bold text-primary"><?= $total ?></div>
                 </div>
             </div>
@@ -48,7 +48,7 @@ include_once "header.php";
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
                 <div class="card-body p-2 p-md-3">
-                    <div class="text-muted small mb-1">Pàgines úniques</div>
+                    <div class="small mb-1" style="color: #555;">Pàgines úniques</div>
                     <div class="fs-2 fw-bold text-primary"><?= count($pagines) ?></div>
                 </div>
             </div>
@@ -56,7 +56,7 @@ include_once "header.php";
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
                 <div class="card-body p-2 p-md-3">
-                    <div class="text-muted small mb-1">Dies amb dades</div>
+                    <div class="small mb-1" style="color: #555;">Dies amb dades</div>
                     <div class="fs-2 fw-bold text-primary"><?= count($perDia) ?></div>
                 </div>
             </div>
@@ -64,7 +64,7 @@ include_once "header.php";
         <div class="col-6 col-md-3">
             <div class="card text-center h-100">
                 <div class="card-body p-2 p-md-3">
-                    <div class="text-muted small mb-1">Última visita</div>
+                    <div class="small mb-1" style="color: #555;">Última visita</div>
                     <div class="fs-5 fw-bold text-primary">
                         <?= $last ? $last['timestamp']->toDateTime()->format('H:i:s') : '-' ?>
                     </div>
@@ -77,7 +77,7 @@ include_once "header.php";
         <div class="col-12 col-lg-8">
             <div class="card h-100">
                 <div class="card-body">
-                    <h6 class="card-title text-muted">Accessos per dia</h6>
+                    <h6 class="card-title" style="color: #555;">Accessos per dia</h6>
                     <div style="position: relative; height: 300px; width: 100%;">
                         <canvas id="graficDies"></canvas>
                     </div>
@@ -88,7 +88,7 @@ include_once "header.php";
         <div class="col-12 col-lg-4">
             <div class="card h-100">
                 <div class="card-body">
-                    <h6 class="card-title text-muted">Pàgines més visitades</h6>
+                    <h6 class="card-title" style="color: #555;">Pàgines més visitades</h6>
                     <?php
                     $maxVisites = count($pagines) > 0 ? $pagines[0]['total'] : 1;
                     foreach ($pagines as $p):
@@ -113,7 +113,7 @@ include_once "header.php";
 
     <div class="card mb-4">
         <div class="card-body">
-            <h6 class="card-title text-muted">Últims accessos</h6>
+            <h6 class="card-title" style="color: #555;">Últims accessos</h6>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm align-middle mb-0" style="font-size: 0.85em;">
                     <thead>

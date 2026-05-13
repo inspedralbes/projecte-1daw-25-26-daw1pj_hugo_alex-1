@@ -56,11 +56,11 @@ $resultActuacions = $sentenciaActuacions->get_result();
                         <div class="mt-4">
                             <h5>Actuacions:</h5>
                                 <?php if ($resultActuacions->num_rows === 0): ?>
-                                <p class="text-muted">No hi ha actuacions visibles.</p>
+                                <p class="style="color: #555;>No hi ha actuacions visibles.</p>
                                 <?php else: ?>
                                 <?php while ($act = $resultActuacions->fetch_assoc()): ?>
                                     <div class="p-3 border rounded bg-light mb-2">
-                                        <small class="text-muted"><?= $act['fechaAccion'] ?> | Temps: <?= $act['tiempo'] ?></small>
+                                        <small class="text" style="color: #555;"><?= $act['fechaAccion'] ?> | Temps: <?= $act['tiempo'] ?></small>
                                             <p class="mt-1 mb-0"><?= htmlspecialchars($act['comentario']) ?></p>
                                         </div>
                                     <?php endwhile; ?>

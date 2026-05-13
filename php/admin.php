@@ -132,7 +132,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                 </select>
                             </td>
                             <td><?= $inc['fechaInicio'] ?></td>
-                            <td class="<?= $inc['fechaFin'] ? 'text-muted' : 'text-success fw-bold' ?>">
+                            <td class="<?= $inc['fechaFin'] ? 'style="color: #555;"' : 'text-success fw-bold' ?>">
                                 <?= $inc['fechaFin'] ?? 'Oberta' ?>
                             </td>
                             <td class="d-none d-md-table-cell text-truncate" style="max-width: 150px;">
