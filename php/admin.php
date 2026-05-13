@@ -6,14 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $campo = $_POST['campo'] ?? '';
     $valor = $_POST['valor'] ?? '';
 
-    // Lógica para eliminar
     if (isset($_POST['eliminar'])) {
         $conn->query("DELETE FROM INCIDENCIA WHERE idIncidencia = $id");
         header('Location: admin.php');
         exit;
     }
 
-    // Lógica para cerrar/abrir incidencia
     if (isset($_POST['tancar'])) {
         if ($_POST['tancar'] == '1') {
             $conn->query("UPDATE INCIDENCIA SET fechaFin = NOW() WHERE idIncidencia = $id");
@@ -71,12 +69,6 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
         <a href="vista_consum_departaments.php" class="btn btn-outline-primary btn-sm">Consum per Departaments</a>
     </div>
 
-    <div id="alertDescripcio" class="alert alert-primary d-none alert-dismissible fade show mt-2 shadow" role="alert">
-        <strong>Detall de la descripció:</strong>
-        <div id="alertText" class="mt-1"></div>
-        <button type="button" class="btn-close" onclick="this.parentElement.classList.add('d-none')"></button>
-    </div>
-
     <div id="alertGuardat" class="alert alert-success d-none shadow-sm" role="alert" style="position:fixed; top:20px; right:20px; z-index:1050;">
         <i class="fa-solid fa-check-circle me-2"></i> Operació realitzada correctament!
     </div>
@@ -85,7 +77,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
         <div class="alert alert-info border-info">No hi ha incidències registrades.</div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.72em; min-width: 1000px;">
+            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.72em; min-width: 700px;">
                 <thead>
                     <tr>
                         <th class="bg-primary text-white p-2 border-primary">ID</th>
@@ -95,22 +87,22 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                         <th class="bg-primary text-white p-2 border-primary">Departament</th>
                         <th class="bg-primary text-white p-2 border-primary" style="width: 85px;">Inici</th>
                         <th class="bg-primary text-white p-2 border-primary" style="width: 85px;">Fi</th>
-                        <th class="bg-primary text-white p-2 border-primary">Descripció</th>
+                        <th class="bg-primary text-white p-2 border-primary d-none d-md-table-cell">Descripció</th>
                         <th class="bg-primary text-white p-2 border-primary text-center">Accions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td class="fw-bold">#<?= $inc['idIncidencia'] ?></td>
-                            <td style="width: 90px;">
+                        <tr style="cursor:pointer;" onclick="window.location='detall_incidencia_tecnic.php?idBusca=<?= $inc['idIncidencia'] ?>&origen=admin'">
+                            <td class="text-primary fw-bold">#<?= $inc['idIncidencia'] ?></td>
+                            <td style="width: 90px;" onclick="event.stopPropagation()">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'prioritat', this.value)">
                                     <option value="Alta" <?= $inc['prioritat'] === 'Alta'  ? 'selected' : '' ?>>Alta</option>
                                     <option value="Mitja" <?= $inc['prioritat'] === 'Mitja' ? 'selected' : '' ?>>Mitja</option>
                                     <option value="Baixa" <?= $inc['prioritat'] === 'Baixa' ? 'selected' : '' ?>>Baixa</option>
                                 </select>
                             </td>
-                            <td style="width: 100px;">
+                            <td style="width: 100px;" onclick="event.stopPropagation()">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idTipo', this.value)">
                                     <?php foreach ($tipus as $t): ?>
                                         <option value="<?= $t['idTipo'] ?>" <?= $inc['idTipo'] == $t['idTipo'] ? 'selected' : '' ?>>
@@ -119,7 +111,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-                            <td style="width: 110px;">
+                            <td style="width: 110px;" onclick="event.stopPropagation()">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idTecnico', this.value)">
                                     <option value="" <?= $inc['idTecnico'] === null ? 'selected' : '' ?>>---</option>
                                     <?php foreach ($tecnics as $t): ?>
@@ -129,7 +121,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-                            <td style="width: 110px;">
+                            <td style="width: 110px;" onclick="event.stopPropagation()">
                                 <select class="form-select form-select-sm py-0 ps-1" style="font-size: 0.95em;" onchange="guardarCanvi(<?= $inc['idIncidencia'] ?>, 'idDepartamento', this.value)">
                                     <option value="" <?= ($inc['idDepartamento'] ?? null) === null ? 'selected' : '' ?>>---</option>
                                     <?php foreach ($departaments as $d): ?>
@@ -143,14 +135,10 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
                             <td class="<?= $inc['fechaFin'] ? 'text-muted' : 'text-success fw-bold' ?>">
                                 <?= $inc['fechaFin'] ?? 'Oberta' ?>
                             </td>
-
-                            <td class="text-truncate" style="max-width: 150px; cursor: pointer;"
-                                onclick="document.getElementById('alertText').innerText=this.dataset.desc; document.getElementById('alertDescripcio').classList.remove('d-none')"
-                                data-desc="<?= htmlspecialchars($inc['descripcion']) ?>">
+                            <td class="d-none d-md-table-cell text-truncate" style="max-width: 150px;">
                                 <?= htmlspecialchars($inc['descripcion']) ?>
                             </td>
-
-                            <td class="text-nowrap text-center">
+                            <td class="text-nowrap text-center" onclick="event.stopPropagation()">
                                 <div class="d-flex justify-content-center align-items-center" style="gap: 4px;">
                                     <div style="width: 30px;">
                                         <?php if (!$inc['fechaFin']): ?>

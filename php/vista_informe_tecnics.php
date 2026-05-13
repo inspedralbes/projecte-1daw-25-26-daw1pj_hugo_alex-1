@@ -71,7 +71,7 @@ $capçaleres = [
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
                             <td class="fw-bold text-primary"><?= htmlspecialchars($inc['nomTecnic']) ?></td>
-                            <td class="fw-bold">#<?= $inc['idIncidencia'] ?></td>
+                            <td class="text-primary fw-bold">#<?= $inc['idIncidencia'] ?></td>
                             <td>
                                 <?php
                                 $color = match($inc['prioritat']) {

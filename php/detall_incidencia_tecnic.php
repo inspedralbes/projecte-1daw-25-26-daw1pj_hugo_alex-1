@@ -3,8 +3,13 @@ include_once "header.php";
 include_once "connexio.php";
 
 $tecnicVolver = $_GET['tecnic'] ?? '';
-
+$origen = $_GET['origen'] ?? '';
 $id = $_GET['idBusca'] ?? null;
+
+$backUrl = ($origen === 'admin')
+    ? 'admin.php'
+    : 'llistar_incidencies_tecnic.php?tecnic=' . urlencode($tecnicVolver);
+$backLabel = ($origen === 'admin') ? 'Tornar a admin' : 'Tornar a tècnics';
 
 $sql = "SELECT 
     i.idIncidencia,
@@ -14,11 +19,11 @@ $sql = "SELECT
     t.nombre AS tecnico,
     d.nombre AS departamento,
     tp.nombre AS tipo
-FROM INCIDENCIA i
-LEFT JOIN TECNICO t ON i.idTecnico = t.idTecnico
-LEFT JOIN DEPARTAMENTO d ON i.idDepartamento = d.idDepartamento
-LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
-WHERE i.idIncidencia = ?";
+    FROM INCIDENCIA i
+    LEFT JOIN TECNICO t ON i.idTecnico = t.idTecnico
+    LEFT JOIN DEPARTAMENTO d ON i.idDepartamento = d.idDepartamento
+    LEFT JOIN TIPO tp ON i.idTipo = tp.idTipo
+    WHERE i.idIncidencia = ?";
 
 $sentencia = $conn->prepare($sql);
 $sentencia->bind_param("i", $id);
@@ -31,11 +36,10 @@ $inc = $result->fetch_assoc();
     <div class="row">
         <div class="col-8 mx-auto">
             <h2 class="mb-4 text-center">Detall de l'Incidència</h2>
-
             <?php if ($inc): ?>
                 <div class="card border-primary shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h3 class="mb-0">Incidència #<?= $inc['idIncidencia'] ?></h5>
+                        <h3 class="mb-0">Incidència #<?= $inc['idIncidencia'] ?></h3>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
@@ -45,32 +49,33 @@ $inc = $result->fetch_assoc();
                             <li class="list-group-item"><strong>Data d'Inici:</strong> <?= $inc['fechaInicio'] ?></li>
                             <li class="list-group-item"><strong>Data de Fi:</strong> <?= $inc['fechaFin'] ?? 'Encara oberta' ?></li>
                         </ul>
-
-                        <div class="card-footer d-flex flex-column gap-2 py-3">
-                            <div class="d-flex gap-2">
-                                <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-outline-primary flex-fill text-center">
-                                    <i class="fas fa-arrow-left"></i> Tornar a la llista
-                                </a>
-                                <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-outline-primary flex-fill text-center"><i class="fa-solid fa-plus"></i> Afegir Actuació</a>
-                            </div>
-                            <a href="historial_actuacions.php" class="btn btn-primary btn-lg w-100 shadow"><i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions</a>
-                        </div>
-                    <?php else: ?>
-                        <div class="alert alert-danger shadow-sm">
-                            <strong>Error:</strong> No s'ha trobat cap incidència con el número <strong><?= htmlspecialchars($id) ?></strong>.
-                        </div>
-                        <div class="text-center">
-                            <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-outline-primary mb-3">
-                                <i class="fa-solid fa-arrow-left"></i> Tornar a la llista de <?= htmlspecialchars($tecnicVolver) ?>
+                    </div>
+                    <div class="card-footer d-flex flex-column gap-2 py-3">
+                        <div class="d-flex gap-2">
+                            <a href="<?= $backUrl ?>" class="btn btn-outline-primary flex-fill text-center">
+                                <i class="fas fa-arrow-left"></i> <?= $backLabel ?>
+                            </a>
+                            <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-outline-primary flex-fill text-center">
+                                <i class="fa-solid fa-plus"></i> Afegir Actuació
                             </a>
                         </div>
-
-                    <?php endif; ?>
-
+                        <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-primary btn-lg w-100 shadow">
+                            <i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions
+                        </a>
                     </div>
                 </div>
+            <?php else: ?>
+                <div class="alert alert-danger shadow-sm">
+                    <strong>Error:</strong> No s'ha trobat cap incidència con el número <strong><?= htmlspecialchars($id) ?></strong>.
+                </div>
+                <div class="text-center">
+                    <a href="<?= $backUrl ?>" class="btn btn-outline-primary mb-3">
+                        <i class="fa-solid fa-arrow-left"></i> <?= $backLabel ?>
+                    </a>
+                </div>
+            <?php endif; ?>
         </div>
+    </div>
+</div>
 
-        <?php
-        include_once "fotter.php";
-        ?>
+<?php include_once "fotter.php"; ?>

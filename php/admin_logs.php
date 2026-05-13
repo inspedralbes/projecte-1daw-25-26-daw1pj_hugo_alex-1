@@ -13,7 +13,7 @@ $pagines = iterator_to_array($collection->aggregate([
 
 $perDia = iterator_to_array($collection->aggregate([
     ['$group' => [
-        '_id'   => ['$dateToString' => ['format' => '%Y-%m-%d', 'date' => '$timestamp']],
+        '_id'   => ['$dateToString' => ['format' => '%d-%m-%Y', 'date' => '$timestamp']],
         'total' => ['$sum' => 1],
     ]],
     ['$sort'  => ['_id' => 1]],
@@ -127,7 +127,7 @@ include_once "header.php";
                     <tbody>
                         <?php foreach ($ultims as $doc): ?>
                             <tr>
-                                <td class="text-nowrap p-2"><?= $doc['timestamp']->toDateTime()->format('Y-m-d H:i:s') ?></td>
+                                <td class="text-nowrap p-2"><?= $doc['timestamp']->toDateTime()->format('d-m-Y H:i:s') ?></td>
                                 <td class="p-2">
                                     <span class="badge <?= ($doc['method'] ?? 'GET') === 'POST' ? 'bg-primary' : 'bg-success' ?>">
                                         <?= htmlspecialchars($doc['method'] ?? '-') ?>

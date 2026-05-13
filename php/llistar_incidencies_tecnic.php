@@ -49,7 +49,7 @@ $capçaleres = [
     ['Departament', ''],
     ['Data Inici',  ''],
     ['Descripció',  'd-none d-md-table-cell'],
-    ['',            ''],
+    ['Accions',     ''],
 ];
 ?>
 
@@ -92,7 +92,7 @@ $capçaleres = [
                     <tbody>
                         <?php while ($inc = $result->fetch_assoc()): ?>
                             <tr onclick="window.location='detall_incidencia_tecnic.php?idBusca=<?= $inc['idIncidencia'] ?>&tecnic=<?= urlencode($_GET['tecnic']) ?>'" style="cursor:pointer;">
-                                <td><?= $inc['idIncidencia'] ?></td>
+                                <td class="text-primary fw-bold">#<?= $inc['idIncidencia'] ?></td>
                                 <td>
                                     <?php
                                     $badge = match ($inc['prioritat']) {
@@ -104,13 +104,13 @@ $capçaleres = [
                                     ?>
                                     <span class="badge bg-<?= $badge ?>"><?= $inc['prioritat'] ?></span>
                                 </td>
-                                <td><?= $inc['tipo'] ?? '-' ?></td>
+                                <td ><?= $inc['tipo'] ?? '-' ?></td>
                                 <td><?= $inc['departamento'] ?? '-' ?></td>
                                 <td><?= $inc['fechaInicio'] ?></td>
                                 <td class="d-none d-md-table-cell" title="<?= htmlspecialchars($inc['descripcion']) ?>">
                                     <?= htmlspecialchars($inc['descripcion']) ?>
                                 </td>
-                                <td onclick="event.stopPropagation()">
+                                <td onclick="event.stopPropagation()" class="text-center align-middle">
                                     <form action="tancar_incidencia.php" method="post">
                                         <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
                                         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">

@@ -61,12 +61,12 @@ $capçaleres = [
                     <?php while ($inc = $result->fetch_assoc()): ?>
                         <tr>
                             <td style="width: 1%; white-space: nowrap;" class="px-3">
-                                <span class="badge rounded-pill border border-primary text-primary fw-bold" style="border-width: 2px !important;">
+                                <span class="text-primary fw-bold">#
                                     <?= $inc['idDepartamento'] ?>
                                 </span>
                             </td>
 
-                            <td class="fw-bold"><?= htmlspecialchars($inc['nomDepartament']) ?></td>
+                            <td><?= htmlspecialchars($inc['nomDepartament']) ?></td>
 
                             <td>
                                 <span class="fw-bold">
