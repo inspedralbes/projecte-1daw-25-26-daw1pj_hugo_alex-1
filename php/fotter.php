@@ -1,5 +1,5 @@
 </main>
-<footer class="bg-light border-top mt-auto py-3" role="contentinfo">
+<footer class="bg-light border-top mt-auto mt-4 py-3" role="contentinfo">
     <div class="container text-center">
         <p class="mb-2 small fw-semibold" style="color: #4a4a4a;">© 2026 Institut Pedralbes</p>
 
