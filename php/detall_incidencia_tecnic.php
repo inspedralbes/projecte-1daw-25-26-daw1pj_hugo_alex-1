@@ -52,7 +52,7 @@ $inc = $result->fetch_assoc();
                         </ul>
                     </div>
                     <div class="card-footer d-flex flex-column gap-2 py-3">
-                        <div class="d-flex gap-2">
+                        <div class="d-flex flex-column flex-sm-row gap-2">
                             <a href="<?= $backUrl ?>" class="btn btn-outline-primary flex-fill text-center">
                                 <i class="fas fa-arrow-left"></i> <?= $backLabel ?>
                             </a>
@@ -63,7 +63,7 @@ $inc = $result->fetch_assoc();
                         <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-primary btn-lg w-100 shadow">
                             <i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions
                         </a>
-                        <button type="submit" class="btn btn-outline-success btn-lg" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')">Tancar incidència
+                        <button type="submit" class="btn btn-outline-primary btn-lg" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')"><i class="fa-solid fa-lock"></i> Tancar incidència
                         </button>
                     </div>
                 </div>

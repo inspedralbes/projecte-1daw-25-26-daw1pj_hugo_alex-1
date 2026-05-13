@@ -48,7 +48,6 @@ $capçaleres = [
     ['Departament', ''],
     ['Data Inici',  ''],
     ['Descripció',  'd-none d-md-table-cell'],
-    ['Accions',     'text-center'],
 ];
 ?>
 
@@ -108,15 +107,6 @@ $capçaleres = [
                                 <td><?= $inc['fechaInicio'] ?></td>
                                 <td class="d-none d-md-table-cell" title="<?= htmlspecialchars($inc['descripcion']) ?>">
                                     <?= htmlspecialchars($inc['descripcion']) ?>
-                                </td>
-                                <td onclick="event.stopPropagation()" class="text-center align-middle">
-                                    <form action="tancar_incidencia.php" method="post">
-                                        <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
-                                        <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
-                                        <button type="submit" class="btn btn-outline-success btn-sm" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')">
-                                            <i class="fa-solid fa-lock-open" title="Tancar"></i>
-                                        </button>
-                                    </form>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
