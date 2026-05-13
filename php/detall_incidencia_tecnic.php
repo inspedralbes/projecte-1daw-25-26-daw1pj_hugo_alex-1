@@ -62,6 +62,8 @@ $inc = $result->fetch_assoc();
                         <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-primary btn-lg w-100 shadow">
                             <i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions
                         </a>
+                        <button type="submit" class="btn btn-outline-success btn-lg" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')">Tancar incidència
+                        </button>
                     </div>
                 </div>
             <?php else: ?>
