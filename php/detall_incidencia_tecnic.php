@@ -65,10 +65,11 @@ $inc = $result->fetch_assoc();
                         </a>
                         <form action="tancar_incidencia.php" method="POST">
                             <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
-                            <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnicVolver) ?>">                
+                            <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnicVolver) ?>">
+                            <input type="hidden" name="origen" value="<?= htmlspecialchars($origen) ?>">                
                         <button type="submit" class="btn btn-outline-primary btn-lg w-100" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')"><i class="fa-solid fa-lock"></i> Tancar incidència
                         </button>
-            </form>
+                        </form>
                     </div>
                 </div>
             <?php else: ?>
