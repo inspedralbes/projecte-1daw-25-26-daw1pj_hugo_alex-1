@@ -64,7 +64,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
         <a href="index.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
 
-    <div class="mb-4">
+    <div class="mb-3">
         <a href="vista_informe_tecnics.php" class="btn btn-outline-primary btn-sm me-2">Informe de Tècnics</a>
         <a href="vista_consum_departaments.php" class="btn btn-outline-primary btn-sm">Consum per Departaments</a>
     </div>
@@ -76,7 +76,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
     <?php if ($result->num_rows === 0): ?>
         <div class="alert alert-info border-info">No hi ha incidències registrades.</div>
     <?php else: ?>
-        <div class="table-responsive">
+        <div class="table-responsive mb-5">
             <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.72em; min-width: 700px;">
                 <thead>
                     <tr>

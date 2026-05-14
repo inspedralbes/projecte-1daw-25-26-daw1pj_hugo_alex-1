@@ -58,7 +58,7 @@ $capçaleres = [
         <h2>Incidències de <?= htmlspecialchars($tecnic) ?></h2>
         <a href="tecnic.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
-    <form method="GET" class="d-flex gap-2 mb-4">
+    <form method="GET" class="d-flex gap-2 mb-3">
         <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnic) ?>">
         <select id="filtrePrioritat" class="form-select form-select-sm" style="width:auto;">
             <option value="">Totes les Prioritats</option>

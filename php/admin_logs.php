@@ -111,7 +111,7 @@ include_once "header.php";
         </div>
     </div>
 
-    <div class="card mb-4">
+    <div class="card mb-5">
         <div class="card-body">
             <h6 class="card-title" style="color: #555;">Últims accessos</h6>
             <div class="table-responsive">
