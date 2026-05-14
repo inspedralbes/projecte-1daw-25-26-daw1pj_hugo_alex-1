@@ -110,7 +110,22 @@ include_once "header.php";
             </div>
         </div>
     </div>
-
+    <div class="d-flex grap-2 mb-3 flex-wrap">
+        <input type="date" id="filtreData" class="form-control-sm" style="width:auto;">
+        <select id="filtreMetode" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Tots els mètodes</option>
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+        </select>
+        <select id="filtrePagina" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Totes les pàgines</option>
+            <?php foreach ($pagines as $p): ?>
+                <option value="<?= htmlspecialchars($p['_id'] ?? '-')?>">
+                    <?= htmlspecialchars($p['_id'] ?? '-')?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
     <div class="card mb-5">
         <div class="card-body">
             <h6 class="card-title" style="color: #555;">Últims accessos</h6>
@@ -200,6 +215,28 @@ include_once "header.php";
                 }
             }
         });
+    </script>
+
+    <script>
+        document.getElementById('filtreData').addEventListener('change', filtrar);
+        document.getElementById('filtreMetode').addEventListener('change', filtrar);
+        document.getElementById('filtrePagina').addEventListener('change', filtrar);
+
+        function filtrar() {
+            const data = document.getElementById('filtreData').value;
+            const metode = document.getElementById('filtreMetode').value.toUpperCase();
+            const pagina = document.getElementById('filtrePagina').value.toLowerCase();
+        
+            document.querySelectorAll('tbody tr').forEach(function (fila) {
+                const textFila = fila.textContent.toLowerCase();
+                const horaCell = fila.cells[0].textContent.trim();
+                const mostrarData = data === '' || horaCell.startsWith(data.split('-').reverse().join('-'));
+                const mostrarMetode = metode === '' || textFila.includes(metode.toLowerCase());
+                const mostrarPagina = pagina === '' || textFila.includes(pagina); 
+                
+                fila.style.display = (mostrarData && mostrarMetode && mostrarPagina) ? '' : 'none';
+            });
+        }
     </script>
 
     <?php include_once "fotter.php"; ?>
