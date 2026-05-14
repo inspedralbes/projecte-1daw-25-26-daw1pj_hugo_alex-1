@@ -77,7 +77,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
         <div class="alert alert-info border-info">No hi ha incidències registrades.</div>
     <?php else: ?>
         <div class="table-responsive mb-5">
-            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.72em; min-width: 700px;">
+            <table class="table table-striped table-hover table-sm align-middle" style="font-size: 0.80em; min-width: 700px;">
                 <thead>
                     <tr>
                         <th class="bg-primary text-white p-2 border-primary">ID</th>

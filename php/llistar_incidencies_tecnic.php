@@ -78,8 +78,8 @@ $capçaleres = [
         <div class="alert alert-success">No hi ha incidències pendents.</div>
     <?php else: ?>
         <div class="table-responsive">
-            <small>
-                <table class="table table-striped table-hover table-sm">
+            
+                <table class="table table-striped table-hover table-sm" style="font-size: 0.72em;">
                     <thead class="table-primary">
                         <tr>
                             <?php foreach ($capçaleres as [$label, $classes]): ?>
@@ -112,7 +112,6 @@ $capçaleres = [
                         <?php endwhile; ?>
                     </tbody>
                 </table>
-            </small>
         </div>
     <?php endif; ?>
 </div>
