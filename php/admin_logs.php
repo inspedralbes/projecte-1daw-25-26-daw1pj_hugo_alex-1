@@ -148,12 +148,6 @@ include_once "header.php";
             onchange="window.location.href = '?data=' + this.value"
         >
 
-        <select id="filtreMetode" class="form-select form-select-sm" style="width: auto;">
-            <option value="">Tots els mètodes</option>
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-        </select>
-
         <select id="filtrePagina" class="form-select form-select-sm" style="width: auto;">
             <option value="">Totes les pàgines</option>
             <?php foreach ($pagines as $pagina): ?>
@@ -256,19 +250,17 @@ include_once "header.php";
 
     // Filtra els logs segons mètode i pàgina (la data ja la gestiona PHP)
     function filtrar() {
-        const metode = document.getElementById('filtreMetode').value.toUpperCase();
         const pagina = document.getElementById('filtrePagina').value.toLowerCase();
 
         logsFiltrats = totsElsLogs.filter(function(log) {
-            const okMetode = !metode || log.method.toUpperCase() === metode;
             const okPagina = !pagina || log.url.toLowerCase().includes(pagina);
-            return okMetode && okPagina;
+            return okPagina;
         });
 
         mostrarTaula();
     }
 
-    document.getElementById('filtreMetode').addEventListener('change', filtrar);
+    
     document.getElementById('filtrePagina').addEventListener('change', filtrar);
 
     mostrarTaula();
