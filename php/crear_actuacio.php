@@ -2,7 +2,7 @@
 ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 include_once "connexio.php";
 $tecnicVolver = $_POST['tecnic'] ?? '';
-$origen = $_GET['origen'] ?? '';
+$origen = $_POST['origen'] ?? '';
 
 $backUrl = ($origen === 'admin')
     ? 'admin.php'
@@ -24,7 +24,7 @@ $sentencia->execute();
         <h4>Actuació registrada correctament!</h4>
         <p>Has afegit una nova actuació a la incidència #<?= htmlspecialchars($idIncidencia) ?>.</p>
     </div>
-    <a href="historial_actuacions.php" class="btn btn-primary">Veure l'historial de les actuacions</a>
+    <a href="historial_actuacions.php?idIncidencia=<?= $idIncidencia ?>&origen=<?= urlencode($origen) ?>&tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-primary">Veure l'historial de les actuacions</a>
     <a href="<?= $backUrl ?>" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
 </div>
 <?php include_once "fotter.php"; ?>

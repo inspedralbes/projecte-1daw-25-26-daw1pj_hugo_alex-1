@@ -56,8 +56,8 @@ $inc = $result->fetch_assoc();
                             <a href="<?= $backUrl ?>" class="btn btn-outline-primary flex-fill text-center">
                                 <i class="fas fa-arrow-left"></i> <?= $backLabel ?>
                             </a>
-                            <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>&tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-outline-primary flex-fill text-center">
-                                <i class="fa-solid fa-plus"></i> Afegir Actuació
+                            <a href="afegir_actuacio.php?idIncidencia=<?= $inc['idIncidencia'] ?>&tecnic=<?= urlencode($tecnicVolver) ?>&origen=<?= urlencode($origen) ?>" class="btn btn-outline-primary flex-fill text-center">
+                            <i class="fa-solid fa-plus"></i> Afegir Actuació
                             </a>
                         </div>
                         <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>&origen=<?= urlencode($origen) ?>&tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-primary btn-lg w-100 shadow">
