@@ -164,14 +164,14 @@ include_once "header.php";
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm">
                     <thead>
-                        <tr class="table-primary">
-                            <th>Hora</th>
-                            <th>Mètode</th>
-                            <th>URL</th>
-                            <th>IP</th>
+                        <tr class="table table-striped table-hover table-sm align-middle" style="font-size: 0.72em; min-width: 700px;">
+                            <th class="bg-primary text-white p-2 border-primary">Hora</th>
+                            <th class="bg-primary text-white p-2 border-primary">Mètode</th>
+                            <th class="bg-primary text-white p-2 border-primary">URL</th>
+                            <th class="bg-primary text-white p-2 border-primary">IP</th>
                         </tr>
                     </thead>
-                    <tbody id="taulaCos">
+                    <tbody style="font-size: 0.72em;" id="taulaCos">
                         <!-- Les files es generen amb JavaScript -->
                     </tbody>
                 </table>
