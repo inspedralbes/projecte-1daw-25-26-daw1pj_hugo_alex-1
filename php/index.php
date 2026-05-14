@@ -4,7 +4,7 @@
     <div class="col-11 col-md-8 col-lg-6 col-xl-5 text-center">
         <div class="p-3 p-md-5 mb-4 bg-light rounded-3 shadow-lg" style="border-top: 5px solid #0d6efd;">
             <div class="container-fluid py-3 py-md-5">
-                <img class="img-fluid mb-3" style="max-height: 100px;"
+                <img class="img-fluid mb-4" style="max-height: 100px;"
                     src="resources/Logoinsti_simple.png"
                     alt="Logo Institut Pedralbes">
                 <h1 class="h2 fw-bold text-dark">Benvingut al gestor d'incidències!</h1>

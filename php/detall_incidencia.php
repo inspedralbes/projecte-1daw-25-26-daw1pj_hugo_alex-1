@@ -33,7 +33,7 @@ $resultActuacions = $sentenciaActuacions->get_result();
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-8 mx-auto mb-5">
+        <div class="col-8 mx-auto mb-4">
             <h2 class="mb-4 text-center">Detall de l'Incidència</h2>
             <?php if ($inc): ?>
                 <div class="card border-primary shadow-sm">

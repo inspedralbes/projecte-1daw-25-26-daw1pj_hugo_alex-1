@@ -12,7 +12,7 @@ $sentencia->execute();
 $idNova = $conn->insert_id;
 ?>
 <?php include_once "header.php"; ?>
-<div class="container text-center mt-5">
+<div class="container text-center mb-4 mt-5">
     <div class="alert alert-success">
         <h4>Incidència creada correctament!</h4>
         <p>El teu número d'incidència és: <strong><?= $idNova ?></strong></p>

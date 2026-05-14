@@ -64,7 +64,7 @@ $departaments = $conn->query("SELECT * FROM DEPARTAMENTO")->fetch_all(MYSQLI_ASS
         <a href="index.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-4">
         <a href="vista_informe_tecnics.php" class="btn btn-outline-primary btn-sm me-2">Informe de Tècnics</a>
         <a href="vista_consum_departaments.php" class="btn btn-outline-primary btn-sm">Consum per Departaments</a>
     </div>

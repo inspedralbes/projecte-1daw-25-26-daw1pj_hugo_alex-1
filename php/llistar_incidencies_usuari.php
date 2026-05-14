@@ -52,7 +52,7 @@ $capçaleres = [
         <h2 class="mb-0">Llistat d'Incidències</h2>
         <a href="formulari_incidencia.php" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
     </div>
-    <form method="GET" class="d-flex gap-2 mb-3">
+    <form method="GET" class="d-flex gap-2 mb-4">
         <select id="filtreTipus" class="form-select form-select-sm" style="width:auto;">
         <option value="">Tots els Tipus</option>
         <?php

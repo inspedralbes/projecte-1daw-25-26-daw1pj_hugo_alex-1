@@ -7,7 +7,7 @@ services:
       - "8080:80"
     volumes:
       - ./php:/var/www/html
-    command: /bin/bash -c "composer install --no-interaction --no-plugins --no-scripts && apache2-foreground"
+    command: /bin/bash -c "composer install --no-interaction --no-plugins --ignore-platform-req=ext-mongodb --no-scripts && apache2-foreground"
     environment:
       VAR1: ${VAR1}
       VAR2: ${VAR2}
