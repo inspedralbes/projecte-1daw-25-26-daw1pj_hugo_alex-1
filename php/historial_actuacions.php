@@ -4,6 +4,12 @@ include_once "connexio.php";
 // 1. Intentamos capturar el ID de la incidencia de la URL para el botón "Tornar"
 // Si no viene por URL, usaremos el que salga en los resultados de la tabla
 $idRetorn = $_GET['idIncidencia'] ?? null;
+$origen = $_GET['origen'] ?? '';
+$tecnicVolver = $_GET['tecnic'] ?? '';
+
+$urlRetorn = $idRetorn
+    ?"detall_incidencia_tecnic.php?idBusca=$idRetorn&origen=" . urlencode($origen) . "&tecnic=" . urlencode($tecnicVolver)
+    :"tecnic.php";
 
 $sql = "
     SELECT 
@@ -36,11 +42,6 @@ $capçaleres = [
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Historial d'Actuacions</h2>
         
-        <?php 
-            // Si sabemos de qué incidencia venimos, volvemos al detalle de esa. 
-            // Si no, volvemos al panel general del técnico.
-            $urlRetorn = $idRetorn ? "detall_incidencia_tecnic.php?idBusca=$idRetorn" : "tecnic.php";
-        ?>
         <a href="<?= $urlRetorn ?>" class="btn btn-outline-primary btn-sm">
             <i class="fa-solid fa-arrow-left"></i> Tornar
         </a>
