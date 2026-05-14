@@ -23,10 +23,9 @@ $perDia = iterator_to_array($collection->aggregate([
 $diesLabels = array_map(fn($d) => $d['_id'], $perDia);
 $diesDades  = array_map(fn($d) => $d['total'], $perDia);
 
-$ultims = $collection->find([], [
-    'sort'  => ['timestamp' => -1],
-    'limit' => 10,
-]);
+$ultims = iterator_to_array($collection->find([], [
+    'sort' => ['timestamp' => -1],
+]));
 
 $last = $collection->findOne([], ['sort' => ['timestamp' => -1]]);
 
@@ -120,15 +119,15 @@ include_once "header.php";
         <select id="filtrePagina" class="form-select form-select-sm" style="width:auto;">
             <option value="">Totes les pàgines</option>
             <?php foreach ($pagines as $p): ?>
-                <option value="<?= htmlspecialchars($p['_id'] ?? '-')?>">
-                    <?= htmlspecialchars($p['_id'] ?? '-')?>
+                <option value="<?= htmlspecialchars($p['_id'] ?? '-') ?>">
+                    <?= htmlspecialchars($p['_id'] ?? '-') ?>
                 </option>
             <?php endforeach; ?>
         </select>
     </div>
     <div class="card mb-5">
         <div class="card-body">
-            <h6 class="card-title" style="color: #555;">Últims accessos</h6>
+            <h6 class="card-title" style="color: #555;">Accessos</h6>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm align-middle mb-0" style="font-size: 0.85em;">
                     <thead>
@@ -139,28 +138,96 @@ include_once "header.php";
                             <th class="bg-primary text-white p-2 border-primary">IP</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php foreach ($ultims as $doc): ?>
-                            <tr>
-                                <td class="text-nowrap p-2"><?= $doc['timestamp']->toDateTime()->format('d-m-Y H:i:s') ?></td>
-                                <td class="p-2">
-                                    <span class="badge <?= ($doc['method'] ?? 'GET') === 'POST' ? 'bg-primary' : 'bg-success' ?>">
-                                        <?= htmlspecialchars($doc['method'] ?? '-') ?>
-                                    </span>
-                                </td>
-                                <td class="text-truncate p-2" style="max-width:150px"><?= htmlspecialchars($doc['url'] ?? '-') ?></td>
-                                <td class="p-2 font-monospace small"><?= htmlspecialchars($doc['ip'] ?? '-') ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+                    <tbody id="taulaCos">
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Paginació -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <button class="btn btn-sm btn-primary" id="btnAnterior" onclick="canviarPagina(-1)">
+                    <i class="fa-solid fa-chevron-left"></i> Anterior
+                </button>
+                <span id="infoPagina" class="small text-muted"></span>
+                <button class="btn btn-sm btn-primary" id="btnSeguent" onclick="canviarPagina(1)">
+                    Següent <i class="fa-solid fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </div>
 
+    <script>
+        const totsElsLogs = <?= json_encode(array_map(fn($doc) => [
+                                'timestamp' => $doc['timestamp']->toDateTime()->format('d-m-Y H:i:s'),
+                                'method'    => $doc['method'] ?? '-',
+                                'url'       => $doc['url'] ?? '-',
+                                'ip'        => $doc['ip'] ?? '-',
+                            ], $ultims)) ?>;
+
+        let logsFiltrats = [...totsElsLogs];
+        let paginaActual = 0;
+        const perPagina = 10;
+
+        function renderitzarTaula() {
+            const inici = paginaActual * perPagina;
+            const paginaLogs = logsFiltrats.slice(inici, inici + perPagina);
+            const cos = document.getElementById('taulaCos');
+
+            cos.innerHTML = paginaLogs.map(log => `
+            <tr>
+                <td class="text-nowrap p-2">${log.timestamp}</td>
+                <td class="p-2">
+                    <span class="badge ${log.method === 'POST' ? 'bg-primary' : 'bg-success'}">
+                        ${log.method}
+                    </span>
+                </td>
+                <td class="text-truncate p-2" style="max-width:150px">${log.url}</td>
+                <td class="p-2 font-monospace small">${log.ip}</td>
+            </tr>
+        `).join('');
+
+            const totalPagines = Math.ceil(logsFiltrats.length / perPagina);
+            document.getElementById('infoPagina').textContent =
+                `Pàgina ${paginaActual + 1} de ${totalPagines} (${logsFiltrats.length} registres)`;
+
+            document.getElementById('btnAnterior').disabled = paginaActual === 0;
+            document.getElementById('btnSeguent').disabled = paginaActual >= totalPagines - 1;
+        }
+
+        function canviarPagina(delta) {
+            const totalPagines = Math.ceil(logsFiltrats.length / perPagina);
+            paginaActual = Math.max(0, Math.min(paginaActual + delta, totalPagines - 1));
+            renderitzarTaula();
+        }
+
+        // Integrar amb els filtres existents
+        function filtrar() {
+            const data = document.getElementById('filtreData').value;
+            const metode = document.getElementById('filtreMetode').value.toUpperCase();
+            const pagina = document.getElementById('filtrePagina').value.toLowerCase();
+
+            logsFiltrats = totsElsLogs.filter(log => {
+                const dataLog = log.timestamp.substring(0, 10);
+                const dataFiltro = data ? data.split('-').reverse().join('-') : '';
+                const okData = !data || dataLog === dataFiltro;
+                const okMetode = !metode || log.method.toUpperCase() === metode;
+                const okPagina = !pagina || log.url.toLowerCase().includes(pagina);
+                return okData && okMetode && okPagina;
+            });
+
+            paginaActual = 0;
+            renderitzarTaula();
+        }
+
+        // Engegar
+        document.getElementById('filtreData').addEventListener('change', filtrar);
+        document.getElementById('filtreMetode').addEventListener('change', filtrar);
+        document.getElementById('filtrePagina').addEventListener('change', filtrar);
+
+        renderitzarTaula();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Eliminar cualquier instancia previa para evitar errores de renderizado
         let chartStatus = Chart.getChart("graficDies");
         if (chartStatus != undefined) {
             chartStatus.destroy();
@@ -183,8 +250,8 @@ include_once "header.php";
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Fundamental para que no crezca sola
-                resizeDelay: 200, // Evita el bucle de redimensionamiento
+                maintainAspectRatio: false,
+                resizeDelay: 200,
                 plugins: {
                     legend: {
                         display: false
@@ -216,27 +283,4 @@ include_once "header.php";
             }
         });
     </script>
-
-    <script>
-        document.getElementById('filtreData').addEventListener('change', filtrar);
-        document.getElementById('filtreMetode').addEventListener('change', filtrar);
-        document.getElementById('filtrePagina').addEventListener('change', filtrar);
-
-        function filtrar() {
-            const data = document.getElementById('filtreData').value;
-            const metode = document.getElementById('filtreMetode').value.toUpperCase();
-            const pagina = document.getElementById('filtrePagina').value.toLowerCase();
-        
-            document.querySelectorAll('tbody tr').forEach(function (fila) {
-                const textFila = fila.textContent.toLowerCase();
-                const horaCell = fila.cells[0].textContent.trim();
-                const mostrarData = data === '' || horaCell.startsWith(data.split('-').reverse().join('-'));
-                const mostrarMetode = metode === '' || textFila.includes(metode.toLowerCase());
-                const mostrarPagina = pagina === '' || textFila.includes(pagina); 
-                
-                fila.style.display = (mostrarData && mostrarMetode && mostrarPagina) ? '' : 'none';
-            });
-        }
-    </script>
-
     <?php include_once "fotter.php"; ?>
