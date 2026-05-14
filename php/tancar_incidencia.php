@@ -1,5 +1,10 @@
 <?php
+$origen = $_POST['origen'] ?? '';
 $tecnicVolver = $_POST['tecnic'] ?? '';
+
+$backUrl = ($origen === 'admin')
+    ? 'admin.php'
+    : 'llistar_incidencies_tecnic.php?tecnic=' . urlencode($tecnicVolver);
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -22,7 +27,7 @@ $sentencia->execute();
     <div class="alert <?= $accio === 'obrir' ? 'alert-warning' : 'alert-success' ?>">
         <h4>Incidència <?= $accio === 'obrir' ? 'oberta' : 'tancada' ?> correctament!</h4>
     </div>
-    <a href="llistar_incidencies_tecnic.php?tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-primary flex-fill text-center">
+    <a href="<?= $backUrl ?>" class="btn btn-primary flex-fill text-center">
         <i class="fas fa-arrow-left"></i> Tornar a la llista
     </a>
 </div>
