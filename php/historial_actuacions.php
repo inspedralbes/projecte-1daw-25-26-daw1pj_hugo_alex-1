@@ -63,7 +63,7 @@ $capçaleres = [
                 </thead>
                 <tbody>
                     <?php while ($inc = $result->fetch_assoc()): ?>
-                    <tr onclick="window.location='detall_incidencia_tecnic.php?idBusca=<?= $inc['idIncidencia'] ?>'" style="cursor:pointer;">
+                    <tr>
                         <td><?= $inc['idAccion'] ?></td>
                         <td class="text-primary fw-bold">#<?= $inc['idIncidencia'] ?></td>
                         <td><i class="fa-regular fa-clock me-1 text-primary"></i><?= $inc['tiempo'] ?></td>

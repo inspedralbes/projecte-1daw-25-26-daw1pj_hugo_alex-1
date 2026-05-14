@@ -176,7 +176,7 @@ include_once "header.php";
                 <table class="table table-striped table-hover table-sm">
                     <thead>
                         <tr>
-                            <th class="bg-primary text-white">Hora</th>
+                            <th class="bg-primary text-white">Dia i Hora</th>
                             <th class="bg-primary text-white">Mètode</th>
                             <th class="bg-primary text-white">URL</th>
                             <th class="bg-primary text-white">IP</th>
