@@ -63,8 +63,12 @@ $inc = $result->fetch_assoc();
                         <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-primary btn-lg w-100 shadow">
                             <i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions
                         </a>
-                        <button type="submit" class="btn btn-outline-primary btn-lg" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')"><i class="fa-solid fa-lock"></i> Tancar incidència
+                        <form action="tancar_incidencia.php" method="POST">
+                            <input type="hidden" name="idIncidencia" value="<?= $inc['idIncidencia'] ?>">
+                            <input type="hidden" name="tecnic" value="<?= htmlspecialchars($tecnicVolver) ?>">                
+                        <button type="submit" class="btn btn-outline-primary btn-lg w-100" onclick="return confirm('Estàs segur que vols tancar aquesta incidència?')"><i class="fa-solid fa-lock"></i> Tancar incidència
                         </button>
+            </form>
                     </div>
                 </div>
             <?php else: ?>
