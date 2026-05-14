@@ -60,7 +60,7 @@ $inc = $result->fetch_assoc();
                                 <i class="fa-solid fa-plus"></i> Afegir Actuació
                             </a>
                         </div>
-                        <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>" class="btn btn-primary btn-lg w-100 shadow">
+                        <a href="historial_actuacions.php?idIncidencia=<?= $inc['idIncidencia'] ?>&origen=<?= urlencode($origen) ?>&tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-primary btn-lg w-100 shadow">
                             <i class="fa-solid fa-clock"></i> Veure l'historial de les actuacions
                         </a>
                         <form action="tancar_incidencia.php" method="POST">
