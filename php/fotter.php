@@ -14,10 +14,10 @@
 
             <!-- Bloque de Enlaces (Debajo) -->
             <div class="small d-flex justify-content-center gap-3 flex-wrap">
-                <a href="resources/Accessibilitat_Pc.html" style="color: #0d6efd;" class="text-decoration-none">
+                <a target="_blank" href="resources/Accessibilitat_Pc.html" style="color: #0d6efd;" class="text-decoration-none">
                     <i class="fa-solid fa-universal-access me-1" aria-hidden="true"></i>Accessibilitat PC
                 </a>
-                <a href="resources/Accessibilitat_Telef.html" style="color: #0d6efd;" class="text-decoration-none">
+                <a target="_blank" href="resources/Accessibilitat_Telef.html" style="color: #0d6efd;" class="text-decoration-none">
                     <i class="fa-solid fa-mobile-screen me-1" aria-hidden="true"></i>Accessibilitat Mòbil
                 </a>
             </div>
