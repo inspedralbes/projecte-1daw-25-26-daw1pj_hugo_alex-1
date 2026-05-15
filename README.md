@@ -1,16 +1,17 @@
-# transversals
-Esquema mínim de carpetes pels projectes transversals
+# Gestor d'incidencies:
+ - prjdam1-daw1-2025-26_hugo_alexb
 
-És obligatori seguir aquesta estructura tot i que la podeu ampliar.
+# Integrant del grup:
+ - Hugo Berea
+ - Alexandre Brandao
 
-## Atenció
-Un cop comenceu heu de canviar aquesta explicació amb la corresponent al vostre projecte (utilitzant markdown)
+# Breu descripció de l'aplicació
+ - Aplicació web per obrir,organitzar i gestionar incidencies entre usuaris, técnics i administradors. 
+ 
+# Enllaços d'interés
+ - Adreça del taiga: https://tree.taiga.io/project/a25hugberbat-daw1pj3/timeline
+ - Adreça del prototip gràfic del projecte (Penpot, figma, moqups...)
+ - URL de producció http://g3.daw.inspedralbes.cat/
 
-# Aquest fitxer ha de contenir com a mínim:
- * Nom dels integrants
- * Nom del projecte
- * Petita descripció
- * Adreça del gestor de tasques (taiga, jira, trello...)
- * Adreça del prototip gràfic del projecte (Penpot, figma, moqups...)
- * URL de producció (quan la tingueu)
- * Estat: (explicació d'en quin punt està)
+# Estat del projecte.
+ - El projecte está finalitzat. Inclou un gestor d'incidències per els usuaris , tècnics i administradors.
