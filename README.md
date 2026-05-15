@@ -25,6 +25,53 @@
 
 # 10 Heuristics
 
+1.Visibilitat de l'estat del sistema (Visibility of System Status): 
+
+ -Quan l'usuari envia un formulari, rep un missatge clar de "S'ha enviat correctament", quan elimina, canvia o edita qualsevol acció o incidencia també surt un missatge indicant-ho.
+
+2.Correspondència entre el sistema i el món real (Match Between System and Real World): 
+
+ -Els errors estan ben escrits i els icones estan ben escollits i intuïtius.
+
+3.Control i llibertat de l'usuari (User Control and Freedom):
+
+ -Si es tanca una incidencia sense voler, el admin pot obrir-la.
+ -Si vol eliminar o tancar alguna incidencia, surt un missatge de confirmació.
+ -Hi han botos per tornar a l'inici i cap enrere
+
+4.Consistència i estàndards (Consistency and Standards):
+
+ -Tota la web manté una harmonia de colors i estils, els botons importants estan sempre en les mateixes zones
+
+5.Prevenció d'errors (Error Prevention):
+
+ -Els camps de dades ofereixen un calendari desplegable, els camps de descripció estan capats amb número de caràcters.
+ -Si falten camps obligatoris surt un error indicant-lo.
+ -Si vol eliminar o tancar alguna incidencia, surt un missatge de confirmació.
+
+6.Reconeixement millor que record (Recognition Rather Than Recall):
+
+ -S’indica en tot moment on està l’usuari i com tornar enrere o a l’inici.
+ -Quan es crea una incidència o acció, es dirigeix directament a la llista corresponent.
+
+7.Flexibilitat i eficiència d'ús (Flexibility and Efficiency of Use):
+
+ -Els usuaris poden utilitzar dreceres de teclat o el botó "Tab" per passar d'un camp a un altre d'un formulari
+ -Hi ha un buscador d'incidències per id.
+
+8.Disseny estètic i minimalista Aesthetic and Minimalist Design:
+
+ -No hi ha text innecessari o paràgrafs massa llargs.
+ -Visualment, està clar quin és l'element més important de la pàgina
+ -Hi ha prou espai en blanc perquè la vista de l'usuari pugui "respirar"
+
+9.Ajudar els usuaris a reconèixer, diagnosticar i recuperar-se d'errors (Help Users Recognize, Diagnose, and Recover from Errors):
+
+ -Quan hi ha un error s’indica quin tipus és i si manca algun camp també ho posa.
+
+10.Ajuda i documentació (Help and Documentation):
+
+ -Hi ha un filtre en totes les llistes i els tècnics només poden veure les seves incidències assignades
 
 # Estat del projecte.
  - El projecte está finalitzat. Inclou un gestor d'incidències per els usuaris , tècnics i administradors.

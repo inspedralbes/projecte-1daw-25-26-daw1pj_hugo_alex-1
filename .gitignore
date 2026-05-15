@@ -2,7 +2,6 @@
 /db_data
 /.env
 /produccio.html
-readme.md
 /php/vendor/
 /php/composer.lock
 /mongodb_data
