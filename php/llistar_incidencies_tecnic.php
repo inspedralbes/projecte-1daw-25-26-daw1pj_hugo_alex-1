@@ -48,6 +48,7 @@ $capçaleres = [
     ['Departament', ''],
     ['Data Inici',  ''],
     ['Descripció',  'd-none d-md-table-cell'],
+    [''            ,''],
 ];
 ?>
 
@@ -78,40 +79,43 @@ $capçaleres = [
         <div class="alert alert-success">No hi ha incidències pendents.</div>
     <?php else: ?>
         <div class="table-responsive">
-            
-                <table class="table table-striped table-hover table-sm" style="font-size: 0.72em;">
-                    <thead class="table-primary">
-                        <tr>
-                            <?php foreach ($capçaleres as [$label, $classes]): ?>
-                                <th class="<?= $classes ?> bg-primary text-white p-2 border-primary"><?= $label ?></th>
-                            <?php endforeach; ?>
+
+            <table class="table table-striped table-hover table-sm" style="font-size: 0.72em;">
+                <thead class="table-primary">
+                    <tr>
+                        <?php foreach ($capçaleres as [$label, $classes]): ?>
+                            <th class="<?= $classes ?> bg-primary text-white p-2 border-primary"><?= $label ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($inc = $result->fetch_assoc()): ?>
+                        <tr onclick="window.location='detall_incidencia_tecnic.php?idBusca=<?= $inc['idIncidencia'] ?>&tecnic=<?= urlencode($_GET['tecnic']) ?>'" style="cursor:pointer;">
+                            <td class="text-primary fw-bold">#<?= $inc['idIncidencia'] ?></td>
+                            <td>
+                                <?php
+                                $badge = match ($inc['prioritat']) {
+                                    'Alta'  => 'danger',
+                                    'Mitja' => 'warning',
+                                    'Baixa' => 'success',
+                                    default => 'secondary'
+                                };
+                                ?>
+                                <span class="badge bg-<?= $badge ?>"><?= $inc['prioritat'] ?></span>
+                            </td>
+                            <td><?= $inc['tipo'] ?? '-' ?></td>
+                            <td><?= $inc['departamento'] ?? '-' ?></td>
+                            <td><?= $inc['fechaInicio'] ?></td>
+                            <td class="d-none d-md-table-cell" title="<?= htmlspecialchars($inc['descripcion']) ?>">
+                                <?= htmlspecialchars($inc['descripcion']) ?>
+                            </td>
+                            <td class="text-center align-middle pe-3">
+                                <i class="fa-solid fa-eye text-primary"></i>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($inc = $result->fetch_assoc()): ?>
-                            <tr onclick="window.location='detall_incidencia_tecnic.php?idBusca=<?= $inc['idIncidencia'] ?>&tecnic=<?= urlencode($_GET['tecnic']) ?>'" style="cursor:pointer;">
-                                <td class="text-primary fw-bold">#<?= $inc['idIncidencia'] ?></td>
-                                <td>
-                                    <?php
-                                    $badge = match ($inc['prioritat']) {
-                                        'Alta'  => 'danger',
-                                        'Mitja' => 'warning',
-                                        'Baixa' => 'success',
-                                        default => 'secondary'
-                                    };
-                                    ?>
-                                    <span class="badge bg-<?= $badge ?>"><?= $inc['prioritat'] ?></span>
-                                </td>
-                                <td><?= $inc['tipo'] ?? '-' ?></td>
-                                <td><?= $inc['departamento'] ?? '-' ?></td>
-                                <td><?= $inc['fechaInicio'] ?></td>
-                                <td class="d-none d-md-table-cell" title="<?= htmlspecialchars($inc['descripcion']) ?>">
-                                    <?= htmlspecialchars($inc['descripcion']) ?>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
         </div>
     <?php endif; ?>
 </div>

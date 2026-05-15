@@ -42,6 +42,7 @@ $capçaleres = [
     ['Data Inici',  ''],
     ['Data Fi',     ''],
     ['Descripció',  'd-none d-md-table-cell'],
+    ['',            ''],
 ];
 ?>
 
@@ -54,19 +55,19 @@ $capçaleres = [
     </div>
     <form method="GET" class="d-flex gap-2 mb-3">
         <select id="filtreTipus" class="form-select form-select-sm" style="width:auto;">
-        <option value="">Tots els Tipus</option>
-        <?php
-        $tiposFilter = $conn->query("SELECT idTipo, nombre FROM TIPO");
-        while ($t = $tiposFilter->fetch_assoc()):
-        ?>
-            <option value="<?= $t['nombre'] ?>"><?= $t['nombre'] ?></option>
-        <?php endwhile; ?>
-    </select>
-    <select id="filtreEstat" class="form-select form-select-sm" style="width:auto;">
-        <option value="">Tots els Estats</option>
-        <option value="oberta">Oberta</option>
-        <option value="tancada">Tancada</option>
-    </select>
+            <option value="">Tots els Tipus</option>
+            <?php
+            $tiposFilter = $conn->query("SELECT idTipo, nombre FROM TIPO");
+            while ($t = $tiposFilter->fetch_assoc()):
+            ?>
+                <option value="<?= $t['nombre'] ?>"><?= $t['nombre'] ?></option>
+            <?php endwhile; ?>
+        </select>
+        <select id="filtreEstat" class="form-select form-select-sm" style="width:auto;">
+            <option value="">Tots els Estats</option>
+            <option value="oberta">Oberta</option>
+            <option value="tancada">Tancada</option>
+        </select>
     </form>
 
     <?php if ($result->num_rows === 0): ?>
@@ -93,6 +94,9 @@ $capçaleres = [
                             <td><?= $inc['fechaInicio'] ?></td>
                             <td><?= $inc['fechaFin'] ?? 'Oberta' ?></td>
                             <td class="d-none d-md-table-cell"><?= htmlspecialchars($inc['descripcion']) ?></td>
+                            <td class="text-center align-middle pe-3">
+                                <i class="fa-solid fa-eye text-primary"></i>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -105,12 +109,12 @@ $capçaleres = [
 <script>
     document.getElementById('filtreTipus').addEventListener('change', filtrar);
     document.getElementById('filtreEstat').addEventListener('change', filtrar);
-            
+
     function filtrar() {
         const tipus = document.getElementById('filtreTipus').value.toLowerCase();
         const estat = document.getElementById('filtreEstat').value.toLowerCase();
 
-        document.querySelectorAll('tbody tr').forEach(function(fila){
+        document.querySelectorAll('tbody tr').forEach(function(fila) {
             const textFila = fila.textContent.toLowerCase();
             const mostrarTipus = tipus === '' || textFila.includes(tipus);
             const mostrarEstat = estat === '' || fila.dataset.estat === estat;
