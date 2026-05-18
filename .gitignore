@@ -1,0 +1,7 @@
+# ignore SQL
+/db_data
+/.env
+/produccio.html
+/php/vendor/
+/php/composer.lock
+/mongodb_data

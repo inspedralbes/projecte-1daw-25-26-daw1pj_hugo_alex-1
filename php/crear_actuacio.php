@@ -1,0 +1,30 @@
+<?php
+ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+include_once "connexio.php";
+$tecnicVolver = $_POST['tecnic'] ?? '';
+$origen = $_POST['origen'] ?? '';
+
+$backUrl = ($origen === 'admin')
+    ? 'admin.php'
+    : 'llistar_incidencies_tecnic.php?tecnic=' . urlencode($tecnicVolver);
+$backLabel = ($origen === 'admin') ? 'Tornar a admin' : 'Tornar a tècnics';
+
+$idIncidencia = $_POST["idIncidencia"];
+$comentario = $_POST["comentario"];
+$temps = $_POST["temps"] . ":00";
+$visible = isset($_POST["visible"]) ? 1 : 0;
+
+$sentencia = $conn->prepare("INSERT INTO ACCION (idIncidencia, comentario, tiempo, fechaAccion, visible) VALUES(?, ?, ?, NOW(), ?)");
+$sentencia->bind_param("issi", $idIncidencia, $comentario, $temps, $visible);
+$sentencia->execute();
+?>
+<?php include_once "header.php"; ?>
+<div class="container text-center mt-5">
+    <div class="alert alert-success">
+        <h4>Actuació registrada correctament!</h4>
+        <p>Has afegit una nova actuació a la incidència #<?= htmlspecialchars($idIncidencia) ?>.</p>
+    </div>
+    <a href="historial_actuacions.php?idIncidencia=<?= $idIncidencia ?>&origen=<?= urlencode($origen) ?>&tecnic=<?= urlencode($tecnicVolver) ?>" class="btn btn-primary">Veure l'historial de les actuacions</a>
+    <a href="<?= $backUrl ?>" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-left"></i> Tornar</a>
+</div>
+<?php include_once "fotter.php"; ?>
