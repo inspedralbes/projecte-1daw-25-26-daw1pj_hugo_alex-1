@@ -29,4 +29,3 @@ $documents = $collection->find([], ['sort' => ['timestamp' => -1]]);
 
 // Obtenir tots els documents de la col·lecció users de la BBDD demo
 // $collection = $client->demo->users; #no cal, ja que ho hem fet abans
-$documents = $collection->find();
